@@ -1,20 +1,20 @@
-import { FaBars } from "react-icons/fa6";
 import { styled } from "styled-components";
-import Premium from "@assets/premium.svg";
-import Mike from "@assets/mike.svg";
+import { ReactComponent as Premium } from "@assets/premium.svg";
+import { ReactComponent as Mike } from "@assets/mike.svg";
+import { ReactComponent as Bars } from "@assets/bars.svg";
 
 const Header = () => {
     return (
         <HeaderStyle>
             <div className="start">
-                <FaBars size={24} />
-                <Premium />
+                <Bars width={24} height={24} />
+                <Premium width={101} height={20} />
                 <span className="contry-code">KR</span>
             </div>
             <div className="center">
                 <div className="search-box">검색창</div>
                 <button>
-                    <Mike />
+                    <Mike width={24} height={24} />
                 </button>
             </div>
             <div className="end">
