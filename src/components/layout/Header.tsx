@@ -1,6 +1,7 @@
 import { FaBars } from "react-icons/fa6";
 import { styled } from "styled-components";
-import Premium from "../../assets/premium.svg";
+import Premium from "@assets/premium.svg";
+import Mike from "@assets/mike.svg";
 
 const Header = () => {
     return (
@@ -8,10 +9,13 @@ const Header = () => {
             <div className="start">
                 <FaBars size={24} />
                 <Premium />
+                <span className="contry-code">KR</span>
             </div>
             <div className="center">
-                <div>검색창</div>
-                <div>마이크 버튼</div>
+                <div className="search-box">검색창</div>
+                <button>
+                    <Mike />
+                </button>
             </div>
             <div className="end">
                 <div>만들기</div>
