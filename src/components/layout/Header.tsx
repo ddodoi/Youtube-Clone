@@ -3,12 +3,16 @@ import { ReactComponent as Premium } from "@assets/premium.svg";
 import { ReactComponent as Mike } from "@assets/mike.svg";
 import { ReactComponent as Bars } from "@assets/bars.svg";
 import { ReactComponent as Bell } from "@assets/bell.svg";
+import { ReactComponent as Youtube } from "@assets/youtube.svg";
 import { Link } from "react-router-dom";
 import SearchBox from "../common/header/SearchBox";
-import { BsPlusLg } from "react-icons/bs";
-// import { FaUserCircle } from "react-icons/fa";
+import { BsPlusLg, BsThreeDotsVertical } from "react-icons/bs";
+import { useAuth } from "../../hooks/useAuth";
+import { FaRegCircleUser } from "react-icons/fa6";
 
 const Header = () => {
+    const { isLoggedIn, avatarURL, userName, userLogin, userLogout } = useAuth();
+
     return (
         <HeaderStyle>
             <div className="start">
@@ -18,7 +22,7 @@ const Header = () => {
                 <div className="logo">
                     <Link to="/">
                         <div className="logo-icon">
-                            <Premium width={101} height={20} />
+                            {isLoggedIn ? <Premium width={101} height={20} /> : <Youtube />}
                         </div>
                     </Link>
                     <span className="contry-code">KR</span>
@@ -33,26 +37,42 @@ const Header = () => {
                 </div>
             </div>
             <div className="end">
-                <div className="make-button">
-                    <button>
-                        <BsPlusLg size={24} />
-                        <div>만들기</div>
-                    </button>
-                </div>
-                <div className="notification-button">
-                    <div>
-                        <Bell />
-                    </div>
-                </div>
-                <div className="avatar-button">
-                    <button aria-label="계정 메뉴">
-                        <img
-                            src="https://yt3.ggpht.com/5Y1NA0WSZfIo1IOY4ohxlHzIkr0dq3ekpitOKTXuff-aYZhp7ZMA9lBD0sVRIIoiNX5yuSGfLzU=s88-c-k-c0x00ffffff-no-rj"
-                            alt="아바타"
-                        />
-                        {/* <FaUserCircle /> */}
-                    </button>
-                </div>
+                {isLoggedIn ? (
+                    <>
+                        <div className="make-button">
+                            <button>
+                                <BsPlusLg size={24} />
+                                <div>만들기</div>
+                            </button>
+                        </div>
+                        <div className="notification-button">
+                            <div>
+                                <Bell />
+                            </div>
+                        </div>
+                        <div className="avatar-button">
+                            <button aria-label="계정 메뉴">
+                                <img src={avatarURL} alt="아바타" />
+                            </button>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <div className="menu-button">
+                            <button>
+                                <BsThreeDotsVertical size={24} />
+                            </button>
+                        </div>
+                        <div className="login-button">
+                            <button>
+                                <div>
+                                    <FaRegCircleUser size={24} />
+                                </div>
+                                <div>로그인</div>
+                            </button>
+                        </div>
+                    </>
+                )}
             </div>
         </HeaderStyle>
     );
@@ -83,6 +103,7 @@ const HeaderStyle = styled.header`
 
             a {
                 padding: 0;
+                color: #000000;
                 align-items: center;
                 display: flex;
                 align-self: center;
@@ -191,6 +212,11 @@ const HeaderStyle = styled.header`
                 height: 32px;
                 cursor: pointer;
                 margin: 0 8px;
+                border-radius: 50%;
+                overflow: hidden;
+                display: flex;
+                justify-content: center;
+                align-items: center;
 
                 svg {
                     width: 100%;
@@ -200,6 +226,51 @@ const HeaderStyle = styled.header`
                     width: 32px;
                     height: 32px;
                 }
+            }
+        }
+
+        .menu-button {
+            margin-right: 8px;
+
+            button {
+                outline: none;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 8px;
+            }
+        }
+
+        .login-button {
+            padding: 0 15px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            height: 36px;
+
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+
+            button {
+                color: #065fd4;
+                line-height: 36px;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+                outline: none;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 0;
+
+                svg {
+                    margin: 0 6px 0 -6px;
+                    fill: currentColor;
+                }
+            }
+
+            &:hover {
+                background: #def1ff;
+                border-color: transparent;
             }
         }
     }
