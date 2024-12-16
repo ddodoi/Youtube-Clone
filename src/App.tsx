@@ -4,6 +4,7 @@ import Error from "./components/common/Error";
 import { ThemeProvider } from "styled-components";
 import { useThemeStore } from "./stores/themeStore";
 import { GlobalStyle } from "./style/global";
+import Login from "./pages/Login";
 
 const router = createBrowserRouter([
     {
@@ -13,6 +14,11 @@ const router = createBrowserRouter([
                 <div>MainPage</div>
             </Layout>
         ),
+        errorElement: <Error />,
+    },
+    {
+        path: "/login",
+        element: <Login />,
         errorElement: <Error />,
     },
 ]);
