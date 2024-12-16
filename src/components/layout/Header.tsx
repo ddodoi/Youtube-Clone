@@ -9,9 +9,11 @@ import SearchBox from "@components/common/header/SearchBox";
 import { BsPlusLg, BsThreeDotsVertical } from "react-icons/bs";
 import { useAuth } from "@hooks/useAuth";
 import { FaRegCircleUser } from "react-icons/fa6";
+import { useUser } from "@hooks/useUser";
 
 const Header = () => {
-    const { isLoggedIn, avatarURL, userName, userLogin, userLogout } = useAuth();
+    const { isLoggedIn } = useAuth();
+    const { user } = useUser();
     const navigate = useNavigate();
 
     return (
@@ -53,7 +55,7 @@ const Header = () => {
                         </div>
                         <div className="avatar-button">
                             <button aria-label="계정 메뉴">
-                                <img src={avatarURL} alt="아바타" />
+                                <img src={user.avatarURL} alt="아바타" />
                             </button>
                         </div>
                     </>
