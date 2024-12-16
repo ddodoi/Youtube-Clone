@@ -13,8 +13,8 @@ const Login = () => {
         const password = passwordRef.current?.value;
         if (!email || !password) return;
         userLogin(email, password);
-        emailRef.current.value = "";
-        passwordRef.current.value = "";
+        emailRef.current!.value = "";
+        passwordRef.current!.value = "";
     };
 
     return (

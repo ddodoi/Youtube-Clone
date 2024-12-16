@@ -43,7 +43,8 @@ const Sidebar = () => {
     return (
         <SidebarStyle>
             <div className="menu-items">
-                {menus.map((menu, i) => (
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                {menus.map((menu) => (
                     <MenuItem aria-label={menu.title}>
                         <a href={menu.href}>
                             {menu.icon}

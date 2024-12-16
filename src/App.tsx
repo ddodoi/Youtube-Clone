@@ -5,13 +5,14 @@ import { ThemeProvider } from "styled-components";
 import { useThemeStore } from "./stores/themeStore";
 import { GlobalStyle } from "./style/global";
 import Login from "./pages/Login";
+import MainPage from "./pages/MainPage";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: (
             <Layout>
-                <div>MainPage</div>
+                <MainPage />
             </Layout>
         ),
         errorElement: <Error />,
