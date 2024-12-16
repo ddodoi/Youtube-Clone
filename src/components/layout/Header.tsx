@@ -4,11 +4,11 @@ import { ReactComponent as Mike } from "@assets/mike.svg";
 import { ReactComponent as Bars } from "@assets/bars.svg";
 import { ReactComponent as Bell } from "@assets/bell.svg";
 import { ReactComponent as Youtube } from "@assets/youtube.svg";
+import { ReactComponent as UserCircle } from "@assets/userCircle.svg";
 import { Link, useNavigate } from "react-router-dom";
 import SearchBox from "@components/common/header/SearchBox";
 import { BsPlusLg, BsThreeDotsVertical } from "react-icons/bs";
 import { useAuth } from "@hooks/useAuth";
-import { FaRegCircleUser } from "react-icons/fa6";
 import { useUser } from "@hooks/useUser";
 
 const Header = () => {
@@ -69,7 +69,7 @@ const Header = () => {
                         <div className="login-button">
                             <button onClick={() => navigate("/login")}>
                                 <div>
-                                    <FaRegCircleUser size={24} />
+                                    <UserCircle />
                                 </div>
                                 <div>로그인</div>
                             </button>
@@ -82,10 +82,15 @@ const Header = () => {
 };
 
 const HeaderStyle = styled.header`
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2020;
     display: flex;
     align-items: center;
     padding: 0 16px;
     height: 56px;
+    width: 100%;
 
     .start {
         flex: 1;
