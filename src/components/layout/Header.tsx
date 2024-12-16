@@ -5,9 +5,9 @@ import { ReactComponent as Bars } from "@assets/bars.svg";
 import { ReactComponent as Bell } from "@assets/bell.svg";
 import { ReactComponent as Youtube } from "@assets/youtube.svg";
 import { Link, useNavigate } from "react-router-dom";
-import SearchBox from "../common/header/SearchBox";
+import SearchBox from "@components/common/header/SearchBox";
 import { BsPlusLg, BsThreeDotsVertical } from "react-icons/bs";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "@hooks/useAuth";
 import { FaRegCircleUser } from "react-icons/fa6";
 
 const Header = () => {
