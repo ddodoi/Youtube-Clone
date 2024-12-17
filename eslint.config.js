@@ -52,7 +52,13 @@ export default [
             "prefer-template": "error", // https://eslint.org/docs/latest/rules/prefer-template
             "@stylistic/array-bracket-newline": ["error", { multiline: true }], // https://eslint.style/rules/js/array-bracket-newline#multiline
             "@stylistic/function-call-spacing": ["error", "never"], // https://eslint.style/rules/default/function-call-spacing
-            "@stylistic/space-before-function-paren": ["error", "never"], // https://eslint.style/rules/default/space-before-function-paren
+            "@stylistic/space-before-function-paren": [
+                "error",
+                {
+                    asyncArrow: "always",
+                    named: "never",
+                },
+            ], // https://eslint.style/rules/default/space-before-function-paren
             "@stylistic/arrow-parens": ["error", "always"], // https://eslint.style/rules/default/arrow-parens
             "@stylistic/arrow-spacing": "error", // https://eslint.style/rules/default/arrow-spacing
             "@stylistic/no-confusing-arrow": "error", // https://eslint.style/rules/default/no-confusing-arrow
