@@ -38,7 +38,7 @@ export default [
             ...pluginReact.configs.flat.recommended, // 리액트
         },
         rules: {
-            indent: ["error", 4], // https://eslint.org/docs/latest/rules/indent
+            "@stylistic/indent": ["error", 4, { switchCase: 1 }], // https://eslint.style/rules/js/indent
             semi: "error", // https://eslint.org/docs/latest/rules/semi
             camelcase: ["error", { properties: "always" }], // https://eslint.org/docs/latest/rules/camelcase
             "no-var": "error", // https://eslint.org/docs/latest/rules/no-var

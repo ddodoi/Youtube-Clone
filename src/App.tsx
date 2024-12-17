@@ -25,10 +25,10 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-    const { themeName, getTheme } = useThemeStore();
+    const { getTheme } = useThemeStore();
 
     return (
-        <ThemeProvider theme={getTheme(themeName)}>
+        <ThemeProvider theme={getTheme()}>
             <GlobalStyle />
             <RouterProvider router={router} />
         </ThemeProvider>
