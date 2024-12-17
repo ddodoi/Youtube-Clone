@@ -9,12 +9,12 @@ export interface LoginResponse {
 
 export interface UserInfoResponse {
     name: string;
-    avatarURL: string;
+    profileImageURL: string;
 }
 
 const user = {
     name: faker.person.fullName(),
-    avatarURL: faker.image.avatar(),
+    profileImageURL: faker.image.avatar(),
 };
 
 const token = {

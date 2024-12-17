@@ -4,13 +4,13 @@ import { UserInfoResponse } from "../mock/user.mock";
 
 export const useUser = () => {
     const [user, setUser] = useState<UserInfoResponse>({
-        avatarURL: "",
+        profileImageURL: "",
         name: "",
     });
 
     useEffect(() => {
-        fetchUserInfo().then(({ avatarURL, name }: UserInfoResponse) => {
-            setUser({ avatarURL, name });
+        fetchUserInfo().then(({ profileImageURL, name }: UserInfoResponse) => {
+            setUser({ profileImageURL, name });
         });
     }, []);
 
