@@ -1,4 +1,4 @@
-import { Video } from './mainPage.types';
+import { Video } from '../../../types/video';
 
 export interface VideoGridProps {
     videos: Video[];
