@@ -1,10 +1,11 @@
-import { ReactComponent as Home } from "@assets/home.svg";
-import { ReactComponent as Shorts } from "@assets/shorts.svg";
-import { ReactComponent as Subscription } from "@assets/subscription.svg";
-import { ReactComponent as YoutubeMusic } from "@assets/youtubeMusic.svg";
+import { ReactComponent as Home } from "@assets/sidebar/home.svg";
+import { ReactComponent as Shorts } from "@assets/sidebar/shorts.svg";
+import { ReactComponent as Subscription } from "@assets/sidebar/subscription.svg";
+import { ReactComponent as YoutubeMusic } from "@assets/sidebar/youtubeMusic.svg";
 import { ReactComponent as UserCircle } from "@assets/userCircle.svg";
-import { ReactComponent as Download } from "@assets/download.svg";
+import { ReactComponent as Download } from "@assets/sidebar/download.svg";
 import { styled } from "styled-components";
+import SidebarOpen from "./SidebarOpen";
 
 const menus = [
     {
@@ -41,18 +42,21 @@ const menus = [
 
 const Sidebar = () => {
     return (
-        <SidebarStyle>
-            <div className="menu-items">
-                {menus.map((menu, i) => (
-                    <MenuItem aria-label={menu.title}>
-                        <a href={menu.href}>
-                            {menu.icon}
-                            <span>{menu.title}</span>
-                        </a>
-                    </MenuItem>
-                ))}
-            </div>
-        </SidebarStyle>
+        <>
+            <SidebarOpen />
+            <SidebarStyle>
+                <div className="menu-items">
+                    {menus.map((menu, i) => (
+                        <MenuItem aria-label={menu.title} key={i}>
+                            <a href={menu.href}>
+                                {menu.icon}
+                                <span>{menu.title}</span>
+                            </a>
+                        </MenuItem>
+                    ))}
+                </div>
+            </SidebarStyle>
+        </>
     );
 };
 
@@ -73,6 +77,11 @@ const SidebarStyle = styled.div`
 
 const MenuItem = styled.div`
     border-radius: 10px;
+
+    &:hover {
+        outline: none;
+        background-color: rgba(0, 0, 0, 0.05);
+    }
 
     a {
         padding: 16px 0 14px;
@@ -99,6 +108,10 @@ const MenuItem = styled.div`
             font-size: 1rem;
             line-height: 1.4rem;
         }
+    }
+
+    @media screen AND (${({ theme }) => theme.mediaQuery.sidebar.mobile}) {
+        display: none;
     }
 `;
 

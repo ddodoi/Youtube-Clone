@@ -1,15 +1,13 @@
 import { styled } from "styled-components";
-import { ReactComponent as Premium } from "@assets/premium.svg";
-import { ReactComponent as Mike } from "@assets/mike.svg";
-import { ReactComponent as Bars } from "@assets/bars.svg";
-import { ReactComponent as Bell } from "@assets/bell.svg";
-import { ReactComponent as Youtube } from "@assets/youtube.svg";
+import { ReactComponent as Mike } from "@assets/header/mike.svg";
+import { ReactComponent as Bell } from "@assets/header/bell.svg";
 import { ReactComponent as UserCircle } from "@assets/userCircle.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SearchBox from "@components/common/header/SearchBox";
 import { BsPlusLg, BsThreeDotsVertical } from "react-icons/bs";
 import { useAuth } from "@hooks/useAuth";
 import { useUser } from "@hooks/useUser";
+import HeaderStart from "./HeaderStart";
 
 const Header = () => {
     const { isLoggedIn } = useAuth();
@@ -18,19 +16,7 @@ const Header = () => {
 
     return (
         <HeaderStyle>
-            <div className="start">
-                <button className="guide-button yt-icon-button">
-                    <Bars width={24} height={24} />
-                </button>
-                <div className="logo">
-                    <Link to="/">
-                        <div className="logo-icon">
-                            {isLoggedIn ? <Premium width={101} height={20} /> : <Youtube />}
-                        </div>
-                    </Link>
-                    <span className="contry-code">KR</span>
-                </div>
-            </div>
+            <HeaderStart isLoggedIn={isLoggedIn} />
             <div className="center">
                 <SearchBox />
                 <div className="voice-search-button">
@@ -91,44 +77,6 @@ const HeaderStyle = styled.header`
     padding: 0 16px;
     height: 56px;
     width: 100%;
-
-    .start {
-        flex: 1;
-        display: flex;
-        height: 100%;
-        width: 100%;
-        align-items: center;
-
-        .guide-button {
-            width: 40px;
-            height: 40px;
-            padding: 8px;
-        }
-
-        .logo {
-            display: flex;
-            height: 100%;
-
-            a {
-                padding: 0;
-                color: #000000;
-                align-items: center;
-                display: flex;
-                align-self: center;
-                flex: none;
-                width: max-content;
-
-                .logo-icon {
-                    padding: 18px 14px 18px 16px;
-                }
-            }
-
-            .contry-code {
-                margin: 12px 0 0 -10px;
-                color: #606060;
-            }
-        }
-    }
 
     .center {
         display: flex;
