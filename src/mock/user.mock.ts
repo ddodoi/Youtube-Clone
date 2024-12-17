@@ -12,6 +12,12 @@ export interface UserInfoResponse {
     profileImageURL: string;
 }
 
+export interface SubscriptionResponse {
+    channelName: string;
+    channelEmail: string;
+    profileImageURL: string;
+}
+
 const user = {
     name: faker.person.fullName(),
     profileImageURL: faker.image.avatar(),
@@ -23,6 +29,7 @@ const token = {
 
 const subscriptions = Array.from({ length: 10 }, () => ({
     channelName: faker.person.fullName(),
+    channelEmail: faker.internet.email(),
     profileImageURL: faker.image.avatar(),
 }));
 
@@ -41,7 +48,7 @@ export const authHandlers = [
     }),
     http.get(baseURL("/user/sub"), ({ request }) => {
         if (getToken() === request.headers.get("Authorization")) {
-            return HttpResponse.json<UserInfoResponse>(user, {
+            return HttpResponse.json<SubscriptionResponse[]>(subscriptions, {
                 status: 200,
             });
         }

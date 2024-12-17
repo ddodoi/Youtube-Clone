@@ -27,7 +27,9 @@ const SidebarMenuItemStyle = styled.div`
         line-height: 24px;
     }
 
-    svg {
+    svg,
+    img {
+        border-radius: 50%;
         width: 24px;
         height: 24px;
         margin-right: 24px;

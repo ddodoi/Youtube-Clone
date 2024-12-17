@@ -33,6 +33,7 @@ import SidebarSection from "./SidebarSection";
 import SidebarMenuItem from "./SidebarMenuItem";
 import SidebarSectionTitle from "./SidebarSectionTitle";
 import { Link } from "react-router-dom";
+import { useSubscription } from "@hooks/useSubscription";
 
 const menus = [
     {
@@ -89,8 +90,6 @@ const myPage = [
         icon: <Download />,
     },
 ];
-
-const subscription = [];
 
 const explore = [
     {
@@ -183,6 +182,7 @@ const etc = [
 const SidebarOpen = () => {
     const { isSidebarOpen } = useLayoutStore();
     const { isLoggedIn } = useAuth();
+    const { subscriptions } = useSubscription();
     return (
         <SidebarOpenStyle $isSidebarOpen={isSidebarOpen}>
             <header>
@@ -217,6 +217,14 @@ const SidebarOpen = () => {
                 </SidebarSection>
                 <SidebarSection>
                     <SidebarSectionTitle>구독</SidebarSectionTitle>
+                    {subscriptions.map((item, i) => (
+                        <SidebarMenuItem aria-label={item.channelName} key={i}>
+                            <Link to={`/${item.channelEmail}`}>
+                                <img src={item.profileImageURL} alt={item.channelName} />
+                                <span>{item.channelName}</span>
+                            </Link>
+                        </SidebarMenuItem>
+                    ))}
                 </SidebarSection>
                 <SidebarSection>
                     <SidebarSectionTitle>탐색</SidebarSectionTitle>
