@@ -29,11 +29,15 @@ import { ReactComponent as Config } from "@assets/sidebar/config.svg";
 import { ReactComponent as Report } from "@assets/sidebar/report.svg";
 import { ReactComponent as Service } from "@assets/sidebar/service.svg";
 import { ReactComponent as Suggest } from "@assets/sidebar/suggest.svg";
+import { ReactComponent as ArrowDown } from "@assets/sidebar/arrowDown.svg";
+import { ReactComponent as SubscriptionList } from "@assets/sidebar/subscriptionList.svg";
 import SidebarSection from "./SidebarSection";
 import SidebarMenuItem from "./SidebarMenuItem";
 import SidebarSectionTitle from "./SidebarSectionTitle";
 import { Link } from "react-router-dom";
 import { useSubscription } from "@hooks/useSubscription";
+import { useState } from "react";
+import SidebarFooter from "./SidebarFooter";
 
 const menus = [
     {
@@ -182,7 +186,9 @@ const etc = [
 const SidebarOpen = () => {
     const { isSidebarOpen } = useLayoutStore();
     const { isLoggedIn } = useAuth();
-    const { subscriptions } = useSubscription();
+    const { subscriptions, moreSubscriptions } = useSubscription();
+    const [showMore, setShowMore] = useState(false);
+
     return (
         <SidebarOpenStyle $isSidebarOpen={isSidebarOpen}>
             <header>
@@ -225,6 +231,29 @@ const SidebarOpen = () => {
                             </Link>
                         </SidebarMenuItem>
                     ))}
+                    {showMore &&
+                        moreSubscriptions.map((item, i) => (
+                            <SidebarMenuItem aria-label={item.channelName} key={i}>
+                                <Link to={`/${item.channelEmail}`}>
+                                    <img src={item.profileImageURL} alt={item.channelName} />
+                                    <span>{item.channelName}</span>
+                                </Link>
+                            </SidebarMenuItem>
+                        ))}
+                    {showMore && (
+                        <SidebarMenuItem>
+                            <Link to="/feed/channels">
+                                <SubscriptionList />
+                                <span>모든 구독</span>
+                            </Link>
+                        </SidebarMenuItem>
+                    )}
+                    <SidebarMenuItem onClick={() => setShowMore(!showMore)}>
+                        <ArrowDown
+                            style={{ transform: showMore ? "rotate(180deg)" : "rotate(0deg)" }}
+                        />
+                        <span>더보기</span>
+                    </SidebarMenuItem>
                 </SidebarSection>
                 <SidebarSection>
                     <SidebarSectionTitle>탐색</SidebarSectionTitle>
@@ -258,6 +287,7 @@ const SidebarOpen = () => {
                         </SidebarMenuItem>
                     ))}
                 </SidebarSection>
+                <SidebarFooter />
             </div>
         </SidebarOpenStyle>
     );
@@ -268,6 +298,7 @@ interface SidebarStyleProps {
 }
 
 const SidebarOpenStyle = styled.div<SidebarStyleProps>`
+    /* --scrollbar-width: 11px; */
     position: fixed;
     top: 0;
     left: 0;
@@ -279,6 +310,11 @@ const SidebarOpenStyle = styled.div<SidebarStyleProps>`
     transform: translateX(${({ $isSidebarOpen }) => ($isSidebarOpen ? "0" : "-240px")});
     background-color: rgb(255, 255, 255);
     z-index: 10000;
+
+    /* &:hover {
+        margin-right: calc(-1 * var(--scrollbar-width));
+    } */
+
     header {
         padding-left: 16px;
     }
@@ -286,11 +322,11 @@ const SidebarOpenStyle = styled.div<SidebarStyleProps>`
     .content {
         flex: 1;
         overflow-y: hidden;
+        overflow-x: hidden;
 
         &:hover {
             scrollbar-width: thin;
             overflow-y: auto;
-            display: block;
             scrollbar-color: #909090 transparent;
         }
 
