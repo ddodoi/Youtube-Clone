@@ -21,6 +21,11 @@ const token = {
     token: faker.internet.jwt({ payload: { iat: new Date().toISOString() } }),
 };
 
+const subscriptions = Array.from({ length: 10 }, () => ({
+    channelName: faker.person.fullName(),
+    profileImageURL: faker.image.avatar(),
+}));
+
 export const authHandlers = [
     http.post(baseURL("/user/login"), () => {
         return HttpResponse.json<LoginResponse>(token, {
@@ -28,6 +33,13 @@ export const authHandlers = [
         });
     }),
     http.get(baseURL("/user"), ({ request }) => {
+        if (getToken() === request.headers.get("Authorization")) {
+            return HttpResponse.json<UserInfoResponse>(user, {
+                status: 200,
+            });
+        }
+    }),
+    http.get(baseURL("/user/sub"), ({ request }) => {
         if (getToken() === request.headers.get("Authorization")) {
             return HttpResponse.json<UserInfoResponse>(user, {
                 status: 200,

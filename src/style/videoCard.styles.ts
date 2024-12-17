@@ -1,12 +1,12 @@
-import { styled } from 'styled-components';
+import { styled } from "styled-components";
 
 export const MainPageContainer = styled.div`
     padding: 24px 40px;
     margin-top: 56px;
     margin-left: 72px;
     min-height: 100vh;
-    background-color: ${props => props.theme.colors?.background || '#ffffff'};
-    color: ${props => props.theme.colors?.text || '#000000'};
+    background-color: ${(props) => props.theme.colors?.background || "#ffffff"};
+    color: ${(props) => props.theme.colors?.text || "#000000"};
 `;
 
 export const VideoGrid = styled.div`
@@ -34,7 +34,7 @@ export const ThumbnailWrapper = styled.div`
     border-radius: 12px;
     overflow: hidden;
     margin-bottom: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.1); 
+    border: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
 export const Thumbnail = styled.img`
@@ -76,17 +76,17 @@ export const Title = styled.h3`
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: ${props => props.theme.colors?.text || '#0F0F0F'};
+    color: ${(props) => props.theme.colors?.text || "#0F0F0F"};
 `;
 
 export const Channel = styled.span`
     font-size: 14px;
-    color: ${props => props.theme.colors?.secondaryText || '#606060'};
+    color: ${(props) => props.theme.colors?.secondaryText || "#606060"};
 `;
 
 export const Stats = styled.div`
     display: flex;
-    color: ${props => props.theme.colors?.secondaryText || '#606060'};
+    color: ${(props) => props.theme.colors?.secondaryText || "#606060"};
     font-size: 14px;
 `;
 
