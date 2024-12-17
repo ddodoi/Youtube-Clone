@@ -22,7 +22,7 @@ const token = {
 };
 
 export const authHandlers = [
-    http.post(baseURL("/login"), () => {
+    http.post(baseURL("/user/login"), () => {
         return HttpResponse.json<LoginResponse>(token, {
             status: 201,
         });

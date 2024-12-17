@@ -1,6 +1,6 @@
 import { useAuthStore } from "../stores/authStore";
-import { createLogin } from "../apis/auth.api";
-import { LoginResponse } from "../mock/auth.mock";
+import { createLogin } from "../apis/user.api";
+import { LoginResponse } from "../mock/user.mock";
 import { useNavigate } from "react-router-dom";
 
 export const useAuth = () => {
