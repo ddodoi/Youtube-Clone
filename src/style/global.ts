@@ -7,10 +7,15 @@ export const GlobalStyle = createGlobalStyle`
         font-family: Roboto, Arial, sans-serif;
 
         body {
-        padding: 0;
-        margin: 0;
-        background-color: ${({ theme }) => (theme.name === "light" ? "white" : "black")};
-    }  
+            padding: 0;
+            margin: 0;
+            overflow-x: auto;
+            background-color: ${({ theme }) => (theme.name === "light" ? "white" : "black")};
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+        } 
     }
     
     * {
