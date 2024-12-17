@@ -1,24 +1,20 @@
 import React from "react";
-import { VideoCardProps } from "../../../types/videoCard.types";
-import { 
-    Container, 
-    Thumbnail, 
+import { VideoCardProps } from "../../../types/videoCard.type";
+import {
+    Container,
+    Thumbnail,
     ThumbnailWrapper,
     Duration,
-    Info, 
-    Title, 
-    Channel, 
-    Stats, 
-    Views, 
-    Date 
+    Info,
+    Title,
+    Channel,
+    Stats,
+    Views,
+    Date,
 } from "../../../style/videoCard.styles";
 import { formatVideoCount, formatDate } from "../../../utils/format";
 
-const VideoCard: React.FC<VideoCardProps> = ({ 
-    video, 
-    onClick,
-    size = 'medium'
-}) => {
+const VideoCard: React.FC<VideoCardProps> = ({ video, onClick, size = "medium" }) => {
     const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
         if (onClick) {
             onClick(event);

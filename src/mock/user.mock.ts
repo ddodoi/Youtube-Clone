@@ -2,21 +2,7 @@ import { fakerKO as faker } from "@faker-js/faker";
 import { http, HttpResponse } from "msw";
 import { baseURL } from "../utils/baseURL";
 import { getToken } from "@stores/authStore";
-
-export interface LoginResponse {
-    token: string;
-}
-
-export interface UserInfoResponse {
-    name: string;
-    profileImageURL: string;
-}
-
-export interface SubscriptionResponse {
-    channelName: string;
-    channelEmail: string;
-    profileImageURL: string;
-}
+import { LoginResponse, SubscriptionResponse, UserInfoResponse } from "../types/user.type";
 
 const user = {
     name: faker.person.fullName(),

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { SubscriptionResponse } from "../mock/user.mock";
-import { fetchSubInfo } from "../apis/user.api";
+import { fetchSubInfo } from "@apis/user.api";
+import { SubscriptionResponse } from "@@types/user.type";
 
 export const useSubscription = () => {
     const [subscriptions, setSubscriptions] = useState<SubscriptionResponse[]>([]);

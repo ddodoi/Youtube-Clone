@@ -1,4 +1,4 @@
-import { Video } from "../types/mainPage.types";
+import { Video } from "../types/mainPage.type";
 import VideoCard from "../components/MainPage/VIdeoCard/VIdeoCard";
 import styled from "styled-components";
 
@@ -119,11 +119,7 @@ const MainPage = () => {
             <ScrollContainer>
                 <VideoGrid>
                     {sampleVideos.map((video: Video) => (
-                        <VideoCard 
-                            key={video.id}
-                            video={video}
-                            size="medium"
-                        />
+                        <VideoCard key={video.id} video={video} size="medium" />
                     ))}
                 </VideoGrid>
             </ScrollContainer>
@@ -146,16 +142,16 @@ const ScrollContainer = styled.div`
     overflow-y: auto;
     padding: 24px;
     box-sizing: border-box;
-    
+
     /* 스크롤바 스타일링 */
     &::-webkit-scrollbar {
         width: 8px;
     }
-    
+
     &::-webkit-scrollbar-track {
         background: transparent;
     }
-    
+
     &::-webkit-scrollbar-thumb {
         background-color: #909090;
         border-radius: 4px;
@@ -167,23 +163,23 @@ const VideoGrid = styled.div`
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 20px;
     width: 100%;
-    
+
     @media (min-width: 1850px) {
         grid-template-columns: repeat(5, 1fr);
     }
-    
+
     @media (min-width: 1500px) and (max-width: 1849px) {
         grid-template-columns: repeat(4, 1fr);
     }
-    
+
     @media (min-width: 1000px) and (max-width: 1499px) {
         grid-template-columns: repeat(3, 1fr);
     }
-    
+
     @media (min-width: 600px) and (max-width: 999px) {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     @media (max-width: 599px) {
         grid-template-columns: 1fr;
     }
