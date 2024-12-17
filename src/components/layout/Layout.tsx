@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+import Header from "../header/Header";
+import Sidebar from "../sidebar/Sidebar";
 
 interface Props {
     children: React.ReactNode;
