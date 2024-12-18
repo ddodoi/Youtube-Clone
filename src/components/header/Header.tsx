@@ -7,6 +7,17 @@ import { useAuth } from "@hooks/useAuth";
 import { useUser } from "@hooks/useUser";
 import HeaderStart from "./HeaderStart";
 import LoginButton from "./LoginButton";
+import Dropdown from "@components/common/Dropdown";
+import { ReactComponent as VideoUpload } from "@assets/header/videoUpload.svg";
+import { Link } from "react-router-dom";
+
+const makePannelData = [
+    {
+        title: "동영상 만들기",
+        href: "",
+        icon: <VideoUpload />,
+    },
+];
 
 const Header = () => {
     const { isLoggedIn } = useAuth();
@@ -26,12 +37,27 @@ const Header = () => {
             <div className="end">
                 {isLoggedIn ? (
                     <>
-                        <div className="make-button">
-                            <button>
-                                <BsPlusLg size={24} />
-                                <div>만들기</div>
-                            </button>
-                        </div>
+                        <MakeButtonStyle>
+                            <Dropdown
+                                toggleButton={
+                                    <>
+                                        <BsPlusLg size={24} />
+                                        <div>만들기</div>
+                                    </>
+                                }
+                            >
+                                <MakeButtonPanel>
+                                    {makePannelData.map((item, i) => (
+                                        <div key={i}>
+                                            {item.icon}
+                                            <Link to={item.href} aria-label={item.title}>
+                                                {item.title}
+                                            </Link>
+                                        </div>
+                                    ))}
+                                </MakeButtonPanel>
+                            </Dropdown>
+                        </MakeButtonStyle>
                         <div className="notification-button">
                             <div>
                                 <Bell />
@@ -75,30 +101,6 @@ const HeaderStyle = styled.header`
         align-items: center;
         justify-content: flex-end;
         flex: 1;
-
-        .make-button {
-            margin-right: 8px;
-
-            button {
-                display: flex;
-                align-items: center;
-                padding: 0 16px;
-                height: 36px;
-                font-size: 14px;
-                line-height: 36px;
-                border-radius: 18px;
-                border: none;
-                outline: none;
-
-                &:hover {
-                    background-color: rgba(0, 0, 0, 0.1);
-                }
-
-                svg {
-                    margin: 0 6px 0 -6px;
-                }
-            }
-        }
 
         .notification-button {
             margin-right: 8px;
@@ -197,6 +199,61 @@ const VoiceSearchButtonStyle = styled.div`
     @media screen and (${({ theme }) => theme.mediaQuery.searchBox.mobile}) {
         background: none;
         margin-left: 0;
+    }
+`;
+
+const MakeButtonStyle = styled.div`
+    margin-right: 8px;
+
+    button {
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        height: 36px;
+        font-size: 14px;
+        line-height: 36px;
+        border-radius: 18px;
+        border: none;
+        outline: none;
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        svg {
+            margin: 0 6px 0 -6px;
+        }
+    }
+`;
+
+const MakeButtonPanel = styled.div`
+    position: absolute;
+    padding: 8px 0;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+
+    div {
+        padding: 0 36px 0 16px;
+        display: flex;
+        align-items: center;
+        height: 40px;
+        width: 200px;
+
+        &:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        svg {
+            margin-right: 16px;
+        }
+
+        a {
+            text-decoration: none;
+            color: rgb(15, 15, 15);
+            font-size: 1.4rem;
+            line-height: 2rem;
+        }
     }
 `;
 
