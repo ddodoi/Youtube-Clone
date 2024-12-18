@@ -27,13 +27,11 @@ const VideoContainer = styled.div`
     padding: 10px;
     border-radius: 8px;
     min-width : 428px;
-    // aspect-ratio: 3/4;
 s
 `;
 
 const Thumbnail = styled.img`
     width: 38%;
-    height: 100%;
     background-color: transparent;
     object-fit: cover;
     visibility: inherit;
