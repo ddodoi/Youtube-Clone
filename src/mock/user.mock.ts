@@ -2,15 +2,7 @@ import { fakerKO as faker } from "@faker-js/faker";
 import { http, HttpResponse } from "msw";
 import { baseURL } from "../utils/baseURL";
 import { getToken } from "@stores/authStore";
-
-export interface LoginResponse {
-    token: string;
-}
-
-export interface UserInfoResponse {
-    name: string;
-    profileImageURL: string;
-}
+import { LoginResponse, SubscriptionResponse, UserInfoResponse } from "../types/user.type";
 
 const user = {
     name: faker.person.fullName(),
@@ -23,6 +15,7 @@ const token = {
 
 const subscriptions = Array.from({ length: 10 }, () => ({
     channelName: faker.person.fullName(),
+    channelEmail: faker.internet.email(),
     profileImageURL: faker.image.avatar(),
 }));
 
@@ -41,7 +34,7 @@ export const authHandlers = [
     }),
     http.get(baseURL("/user/sub"), ({ request }) => {
         if (getToken() === request.headers.get("Authorization")) {
-            return HttpResponse.json<UserInfoResponse>(user, {
+            return HttpResponse.json<SubscriptionResponse[]>(subscriptions, {
                 status: 200,
             });
         }

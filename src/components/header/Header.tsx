@@ -1,18 +1,16 @@
 import { styled } from "styled-components";
 import { ReactComponent as Mike } from "@assets/header/mike.svg";
 import { ReactComponent as Bell } from "@assets/header/bell.svg";
-import { ReactComponent as UserCircle } from "@assets/userCircle.svg";
-import { useNavigate } from "react-router-dom";
 import SearchBox from "@components/common/header/SearchBox";
 import { BsPlusLg, BsThreeDotsVertical } from "react-icons/bs";
 import { useAuth } from "@hooks/useAuth";
 import { useUser } from "@hooks/useUser";
 import HeaderStart from "./HeaderStart";
+import LoginButton from "./LoginButton";
 
 const Header = () => {
     const { isLoggedIn } = useAuth();
     const { user } = useUser();
-    const navigate = useNavigate();
 
     return (
         <HeaderStyle>
@@ -52,14 +50,7 @@ const Header = () => {
                                 <BsThreeDotsVertical size={24} />
                             </button>
                         </div>
-                        <div className="login-button">
-                            <button onClick={() => navigate("/login")}>
-                                <div>
-                                    <UserCircle />
-                                </div>
-                                <div>로그인</div>
-                            </button>
-                        </div>
+                        <LoginButton />
                     </>
                 )}
             </div>
@@ -194,39 +185,6 @@ const HeaderStyle = styled.header`
                 border: none;
                 cursor: pointer;
                 padding: 8px;
-            }
-        }
-
-        .login-button {
-            padding: 0 15px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            height: 36px;
-
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-
-            button {
-                color: #065fd4;
-                line-height: 36px;
-                font-size: 14px;
-                display: flex;
-                align-items: center;
-                outline: none;
-                background: none;
-                border: none;
-                cursor: pointer;
-                padding: 0;
-
-                svg {
-                    margin: 0 6px 0 -6px;
-                    fill: currentColor;
-                }
-            }
-
-            &:hover {
-                background: #def1ff;
-                border-color: transparent;
             }
         }
     }

@@ -1,116 +1,60 @@
-import { ReactComponent as Home } from "@assets/sidebar/home.svg";
-import { ReactComponent as Shorts } from "@assets/sidebar/shorts.svg";
-import { ReactComponent as Subscription } from "@assets/sidebar/subscription.svg";
-import { ReactComponent as YoutubeMusic } from "@assets/sidebar/youtubeMusic.svg";
-import { ReactComponent as UserCircle } from "@assets/userCircle.svg";
-import { ReactComponent as Download } from "@assets/sidebar/download.svg";
 import { styled } from "styled-components";
 import SidebarOpen from "./SidebarOpen";
-
-const menus = [
-    {
-        title: "홈",
-        href: "/",
-        icon: <Home />,
-    },
-    {
-        title: "Shorts",
-        href: "/shorts/:shorts_id",
-        icon: <Shorts />,
-    },
-    {
-        title: "구독",
-        href: "/feed/subscriptions",
-        icon: <Subscription />,
-    },
-    {
-        title: "YouTube Music",
-        href: "https://music.youtube.com/",
-        icon: <YoutubeMusic />,
-    },
-    {
-        title: "내 페이지",
-        href: "/feed/you",
-        icon: <UserCircle />,
-    },
-    {
-        title: "오프라인 저장 동영상",
-        href: "/feed/downloads",
-        icon: <Download />,
-    },
-];
+import SidebarFolded from "./SidebarFolded";
+import { useLayoutStore } from "@stores/layoutStore";
+import { useEffect, useRef } from "react";
 
 const Sidebar = () => {
+    const { isSidebarOpen, setIsSidebarOpen } = useLayoutStore();
+    const sidebarRef = useRef<HTMLDivElement>(null);
+    const backgroundRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleBackgroundClick = () => {
+            setIsSidebarOpen(false);
+        };
+
+        backgroundRef.current?.addEventListener("click", handleBackgroundClick);
+
+        return () => backgroundRef.current?.removeEventListener("click", handleBackgroundClick);
+    }, []);
+
     return (
-        <>
-            <SidebarOpen />
-            <SidebarStyle>
-                <div className="menu-items">
-                    {menus.map((menu, i) => (
-                        <MenuItem aria-label={menu.title} key={i}>
-                            <a href={menu.href}>
-                                {menu.icon}
-                                <span>{menu.title}</span>
-                            </a>
-                        </MenuItem>
-                    ))}
-                </div>
-            </SidebarStyle>
-        </>
+        <SidebarStyle $isSidebarOpen={isSidebarOpen} ref={sidebarRef}>
+            <SidebarOpen className="sidebar-open" />
+            <div className="background" ref={backgroundRef}></div>
+            <SidebarFolded />
+        </SidebarStyle>
     );
 };
 
-const SidebarStyle = styled.div`
-    position: fixed;
-    top: 56px;
-    left: 0px;
-    z-index: 2028;
-    width: 72px;
-    padding: 0 4px;
+interface SidebarStyleProps {
+    $isSidebarOpen: boolean;
+}
 
-    .menu-items {
-        display: flex;
-        flex-direction: column;
-        margin-top: 4px;
-    }
-`;
+const SidebarStyle = styled.div<SidebarStyleProps>`
+    display: block;
 
-const MenuItem = styled.div`
-    border-radius: 10px;
-
-    &:hover {
-        outline: none;
-        background-color: rgba(0, 0, 0, 0.05);
+    .sidebar-open {
+        transition: transform 0.2s ease-in-out;
+        transform: translateX(${({ $isSidebarOpen }) => ($isSidebarOpen ? "0" : "-240px")});
     }
 
-    a {
-        padding: 16px 0 14px;
-        width: 64px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-decoration: none;
-
-        svg {
-            width: 24px;
-            height: 24px;
-            margin-bottom: 6px;
-            color: #030303;
-        }
-
-        span {
-            color: #0f0f0f;
-            max-width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            font-size: 1rem;
-            line-height: 1.4rem;
-        }
+    .background {
+        transition:
+            opacity 0.2s ease-in-out,
+            z-index ${({ $isSidebarOpen }) => ($isSidebarOpen ? "0.01s" : "1s")} ease-in-out;
+        width: 100vw;
+        height: 100vh;
+        opacity: ${({ $isSidebarOpen }) => ($isSidebarOpen ? 1 : 0)};
+        background-color: rgba(0, 0, 0, 0.5);
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: ${({ $isSidebarOpen }) => ($isSidebarOpen ? 3000 : 0)};
     }
 
-    @media screen AND (${({ theme }) => theme.mediaQuery.sidebar.mobile}) {
+    @media screen and (${({ theme }) => theme.mediaQuery.sidebar.desktop}) {
         display: none;
     }
 `;
