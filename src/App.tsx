@@ -6,6 +6,7 @@ import { useThemeStore } from "./stores/themeStore";
 import { GlobalStyle } from "./style/global";
 import Login from "./pages/Login";
 import MainPage from "./pages/MainPage";
+import SearchResult from "./pages/SearchResult";
 
 const router = createBrowserRouter([
     {
@@ -20,6 +21,15 @@ const router = createBrowserRouter([
     {
         path: "/login",
         element: <Login />,
+        errorElement: <Error />,
+    },
+    {
+        path: "/results",
+        element: (
+            <Layout>
+                <SearchResult />
+            </Layout>
+        ),
         errorElement: <Error />,
     },
 ]);
