@@ -26,22 +26,24 @@ const VideoContainer = styled.div`
     margin: 10px;
     padding: 10px;
     border-radius: 8px;
-    // background-color: #fff;
-    // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-width : 428px;
+    // aspect-ratio: 3/4;
+s
 `;
 
 const Thumbnail = styled.img`
-    width: 35%;
+    width: 38%;
     height: 100%;
     background-color: transparent;
     object-fit: cover;
     visibility: inherit;
     display: inline-block;
-    min-height: 1px;
-    min-width: 1px;
-    border-radius: 4px;      //추후삭제
+    min-height: 80px;
+    min-width: 200px;
+    border-radius: 4px;      //경계표시-추후삭제
     border : 1px solid black; //추후삭제
-    margin-right : 1rem;
+    margin-right : 1.5rem;
+    aspect-ratio: 16/9;
 `;
 
 const Details = styled.div`

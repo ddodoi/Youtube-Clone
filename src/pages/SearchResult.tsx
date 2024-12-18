@@ -114,7 +114,7 @@ const VideoGrid = styled.div`
     display: grid;
     gap: 10px;
     width: 100%;
-    height: 250%;
+    height: 300%;
     max-width: 1920px; /* 화면 너비 제한 */
 `;
 
