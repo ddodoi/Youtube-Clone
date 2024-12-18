@@ -7,10 +7,10 @@ const LOCAL_STORAGE_KEY = "youtube_theme";
 interface ThemeState {
     themeName: ThemeName;
     toggleTheme: () => void;
-    getTheme: (themeName: ThemeName) => Theme;
+    getTheme: () => Theme;
 }
 
-export const useThemeStore = create<ThemeState>((set) => ({
+export const useThemeStore = create<ThemeState>((set, get) => ({
     themeName: (localStorage.getItem(LOCAL_STORAGE_KEY) as ThemeName | null) || DEFAULT_THEME_NAME,
     toggleTheme: () => {
         set((state) => {
@@ -19,12 +19,5 @@ export const useThemeStore = create<ThemeState>((set) => ({
             return { themeName };
         });
     },
-    getTheme: (themeName) => {
-        switch (themeName) {
-        case "light":
-            return light;
-        case "dark":
-            return dark;
-        }
-    },
+    getTheme: () => (get().themeName === "light" ? light : dark),
 }));

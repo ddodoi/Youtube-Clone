@@ -1,12 +1,12 @@
 import { ReactNode } from "react";
 import { styled } from "styled-components";
 
-interface Props {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
     children: ReactNode;
 }
 
-const SidebarMenuItem: React.FC<Props> = ({ children }) => {
-    return <SidebarMenuItemStyle>{children}</SidebarMenuItemStyle>;
+const SidebarMenuItem: React.FC<Props> = ({ children, ...props }) => {
+    return <SidebarMenuItemStyle {...props}>{children}</SidebarMenuItemStyle>;
 };
 
 const SidebarMenuItemStyle = styled.div`
@@ -27,7 +27,9 @@ const SidebarMenuItemStyle = styled.div`
         line-height: 24px;
     }
 
-    svg {
+    svg,
+    img {
+        border-radius: 50%;
         width: 24px;
         height: 24px;
         margin-right: 24px;

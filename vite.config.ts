@@ -10,6 +10,8 @@ export default defineConfig({
             "@components": "/src/components",
             "@stores": "/src/stores",
             "@hooks": "/src/hooks",
+            "@@types": "/src/types",
+            "@apis": "/src/apis",
         },
     },
     plugins: [

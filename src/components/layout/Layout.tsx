@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import Header from "../header/Header";
-import Sidebar from "../sidebar/Sidebar";
+import DesktopSidebar from "@components/sidebar/DesktopSidebar";
+import Sidebar from "@components/sidebar/Sidebar";
 
 interface Props {
     children: React.ReactNode;
@@ -10,6 +11,7 @@ const Layout: React.FC<Props> = ({ children }) => {
     return (
         <>
             <Header />
+            <DesktopSidebar />
             <Sidebar />
             <LayoutStyle>{children}</LayoutStyle>
         </>

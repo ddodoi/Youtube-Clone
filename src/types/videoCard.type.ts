@@ -1,4 +1,4 @@
-import { Video } from "./mainPage.types";
+import { Video } from "@@types/mainPage.types";
 
 export interface VideoCardProps {
     video: Video;
