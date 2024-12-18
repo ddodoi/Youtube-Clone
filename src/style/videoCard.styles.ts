@@ -23,27 +23,14 @@ export const VideoGrid = styled.div`
 `;
 
 export const Container = styled.div<{ size: string }>`
-    width: ${({ size }) => {
-        switch (size) {
-            case "small":
-                return "240px";
-            case "large":
-                return "360px";
-            default:
-                return "320px";
-        }
-    }};
-    display: flex;
-    flex-direction: column;
-    margin: 16px;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    width: 100%;
 `;
 
 export const ThumbnailWrapper = styled.div`
     position: relative;
     width: 100%;
-    aspect-ratio: 16/9;
+    aspect-ratio: 16 / 9;
     border-radius: 12px;
     overflow: hidden;
     margin-bottom: 12px;
@@ -54,9 +41,14 @@ export const Thumbnail = styled.img`
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+        transform: scale(1.05);
+    }
 `;
 
-export const DurationOverlay = styled.div`
+export const Duration = styled.div`
     position: absolute;
     bottom: 8px;
     right: 8px;
@@ -68,30 +60,23 @@ export const DurationOverlay = styled.div`
     font-weight: 500;
 `;
 
-export const PreviewWrapper = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: black;
-`;
-
 export const Info = styled.div`
-    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 `;
 
 export const Title = styled.h3`
     font-size: 16px;
     font-weight: 500;
     line-height: 1.4;
-    color: #0f0f0f;
-    margin: 8px 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    margin: 0;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: ${(props) => props.theme.colors?.text || "#0F0F0F"};
 `;
 
 export const Channel = styled.span`
@@ -103,7 +88,6 @@ export const Stats = styled.div`
     display: flex;
     color: ${(props) => props.theme.colors?.secondaryText || "#606060"};
     font-size: 14px;
-    color: #606060;
 `;
 
 export const Views = styled.span`

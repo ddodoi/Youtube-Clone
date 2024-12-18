@@ -24,16 +24,9 @@ export interface channel {
     email?: string;
 }
 
-export interface PaginationMeta {
-    currentPage: number;
-    totalPage: number;
-    hasNextPage: boolean;
-}
-
 // API 응답 타입
 export interface VideoListResponse {
-    success: boolean; 
-    data?: Video[];  
-    meta?: PaginationMeta;
-    error?: string;   
+    success: boolean; // 요청 성공 여부
+    data?: Video[];   // 성공 시 반환되는 비디오 목록 (배열)
+    error?: string;   // 실패 시 에러 메시지
 }
