@@ -4,7 +4,7 @@ import React from "react";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import Video from "../SearchResult/Video";
-import { VideoPreview } from "../types/searchResult.types";
+import { VideoPreview } from "../types/searchResult.type";
 
 const sampleVideos: VideoPreview[] = [
     {

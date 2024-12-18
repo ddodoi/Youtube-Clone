@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { VideoPreview } from '../types/searchResult.types';
+import { VideoPreview } from '../types/searchResult.type';
 
 const Video: React.FC<VideoPreview> = ({ video }) => {
     return (
