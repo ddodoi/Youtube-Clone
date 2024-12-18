@@ -21,10 +21,10 @@ export const useThemeStore = create<ThemeState>((set) => ({
     },
     getTheme: (themeName) => {
         switch (themeName) {
-            case "light":
-                return light;
-            case "dark":
-                return dark;
+        case "light":
+            return light;
+        case "dark":
+            return dark;
         }
     },
 }));
