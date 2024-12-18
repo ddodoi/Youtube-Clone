@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import { ReactComponent as Mike } from "@assets/header/mike.svg";
 import { ReactComponent as Bell } from "@assets/header/bell.svg";
-import SearchBox from "@components/common/header/SearchBox";
+import SearchBox from "@components/header/SearchBox";
 import { BsPlusLg, BsThreeDotsVertical } from "react-icons/bs";
 import { useAuth } from "@hooks/useAuth";
 import { useUser } from "@hooks/useUser";
@@ -15,14 +15,14 @@ const Header = () => {
     return (
         <HeaderStyle>
             <HeaderStart isLoggedIn={isLoggedIn} />
-            <div className="center">
+            <CenterStyle>
                 <SearchBox />
-                <div className="voice-search-button">
+                <VoiceSearchButtonStyle>
                     <button>
                         <Mike width={24} height={24} />
                     </button>
-                </div>
-            </div>
+                </VoiceSearchButtonStyle>
+            </CenterStyle>
             <div className="end">
                 {isLoggedIn ? (
                     <>
@@ -68,35 +68,6 @@ const HeaderStyle = styled.header`
     padding: 0 16px;
     height: 56px;
     width: 100%;
-
-    .center {
-        display: flex;
-        flex: 0 1 732px;
-        align-items: center;
-
-        .voice-search-button {
-            width: 40px;
-            height: 40px;
-            padding: 0;
-            border-radius: 50%;
-            background-color: rgba(0, 0, 0, 0.05);
-            margin-left: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            button {
-                border: none;
-                outline: none;
-                background: none;
-                cursor: pointer;
-            }
-
-            &:hover {
-                background-color: rgba(0, 0, 0, 0.1);
-            }
-        }
-    }
 
     .end {
         display: flex;
@@ -187,6 +158,45 @@ const HeaderStyle = styled.header`
                 padding: 8px;
             }
         }
+    }
+`;
+
+const CenterStyle = styled.div`
+    display: flex;
+    flex: 0 1 732px;
+    align-items: center;
+
+    @media screen and (${({ theme }) => theme.mediaQuery.searchBox.mobile}) {
+        flex: 1;
+        justify-content: flex-end;
+    }
+`;
+
+const VoiceSearchButtonStyle = styled.div`
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.05);
+    margin-left: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+        border: none;
+        outline: none;
+        background: none;
+        cursor: pointer;
+    }
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    @media screen and (${({ theme }) => theme.mediaQuery.searchBox.mobile}) {
+        background: none;
+        margin-left: 0;
     }
 `;
 
