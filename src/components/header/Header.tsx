@@ -10,6 +10,7 @@ import LoginButton from "./LoginButton";
 import Dropdown from "@components/common/Dropdown";
 import { ReactComponent as VideoUpload } from "@assets/header/videoUpload.svg";
 import { Link } from "react-router-dom";
+import Modal from "@components/common/Modal";
 import { useState } from "react";
 
 const makePannelData = [
@@ -24,6 +25,12 @@ const Header = () => {
     const { isLoggedIn } = useAuth();
     const { user } = useUser();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isMakeVideoOpen, setIsMakeVideoOpen] = useState(false);
+
+    const handleMakeVideo = () => {
+        setIsMakeVideoOpen(true);
+        setIsDropdownOpen(false);
+    };
 
     return (
         <HeaderStyle>
@@ -51,16 +58,23 @@ const Header = () => {
                                 }
                             >
                                 <MakeButtonPanel>
-                                    {makePannelData.map((item, i) => (
-                                        <div key={i}>
-                                            {item.icon}
-                                            <Link to={item.href} aria-label={item.title}>
-                                                {item.title}
-                                            </Link>
-                                        </div>
-                                    ))}
+                                    <div onClick={handleMakeVideo}>
+                                        <VideoUpload />
+                                        <Link to={""} aria-label={"동영상 만들기"}>
+                                            {"동영상 만들기"}
+                                        </Link>
+                                    </div>
                                 </MakeButtonPanel>
                             </Dropdown>
+                            <Modal
+                                isOpen={isMakeVideoOpen}
+                                setIsOpen={() => setIsMakeVideoOpen(false)}
+                            >
+                                <ModalContentStyle>
+                                    <div className="header"></div>
+                                    <div className="body"></div>
+                                </ModalContentStyle>
+                            </Modal>
                         </MakeButtonStyle>
                         <div className="notification-button">
                             <div>
@@ -258,6 +272,22 @@ const MakeButtonPanel = styled.div`
             font-size: 1.4rem;
             line-height: 2rem;
         }
+    }
+`;
+
+const ModalContentStyle = styled.div`
+    display: flex;
+    flex-direction: column;
+
+    .header {
+        height: 28px;
+        padding: 16px 24px;
+    }
+
+    .body {
+        min-height: 370px;
+        padding: 16px 50px 0;
+        margin-bottom: 24px;
     }
 `;
 
