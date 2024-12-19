@@ -1,43 +1,17 @@
 import { styled } from "styled-components";
 
-export const MainPageContainer = styled.div`
-    padding: 24px 40px;
-    margin-top: 56px;
-    margin-left: 72px;
-    min-height: 100vh;
-    background-color: ${(props) => props.theme.colors?.background || "#ffffff"};
-    color: ${(props) => props.theme.colors?.text || "#000000"};
-`;
-
-export const VideoGrid = styled.div`
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 40px 16px;
-    padding: 24px 0;
-    max-width: 2400px;
-    margin: 0 auto;
-
-    @media (min-width: 1024px) {
-        grid-template-columns: repeat(4, 1fr);
-    }
-`;
-
 export const Container = styled.div<{ size: string }>`
-    width: ${({ size }) => {
-        switch (size) {
-            case "small":
-                return "240px";
-            case "large":
-                return "360px";
-            default:
-                return "320px";
-        }
-    }};
+    width: 100%;
     display: flex;
     flex-direction: column;
-    margin: 16px;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    padding: 1px;
+    border-radius: 12px;
+    transition: background-color 0.1s ease;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
 `;
 
 export const ThumbnailWrapper = styled.div`
@@ -46,8 +20,8 @@ export const ThumbnailWrapper = styled.div`
     aspect-ratio: 16/9;
     border-radius: 12px;
     overflow: hidden;
-    margin-bottom: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 4px;
+    background-color: #f8f8f8;
 `;
 
 export const Thumbnail = styled.img`
@@ -58,12 +32,12 @@ export const Thumbnail = styled.img`
 
 export const DurationOverlay = styled.div`
     position: absolute;
-    bottom: 8px;
-    right: 8px;
+    bottom: 4px;
+    right: 4px;
     background-color: rgba(0, 0, 0, 0.8);
     color: white;
-    padding: 3px 4px;
-    border-radius: 4px;
+    padding: 2px 4px;
+    border-radius: 2px;
     font-size: 12px;
     font-weight: 500;
 `;
@@ -78,7 +52,7 @@ export const PreviewWrapper = styled.div`
 `;
 
 export const Info = styled.div`
-    padding: 12px;
+    padding: 0 1px 2px 1px;
 `;
 
 export const Title = styled.h3`
@@ -86,7 +60,7 @@ export const Title = styled.h3`
     font-weight: 500;
     line-height: 1.4;
     color: #0f0f0f;
-    margin: 8px 0;
+    margin: 0 0 1px 0;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -96,18 +70,67 @@ export const Title = styled.h3`
 
 export const Channel = styled.span`
     font-size: 14px;
-    color: ${(props) => props.theme.colors?.secondaryText || "#606060"};
+    color: #606060;
+    display: block;
+    margin-bottom: 1px;
 `;
 
 export const Stats = styled.div`
     display: flex;
-    color: ${(props) => props.theme.colors?.secondaryText || "#606060"};
-    font-size: 14px;
+    align-items: center;
+    gap: 2px;
     color: #606060;
+    font-size: 14px;
 `;
 
 export const Views = styled.span`
-    margin-right: 4px;
+    margin-right: 2px;
 `;
 
 export const Date = styled.span``;
+
+export const ControlsContainer = styled.div`
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+`;
+
+export const ControlButton = styled.button`
+    padding: 8px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    svg {
+        width: 20px;
+        height: 20px;
+    }
+`;
+
+export const PreviewOverlay = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: opacity 0.2s;
+
+    ${ThumbnailWrapper}:hover & {
+        opacity: 1;
+    }
+`;

@@ -21,10 +21,10 @@ const token = {
     token: faker.internet.jwt({ payload: { iat: new Date().toISOString() } }),
 };
 
-const subscriptions = Array.from({ length: 10 }, () => ({
-    channelName: faker.person.fullName(),
-    profileImageURL: faker.image.avatar(),
-}));
+// const subscriptions = Array.from({ length: 10 }, () => ({
+//     channelName: faker.person.fullName(),
+//     profileImageURL: faker.image.avatar(),
+// }));
 
 export const authHandlers = [
     http.post(baseURL("/user/login"), () => {
