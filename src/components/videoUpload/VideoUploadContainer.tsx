@@ -2,7 +2,7 @@ import Modal from "@components/common/Modal";
 import { ReactComponent as Report } from "@assets/header/report.svg";
 import { ReactComponent as Close } from "@assets/header/close.svg";
 import { styled } from "styled-components";
-import { useVideoStore } from "@stores/videoStore";
+import { useVideoFile } from "@hooks/useVideoFile";
 
 interface Props {
     title: string;
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const VideoUploadContainer: React.FC<Props> = ({ title, children, isOpen, setIsOpen }) => {
-    const setVideoFile = useVideoStore((state) => state.setVideoFile);
+    const { setVideoFile } = useVideoFile();
     return (
         <Modal
             isOpen={isOpen}

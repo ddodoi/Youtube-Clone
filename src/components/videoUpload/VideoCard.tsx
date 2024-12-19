@@ -1,8 +1,8 @@
-import { useVideoStore } from "@stores/videoStore";
+import { useVideoFile } from "@hooks/useVideoFile";
 import { styled } from "styled-components";
 
 const VideoCard = () => {
-    const { videoURL, videoFile } = useVideoStore();
+    const { videoURL, videoFile } = useVideoFile();
 
     if (!videoFile) {
         return <div>업로드 중...</div>;
@@ -10,7 +10,7 @@ const VideoCard = () => {
 
     return (
         <VideoCardStyle>
-            <video width={304} height={171} controls>
+            <video controls>
                 <source src={videoURL} type={videoFile.type} />
             </video>
             <div>
@@ -21,6 +21,11 @@ const VideoCard = () => {
     );
 };
 
-const VideoCardStyle = styled.div``;
+const VideoCardStyle = styled.div`
+    padding-left: 24px;
+    video {
+        width: 352px;
+    }
+`;
 
 export default VideoCard;

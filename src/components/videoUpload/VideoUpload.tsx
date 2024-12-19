@@ -2,9 +2,8 @@ import { styled } from "styled-components";
 import { MdFileUpload } from "react-icons/md";
 import FileButton from "@components/common/FileButton";
 import VideoUploadContainer from "./VideoUploadContainer";
-import { ChangeEvent } from "react";
 import VideoUploaded from "./VideoUploaded";
-import { useVideoStore } from "@stores/videoStore";
+import { useVideoFile } from "@hooks/useVideoFile";
 
 interface Props {
     isOpen: boolean;
@@ -12,23 +11,14 @@ interface Props {
 }
 
 const VideoUpload: React.FC<Props> = ({ isOpen, setIsOpen }) => {
-    const { videoFile, setVideoFile } = useVideoStore();
-
-    const handleVideoUpload = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files.length > 0) {
-            const file = e.target.files[0];
-            if (file.type.startsWith("video/")) {
-                setVideoFile(file);
-            } else {
-                window.alert("비디오 형식 파일이 아닙니다.");
-            }
-        }
-    };
+    const { videoFile, handleVideoUpload } = useVideoFile();
 
     return (
         <VideoUploadContainer title="동영상 업로드" isOpen={isOpen} setIsOpen={setIsOpen}>
             {videoFile ? (
-                <VideoUploaded />
+                <form action="">
+                    <VideoUploaded />
+                </form>
             ) : (
                 <VideoUploadStyle>
                     <div className="content">
@@ -39,7 +29,9 @@ const VideoUpload: React.FC<Props> = ({ isOpen, setIsOpen }) => {
                         <div className="description-2">
                             동영상을 게시하기 전에는 비공개로 설정됩니다.
                         </div>
-                        <FileButton accept="video/*" onChange={handleVideoUpload} />
+                        <FileButton accept="video/*" onChange={handleVideoUpload}>
+                            <StyledLabel>파일 선택</StyledLabel>
+                        </FileButton>
                         <div className="description-3">
                             YouTube에 동영상을 제출하면 YouTube{" "}
                             <a href="https://www.youtube.com/t/terms">서비스 약관</a> 및
@@ -118,6 +110,23 @@ const VideoUploadStyle = styled.div`
             }
         }
     }
+`;
+
+const StyledLabel = styled.label`
+    display: block;
+    align-content: center;
+    min-width: 36px;
+    height: 36px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    border: none;
+    outline: none;
+    background: #0d0d0d;
+    color: rgb(255, 255, 255);
+    border-radius: 18px;
+    padding: 0 16px;
+    cursor: pointer;
 `;
 
 export default VideoUpload;
