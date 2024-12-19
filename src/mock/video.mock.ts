@@ -3,6 +3,12 @@ import { http, HttpResponse, delay } from "msw";
 import { Video, VideoListResponse } from "../types/video.type";
 import { baseURL } from "../utils/baseURL";
 
+const generateThumbnail = () => {
+    // 더 안정적인 Picsum API 사용
+    const randomId = faker.number.int({ min: 1, max: 1000 });
+    return `https://picsum.photos/id/${randomId}/1280/720`;  // 16:9 비율의 고정된 크기
+};
+
 const generateVideoTitle = (): string => {
     const types = ["MV", "Official Video", "Shorts", "Vlog", "리뷰", "튜토리얼", "하이라이트"];
     const subjects = [
@@ -38,7 +44,7 @@ const generateMockVideo = (): Video => {
         id: faker.string.uuid(),
         title: generateVideoTitle(),
         channel: generateChannelName(),
-        thumbnailUrl: `/api/placeholder/${faker.number.int({ min: 300, max: 400 })}/${faker.number.int({ min: 200, max: 300 })}`,
+        thumbnailUrl: generateThumbnail(),
         previewUrl: faker.helpers.maybe(
             () => `https://storage.googleapis.com/gtv-videos-bucket/sample/${faker.helpers.arrayElement([
                 'BigBuckBunny',
