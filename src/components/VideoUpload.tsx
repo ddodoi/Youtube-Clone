@@ -63,8 +63,7 @@ const VideoUploadStyle = styled.div`
     height: 100%;
 
     .header {
-        height: 28px;
-        box-sizing: content-box;
+        height: 52px;
         padding: 16px 24px;
         display: flex;
         align-items: center;
