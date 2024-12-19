@@ -11,7 +11,6 @@ const MainPage = () => {
     const { isDesktopSidebarOpen } = useLayoutStore();
     const observerRef = useRef<IntersectionObserver | null>(null);
 
-    // 무한 스크롤 콜백
     const lastVideoRef = useCallback(
         (node: HTMLDivElement | null) => {
             if (isLoading || isFetchingNextPage) return;
@@ -33,7 +32,6 @@ const MainPage = () => {
         [isLoading, isFetchingNextPage, hasNextPage, fetchNextPage]
     );
 
-    // 모든 비디오 데이터 결합
     const allVideos = data?.pages.reduce<Video[]>((acc, page) => {
         if (page.success && page.data) {
             return [...acc, ...page.data];
