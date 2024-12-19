@@ -1,8 +1,10 @@
 import React, { useState, useCallback } from "react";
+import { Link } from "react-router-dom";
 import { VideoCardProps } from "./types";
 import { formatVideoCount, formatDate } from "../../../utils/format";
 import VideoCardSkeleton from "./VideoCardSkeleton";
 import VideoPreviewPlayer from "./VideoPreviewPlayer";
+import VideoDropdown from "../VideoDropdown";
 import {
     Container,
     ThumbnailWrapper,
@@ -12,6 +14,7 @@ import {
     Stats,
     Views,
     Date,
+    TitleRow,
 } from "./styles";
 
 const VideoCard: React.FC<VideoCardProps> = ({ video, onClick, size = "medium", isLoading }) => {
@@ -40,6 +43,10 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onClick, size = "medium", 
         setMetadata(prev => ({ ...prev, showCaptions: !prev.showCaptions }));
     }, []);
 
+    const handleChannelClick = (e: React.MouseEvent) => {
+        e.stopPropagation(); // 비디오 카드 클릭 이벤트가 발생하지 않도록 방지
+    };
+
     if (isLoading) {
         return <VideoCardSkeleton size={size} />;
     }
@@ -60,8 +67,17 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onClick, size = "medium", 
             </ThumbnailWrapper>
 
             <Info>
-                <Title>{video.title}</Title>
-                <Channel>{video.channel}</Channel>
+                <TitleRow>
+                    <Title>{video.title}</Title>
+                    <VideoDropdown videoId={video.id} />
+                </TitleRow>
+                <Link 
+                    to={`/channel/${video.channelId}`} 
+                    onClick={handleChannelClick}
+                    style={{ textDecoration: 'none' }}
+                >
+                    <Channel>{video.channel}</Channel>
+                </Link>
                 <Stats>
                     <Views>{formatVideoCount(video.viewCount)} • </Views>
                     <Date>{formatDate(video.createdAt)}</Date>

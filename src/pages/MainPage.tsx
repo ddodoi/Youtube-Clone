@@ -4,26 +4,21 @@ import VideoCard from "../components/mainPage/videoCard/VideoCard";
 import CategoryList from "@components/mainPage/category/CategoryList";
 import styled from "styled-components";
 import { useVideos } from "@hooks/useVideos";
-import { useLayoutStore } from "@stores/layoutStore";
 
 const MainPage = () => {
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useVideos();
-    const { isDesktopSidebarOpen } = useLayoutStore();
+    const observerRef = useRef<IntersectionObserver | null>(null);
 
-    const observerRef = useRef<IntersectionObserver>();
-    const loadingRef = useRef<HTMLDivElement>(null);
-
-    // 무한 스크롤을 위한 intersection observer 설정
-    const lastElementRef = useCallback(
+    const lastVideoRef = useCallback(
         (node: HTMLDivElement | null) => {
-            if (isLoading || isFetchingNextPage) return;
+            if (isLoading) return;
 
             if (observerRef.current) {
                 observerRef.current.disconnect();
             }
 
             observerRef.current = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting && hasNextPage) {
+                if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
                     fetchNextPage();
                 }
             });
@@ -32,46 +27,56 @@ const MainPage = () => {
                 observerRef.current.observe(node);
             }
         },
-        [isLoading, isFetchingNextPage, hasNextPage, fetchNextPage],
+        [isLoading, hasNextPage, isFetchingNextPage, fetchNextPage]
     );
 
+    if (isLoading) {
+        return <LoadingText>동영상을 불러오는 중...</LoadingText>;
+    }
+
+    const allVideos = data?.pages.reduce<Video[]>((acc, page) => {
+        if (page.success && page.data) {
+            return [...acc, ...page.data];
+        }
+        return acc;
+    }, []) || [];
+
     return (
-        <MainPageContainer $isSidebarOpen={isDesktopSidebarOpen}>
+        <MainPageContainer>
             <CategoryList />
             <ScrollContainer>
                 <VideoGrid>
-                    {data?.pages.map((page) => page.data?.map((video: Video) => (
-                        <VideoCard key={video.id} video={video} size="medium" />
-                    )),
-                    )}
+                    {allVideos.map((video, index) => (
+                        <div
+                            key={video.id}
+                            ref={index === allVideos.length - 1 ? lastVideoRef : null}
+                        >
+                            <VideoCard video={video} size="medium" />
+                        </div>
+                    ))}
                 </VideoGrid>
-                {/* 무한 스크롤 로딩 트리거 */}
-                <LoadingTrigger ref={loadingRef}>
-                    <div ref={lastElementRef} />
-                    {isFetchingNextPage && <LoadingText>동영상을 불러오는 중...</LoadingText>}
-                </LoadingTrigger>
+                {isFetchingNextPage && <LoadingText>동영상을 불러오는 중...</LoadingText>}
             </ScrollContainer>
         </MainPageContainer>
     );
 };
 
-const MainPageContainer = styled.div<{ $isSidebarOpen: boolean }>`
+const MainPageContainer = styled.div`
     position: fixed;
-    top: 56px;
-    left: ${({ $isSidebarOpen }) => ($isSidebarOpen ? '240px' : '72px')};
+    top: 50px;
+    left: 72px;
     right: 0;
     bottom: 0;
     z-index: 1;
-    transition: left 0.2s;
 `;
 
 const ScrollContainer = styled.div`
     width: 100%;
     height: 100%;
     overflow-y: auto;
+    padding: 24px;
     box-sizing: border-box;
 
-    /* 스크롤바 스타일링 */
     &::-webkit-scrollbar {
         width: 8px;
     }
@@ -88,50 +93,36 @@ const ScrollContainer = styled.div`
 
 const VideoGrid = styled.div`
     display: grid;
-    gap: 16px;  
-    width: 100%; 
-    max-width: 2200px;  
-    margin: 0 auto;
-    padding: 16px 24px;
-    
-    @media (min-width: 2200px) {
-        grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    width: 100%;
+
+    @media (min-width: 1850px) {
+        grid-template-columns: repeat(5, 1fr);
     }
-    
-    @media (min-width: 2000px) and (max-width: 2199px) {
-        grid-template-columns: repeat(6, minmax(0, 1fr));
+
+    @media (min-width: 1500px) and (max-width: 1849px) {
+        grid-template-columns: repeat(4, 1fr);
     }
-    
-    @media (min-width: 1600px) and (max-width: 1999px) {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
+
+    @media (min-width: 1000px) and (max-width: 1499px) {
+        grid-template-columns: repeat(3, 1fr);
     }
-    
-    @media (min-width: 1200px) and (max-width: 1599px) {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    @media (min-width: 600px) and (max-width: 999px) {
+        grid-template-columns: repeat(2, 1fr);
     }
-    
-    @media (min-width: 800px) and (max-width: 1199px) {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-    
-    @media (min-width: 500px) and (max-width: 799px) {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    
-    @media (max-width: 499px) {
+
+    @media (max-width: 599px) {
         grid-template-columns: 1fr;
     }
-`;
-
-const LoadingTrigger = styled.div`
-    display: flex;
-    justify-content: center;
-    padding: 20px;
 `;
 
 const LoadingText = styled.div`
     color: #606060;
     font-size: 14px;
+    text-align: center;
+    padding: 20px;
 `;
 
 export default MainPage;
