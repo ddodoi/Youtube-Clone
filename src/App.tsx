@@ -5,7 +5,7 @@ import { ThemeProvider } from "styled-components";
 import { useThemeStore } from "./stores/themeStore";
 import { GlobalStyle } from "./style/global";
 import Login from "./pages/Login";
-import MainPage from "./pages/MainPage";
+import MainPage from "@components/mainPage/MainPage";
 import SearchResult from "./pages/SearchResult";
 
 const router = createBrowserRouter([

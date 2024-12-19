@@ -10,6 +10,7 @@ import LoginButton from "./LoginButton";
 import Dropdown from "@components/common/Dropdown";
 import { ReactComponent as VideoUpload } from "@assets/header/videoUpload.svg";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const makePannelData = [
     {
@@ -22,6 +23,7 @@ const makePannelData = [
 const Header = () => {
     const { isLoggedIn } = useAuth();
     const { user } = useUser();
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     return (
         <HeaderStyle>
@@ -39,6 +41,8 @@ const Header = () => {
                     <>
                         <MakeButtonStyle>
                             <Dropdown
+                                isOpen={isDropdownOpen}
+                                setIsOpen={setIsDropdownOpen}
                                 toggleButton={
                                     <>
                                         <BsPlusLg size={24} />
