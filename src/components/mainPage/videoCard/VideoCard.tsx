@@ -1,32 +1,65 @@
-import React from "react";
-import { VideoCardProps } from "../../../types/videoCard.type";
+import React, { useState } from "react";
+import { VideoCardProps } from "../videoCard/types";
+import { formatVideoCount, formatDate } from "../../../utils/format";
+import { MdVolumeOff, MdVolumeUp, MdSubtitles } from "react-icons/md";
 import {
     Container,
-    Thumbnail,
     ThumbnailWrapper,
-    Duration,
+    Thumbnail,
+    DurationOverlay,
     Info,
     Title,
     Channel,
     Stats,
     Views,
     Date,
-} from "../../../style/videoCard.styles";
-import { formatVideoCount, formatDate } from "../../../utils/format";
+    ControlsContainer,
+    ControlButton,
+    PreviewOverlay,
+} from "../videoCard/styles";
 
 const VideoCard: React.FC<VideoCardProps> = ({ video, onClick, size = "medium" }) => {
-    const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-        if (onClick) {
-            onClick(event);
-        }
+    const [isMuted, setIsMuted] = useState(true);
+    const [showCaptions, setShowCaptions] = useState(false);
+
+    const toggleMute = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setIsMuted((prev) => !prev);
+    };
+
+    const toggleCaptions = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setShowCaptions((prev) => !prev);
     };
 
     return (
-        <Container onClick={handleClick} size={size}>
+        <Container size={size} onClick={onClick}>
             <ThumbnailWrapper>
-                <Thumbnail src={video.thumbnailUrl} alt={video.title} />
-                <Duration>{video.duration}</Duration>
+                <Thumbnail src={video.previewUrl || video.thumbnailUrl} alt={video.title} />
+
+                <PreviewOverlay>
+                    <ControlsContainer>
+                        <ControlButton
+                            onClick={toggleMute}
+                            aria-label={isMuted ? "음소거 해제" : "음소거"}
+                            title={isMuted ? "음소거 해제" : "음소거"}
+                        >
+                            {isMuted ? <MdVolumeOff /> : <MdVolumeUp />}
+                        </ControlButton>
+
+                        <ControlButton
+                            onClick={toggleCaptions}
+                            aria-label={showCaptions ? "자막 끄기" : "자막 켜기"}
+                            title={showCaptions ? "자막 끄기" : "자막 켜기"}
+                        >
+                            <MdSubtitles />
+                        </ControlButton>
+                    </ControlsContainer>
+
+                    {video.duration && <DurationOverlay>{video.duration}</DurationOverlay>}
+                </PreviewOverlay>
             </ThumbnailWrapper>
+
             <Info>
                 <Title>{video.title}</Title>
                 <Channel>{video.channel}</Channel>
