@@ -8,7 +8,6 @@ import { GlobalStyle } from "./style/global";
 import Login from "./pages/Login";
 import MainPage from "./components/mainPage/MainPage";
 
-// QueryClient 인스턴스를 컴포넌트 외부에서 생성
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
@@ -39,7 +38,6 @@ function App() {
     const { getTheme } = useThemeStore();
     
     return (
-        // QueryClientProvider를 최상위에 배치
         <QueryClientProvider client={queryClient}>
             <ThemeProvider theme={getTheme()}>
                 <GlobalStyle />
