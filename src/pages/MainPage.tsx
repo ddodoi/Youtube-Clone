@@ -1,12 +1,14 @@
-// import { useInfiniteQuery } from "@tanstack/react-query";
 import { useRef, useCallback } from "react";
 import { Video } from "@@types/video.type";
 import VideoCard from "../components/mainPage/videoCard/VideoCard";
+import CategoryList from "@components/mainPage/category/CategoryList";
 import styled from "styled-components";
 import { useVideos } from "@hooks/useVideos";
+import { useLayoutStore } from "@stores/layoutStore";
 
 const MainPage = () => {
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useVideos();
+    const { isDesktopSidebarOpen } = useLayoutStore();
 
     const observerRef = useRef<IntersectionObserver>();
     const loadingRef = useRef<HTMLDivElement>(null);
@@ -34,7 +36,8 @@ const MainPage = () => {
     );
 
     return (
-        <MainPageContainer>
+        <MainPageContainer $isSidebarOpen={isDesktopSidebarOpen}>
+            <CategoryList />
             <ScrollContainer>
                 <VideoGrid>
                     {data?.pages.map((page) => page.data?.map((video: Video) => (
@@ -52,20 +55,20 @@ const MainPage = () => {
     );
 };
 
-const MainPageContainer = styled.div`
+const MainPageContainer = styled.div<{ $isSidebarOpen: boolean }>`
     position: fixed;
-    top: 56px; /* 헤더 높이 */
-    left: 72px; /* 사이드바 너비 */
+    top: 56px;
+    left: ${({ $isSidebarOpen }) => ($isSidebarOpen ? '240px' : '72px')};
     right: 0;
     bottom: 0;
     z-index: 1;
+    transition: left 0.2s;
 `;
 
 const ScrollContainer = styled.div`
     width: 100%;
     height: 100%;
     overflow-y: auto;
-    padding: 24px;
     box-sizing: border-box;
 
     /* 스크롤바 스타일링 */
@@ -85,27 +88,37 @@ const ScrollContainer = styled.div`
 
 const VideoGrid = styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 20px;
-    width: 100%;
-
-    @media (min-width: 1850px) {
-        grid-template-columns: repeat(5, 1fr);
+    gap: 16px;  
+    width: 100%; 
+    max-width: 2200px;  
+    margin: 0 auto;
+    padding: 16px 24px;
+    
+    @media (min-width: 2200px) {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
     }
-
-    @media (min-width: 1500px) and (max-width: 1849px) {
-        grid-template-columns: repeat(4, 1fr);
+    
+    @media (min-width: 2000px) and (max-width: 2199px) {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
     }
-
-    @media (min-width: 1000px) and (max-width: 1499px) {
-        grid-template-columns: repeat(3, 1fr);
+    
+    @media (min-width: 1600px) and (max-width: 1999px) {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
     }
-
-    @media (min-width: 600px) and (max-width: 999px) {
-        grid-template-columns: repeat(2, 1fr);
+    
+    @media (min-width: 1200px) and (max-width: 1599px) {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
     }
-
-    @media (max-width: 599px) {
+    
+    @media (min-width: 800px) and (max-width: 1199px) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    
+    @media (min-width: 500px) and (max-width: 799px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    
+    @media (max-width: 499px) {
         grid-template-columns: 1fr;
     }
 `;
