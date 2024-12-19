@@ -1,7 +1,7 @@
-import { useAuthStore } from "../stores/authStore";
-import { createLogin } from "../apis/user.api";
-import { LoginResponse } from "../mock/user.mock";
+import { useAuthStore } from "@stores/authStore";
+import { createLogin } from "@apis/user.api";
 import { useNavigate } from "react-router-dom";
+import { LoginResponse } from "@@types/user.type";
 
 export const useAuth = () => {
     const { isLoggedIn, storeLogin, storeLogout } = useAuthStore();

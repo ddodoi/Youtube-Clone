@@ -1,6 +1,6 @@
 // import { useInfiniteQuery } from "@tanstack/react-query";
 import { useRef, useCallback } from "react";
-import { Video } from "../../types/video";
+import { Video } from "../../types/video.type";
 import VideoCard from "../mainPage/videoCard/VideoCard";
 import styled from "styled-components";
 import { useVideos } from "../../hooks/useVideos";

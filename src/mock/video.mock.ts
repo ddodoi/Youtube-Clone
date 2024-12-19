@@ -1,6 +1,6 @@
 import { fakerKO as faker } from "@faker-js/faker";
 import { http, HttpResponse, delay } from "msw";
-import { Video, VideoListResponse } from "../types/video";
+import { Video, VideoListResponse } from "../types/video.type";
 import { baseURL } from "../utils/baseURL";
 
 // 실제 YouTube 같은 제목 생성

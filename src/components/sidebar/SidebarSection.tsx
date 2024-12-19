@@ -10,7 +10,7 @@ const SidebarSection: React.FC<Props> = ({ children }) => {
 };
 
 const SidebarSectionStyle = styled.div`
-    margin: 12px;
+    padding: 12px;
 
     &:not(:first-of-type) {
         padding-top: 12px;

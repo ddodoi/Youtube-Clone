@@ -29,31 +29,42 @@ import { ReactComponent as Config } from "@assets/sidebar/config.svg";
 import { ReactComponent as Report } from "@assets/sidebar/report.svg";
 import { ReactComponent as Service } from "@assets/sidebar/service.svg";
 import { ReactComponent as Suggest } from "@assets/sidebar/suggest.svg";
+import { ReactComponent as ArrowDown } from "@assets/sidebar/arrowDown.svg";
+import { ReactComponent as SubscriptionList } from "@assets/sidebar/subscriptionList.svg";
+import { ReactComponent as UserCircle } from "@assets/userCircle.svg";
 import SidebarSection from "./SidebarSection";
 import SidebarMenuItem from "./SidebarMenuItem";
 import SidebarSectionTitle from "./SidebarSectionTitle";
 import { Link } from "react-router-dom";
+import { useSubscription } from "@hooks/useSubscription";
+import { useState } from "react";
+import SidebarFooter from "./SidebarFooter";
+import LoginButton from "@components/header/LoginButton";
 
 const menus = [
     {
         title: "홈",
         href: "/",
         icon: <Home />,
+        defaultShow: true,
     },
     {
         title: "Shorts",
         href: "/shorts/:shorts_id",
         icon: <Shorts />,
+        defaultShow: true,
     },
     {
         title: "구독",
         href: "/feed/subscriptions",
         icon: <Subscription />,
+        defaultShow: true,
     },
     {
         title: "YouTube Music",
         href: "https://music.youtube.com/",
         icon: <YoutubeMusic />,
+        defaultShow: false,
     },
 ];
 
@@ -62,31 +73,37 @@ const myPage = [
         title: "시청 기록",
         href: "/feed/history",
         icon: <History />,
+        defaultShow: true,
     },
     {
         title: "재생목록",
         href: "/feed/playlists",
         icon: <Playlist />,
+        defaultShow: false,
     },
     {
         title: "내 동영상",
         href: "/channel/videos/:channel_id", // 임의 경로
         icon: <Video />,
+        defaultShow: false,
     },
     {
         title: "나중에 볼 동영상",
         href: "/playlists?list=WL",
         icon: <LaterVideo />,
+        defaultShow: false,
     },
     {
         title: "좋아요 표시한 동영상",
         href: "/playlists?list=LL",
         icon: <Like />,
+        defaultShow: false,
     },
     {
         title: "오프라인 저장 동영상",
         href: "/feed/downloads",
         icon: <Download />,
+        defaultShow: false,
     },
 ];
 
@@ -180,17 +197,24 @@ const etc = [
         icon: <Suggest />,
     },
 ];
-const SidebarOpen = () => {
-    const { isSidebarOpen } = useLayoutStore();
+
+interface Props extends React.HTMLAttributes<HTMLDivElement> {}
+
+const SidebarOpen: React.FC<Props> = ({ ...props }) => {
     const { isLoggedIn } = useAuth();
+    const { subscriptions, moreSubscriptions } = useSubscription();
+    const [showMore, setShowMore] = useState(false);
+    const filteredMenus = isLoggedIn ? menus : menus.filter((item) => item.defaultShow);
+    const filteredMyPage = isLoggedIn ? myPage : myPage.filter((item) => item.defaultShow);
+
     return (
-        <SidebarOpenStyle $isSidebarOpen={isSidebarOpen}>
+        <SidebarOpenStyle {...props}>
             <header>
                 <HeaderStart isLoggedIn={isLoggedIn} />
             </header>
             <div className="content">
                 <SidebarSection>
-                    {menus.map((item, i) => (
+                    {filteredMenus.map((item, i) => (
                         <SidebarMenuItem aria-label={item.title} key={i}>
                             <Link to={item.href}>
                                 {item.icon}
@@ -200,24 +224,77 @@ const SidebarOpen = () => {
                     ))}
                 </SidebarSection>
                 <SidebarSection>
-                    <div className="my-page">
-                        <Link to="/feed/you">
-                            <div className="label">내 페이지</div>
-                            <GreaterThan />
-                        </Link>
+                    {isLoggedIn ? (
+                        <div className="my-page">
+                            <Link to="/feed/you">
+                                <div className="label">내 페이지</div>
+                                <GreaterThan />
+                            </Link>
+                        </div>
+                    ) : (
+                        <SidebarMenuItem>
+                            <Link to="/feed/you">
+                                <UserCircle />
+                                <span>내 페이지</span>
+                            </Link>
+                        </SidebarMenuItem>
+                    )}
+                    {filteredMyPage.map((item, i) => (
+                        <SidebarMenuItem aria-label={item.title} key={i}>
+                            <Link to={item.href}>
+                                {item.icon}
+                                <span>{item.title}</span>
+                            </Link>
+                        </SidebarMenuItem>
+                    ))}
+                </SidebarSection>
+
+                {isLoggedIn ? (
+                    <SidebarSection>
+                        <SidebarSectionTitle>구독</SidebarSectionTitle>
+                        {subscriptions.map((item, i) => (
+                            <SidebarMenuItem aria-label={item.channelName} key={i}>
+                                <Link to={`/${item.channelEmail}`}>
+                                    <img src={item.profileImageURL} alt={item.channelName} />
+                                    <span>{item.channelName}</span>
+                                </Link>
+                            </SidebarMenuItem>
+                        ))}
+                        {showMore &&
+                            moreSubscriptions.map((item, i) => (
+                                <SidebarMenuItem aria-label={item.channelName} key={i}>
+                                    <Link to={`/${item.channelEmail}`}>
+                                        <img src={item.profileImageURL} alt={item.channelName} />
+                                        <span>{item.channelName}</span>
+                                    </Link>
+                                </SidebarMenuItem>
+                            ))}
+                        {showMore && (
+                            <SidebarMenuItem>
+                                <Link to="/feed/channels">
+                                    <SubscriptionList />
+                                    <span>모든 구독</span>
+                                </Link>
+                            </SidebarMenuItem>
+                        )}
+                        <SidebarMenuItem onClick={() => setShowMore(!showMore)}>
+                            <ArrowDown
+                                style={{
+                                    transform: showMore ? "rotate(180deg)" : "rotate(0deg)",
+                                }}
+                            />
+                            <span>더보기</span>
+                        </SidebarMenuItem>
+                    </SidebarSection>
+                ) : (
+                    <div className="login-section">
+                        <p>
+                            로그인하면 동영상에 좋아요를 표시하고 댓글을 달거나 구독할 수 있습니다.
+                        </p>
+                        <LoginButton />
                     </div>
-                    {myPage.map((item, i) => (
-                        <SidebarMenuItem aria-label={item.title} key={i}>
-                            <Link to={item.href}>
-                                {item.icon}
-                                <span>{item.title}</span>
-                            </Link>
-                        </SidebarMenuItem>
-                    ))}
-                </SidebarSection>
-                <SidebarSection>
-                    <SidebarSectionTitle>구독</SidebarSectionTitle>
-                </SidebarSection>
+                )}
+
                 <SidebarSection>
                     <SidebarSectionTitle>탐색</SidebarSectionTitle>
                     {explore.map((item, i) => (
@@ -250,16 +327,14 @@ const SidebarOpen = () => {
                         </SidebarMenuItem>
                     ))}
                 </SidebarSection>
+                <SidebarFooter />
             </div>
         </SidebarOpenStyle>
     );
 };
 
-interface SidebarStyleProps {
-    $isSidebarOpen: boolean;
-}
-
-const SidebarOpenStyle = styled.div<SidebarStyleProps>`
+const SidebarOpenStyle = styled.div`
+    /* --scrollbar-width: 11px; */
     position: fixed;
     top: 0;
     left: 0;
@@ -267,24 +342,32 @@ const SidebarOpenStyle = styled.div<SidebarStyleProps>`
     flex-direction: column;
     width: 240px;
     height: 100vh;
-    transition: transform 0.2s ease-in-out;
-    transform: translateX(${({ $isSidebarOpen }) => ($isSidebarOpen ? "0" : "-240px")});
     background-color: rgb(255, 255, 255);
-    z-index: 10000;
+    z-index: 4000;
+
+    /* &:hover {
+        margin-right: calc(-1 * var(--scrollbar-width));
+    } */
+
+    overflow-y: hidden;
+    overflow-x: hidden;
+    &:hover {
+        scrollbar-width: thin;
+        overflow-y: auto;
+        scrollbar-color: #909090 transparent;
+    }
+
+    &:hover .content {
+        margin-right: 0;
+    }
+
     header {
         padding-left: 16px;
     }
 
     .content {
         flex: 1;
-        overflow-y: hidden;
-
-        &:hover {
-            scrollbar-width: thin;
-            overflow-y: auto;
-            display: block;
-            scrollbar-color: #909090 transparent;
-        }
+        margin-right: 11px;
 
         .my-page {
             border-radius: 10px;
@@ -306,6 +389,23 @@ const SidebarOpenStyle = styled.div<SidebarStyleProps>`
                 .label {
                     padding-right: 8px;
                 }
+            }
+        }
+
+        .login-section {
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 16px 21px 16px 32px;
+
+            p {
+                margin: 0;
+                font-size: 1.4rem;
+                line-height: 2rem;
+                color: #0f0f0f;
+            }
+
+            button {
+                margin-top: 12px;
+                overflow: visible;
             }
         }
     }

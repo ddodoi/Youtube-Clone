@@ -1,5 +1,5 @@
 import { httpClient } from "./http.api";
-import { VideoListResponse } from "../types/video";
+import { VideoListResponse } from "@@types/video.type";
 
 interface FetchVideosParams {
     page?: number;

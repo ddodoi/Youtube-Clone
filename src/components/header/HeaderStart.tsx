@@ -2,18 +2,29 @@ import { styled } from "styled-components";
 import { ReactComponent as Premium } from "@assets/premium.svg";
 import { ReactComponent as Bars } from "@assets/bars.svg";
 import { ReactComponent as Youtube } from "@assets/youtube.svg";
-import { useLayoutStore } from "@stores/layoutStore";
 import { Link } from "react-router-dom";
+import { useThemeStore } from "@stores/themeStore";
+import { useLayoutStore } from "@stores/layoutStore";
 
 interface Props {
     isLoggedIn: boolean;
 }
 
 const HeaderStart: React.FC<Props> = ({ isLoggedIn }) => {
-    const { toggleSidebar } = useLayoutStore();
+    const { getTheme } = useThemeStore();
+    const { toggleDesktopSidebar, toggleSidebar } = useLayoutStore();
+
+    const handleToggleSidebar = () => {
+        const theme = getTheme();
+        if (window.matchMedia(theme.mediaQuery.sidebar.desktop).matches) {
+            toggleDesktopSidebar();
+        } else {
+            toggleSidebar();
+        }
+    };
     return (
         <HeaderStartStyle>
-            <button className="guide-button yt-icon-button" onClick={() => toggleSidebar()}>
+            <button className="guide-button yt-icon-button" onClick={() => handleToggleSidebar()}>
                 <Bars width={24} height={24} />
             </button>
             <div className="logo">
