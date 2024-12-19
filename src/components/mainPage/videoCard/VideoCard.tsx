@@ -1,63 +1,62 @@
-import React, { useState } from "react";
-import { VideoCardProps } from "../videoCard/types";
+import React, { useState, useCallback } from "react";
+import { VideoCardProps } from "./types";
 import { formatVideoCount, formatDate } from "../../../utils/format";
-import { MdVolumeOff, MdVolumeUp, MdSubtitles } from "react-icons/md";
+import VideoCardSkeleton from "./VideoCardSkeleton";
+import VideoPreviewPlayer from "./VideoPreviewPlayer";
 import {
     Container,
     ThumbnailWrapper,
-    Thumbnail,
-    DurationOverlay,
     Info,
     Title,
     Channel,
     Stats,
     Views,
     Date,
-    ControlsContainer,
-    ControlButton,
-    PreviewOverlay,
-} from "../videoCard/styles";
+} from "./styles";
 
-const VideoCard: React.FC<VideoCardProps> = ({ video, onClick, size = "medium" }) => {
-    const [isMuted, setIsMuted] = useState(true);
-    const [showCaptions, setShowCaptions] = useState(false);
+const VideoCard: React.FC<VideoCardProps> = ({ video, onClick, size = "medium", isLoading }) => {
+    const [metadata, setMetadata] = useState({
+        isHovered: false,
+        isMuted: true,
+        showCaptions: false,
+        isLoading: false
+    });
 
-    const toggleMute = (e: React.MouseEvent) => {
+    const handleMouseEnter = useCallback(() => {
+        setMetadata(prev => ({ ...prev, isHovered: true, isLoading: true }));
+    }, []);
+
+    const handleMouseLeave = useCallback(() => {
+        setMetadata(prev => ({ ...prev, isHovered: false, isLoading: false }));
+    }, []);
+
+    const toggleMute = useCallback((e: React.MouseEvent) => {
         e.stopPropagation();
-        setIsMuted((prev) => !prev);
-    };
+        setMetadata(prev => ({ ...prev, isMuted: !prev.isMuted }));
+    }, []);
 
-    const toggleCaptions = (e: React.MouseEvent) => {
+    const toggleCaptions = useCallback((e: React.MouseEvent) => {
         e.stopPropagation();
-        setShowCaptions((prev) => !prev);
-    };
+        setMetadata(prev => ({ ...prev, showCaptions: !prev.showCaptions }));
+    }, []);
+
+    if (isLoading) {
+        return <VideoCardSkeleton size={size} />;
+    }
 
     return (
         <Container size={size} onClick={onClick}>
             <ThumbnailWrapper>
-                <Thumbnail src={video.previewUrl || video.thumbnailUrl} alt={video.title} />
-
-                <PreviewOverlay>
-                    <ControlsContainer>
-                        <ControlButton
-                            onClick={toggleMute}
-                            aria-label={isMuted ? "음소거 해제" : "음소거"}
-                            title={isMuted ? "음소거 해제" : "음소거"}
-                        >
-                            {isMuted ? <MdVolumeOff /> : <MdVolumeUp />}
-                        </ControlButton>
-
-                        <ControlButton
-                            onClick={toggleCaptions}
-                            aria-label={showCaptions ? "자막 끄기" : "자막 켜기"}
-                            title={showCaptions ? "자막 끄기" : "자막 켜기"}
-                        >
-                            <MdSubtitles />
-                        </ControlButton>
-                    </ControlsContainer>
-
-                    {video.duration && <DurationOverlay>{video.duration}</DurationOverlay>}
-                </PreviewOverlay>
+                <VideoPreviewPlayer 
+                    thumbnailUrl={video.thumbnailUrl}
+                    previewUrl={video.previewUrl}
+                    metadata={metadata}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                    onToggleMute={toggleMute}
+                    onToggleCaptions={toggleCaptions}
+                    duration={video.duration}
+                />
             </ThumbnailWrapper>
 
             <Info>
