@@ -1,9 +1,9 @@
 // import { useInfiniteQuery } from "@tanstack/react-query";
 import { useRef, useCallback } from "react";
-import { Video } from "../../types/video.type";
-import VideoCard from "../mainPage/videoCard/VideoCard";
+import { Video } from "@@types/video.type";
+import VideoCard from "../components/mainPage/videoCard/VideoCard";
 import styled from "styled-components";
-import { useVideos } from "../../hooks/useVideos";
+import { useVideos } from "@hooks/useVideos";
 
 const MainPage = () => {
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useVideos();
