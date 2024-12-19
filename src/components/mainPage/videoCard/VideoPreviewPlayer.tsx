@@ -114,7 +114,7 @@ const Container = styled.div`
     position: relative;
     width: 100%;
     height: 100%;
-    background: #000;
+    background: #f1f1f1;
     overflow: hidden;
     border-radius: 12px;
 `;
@@ -123,12 +123,14 @@ const Video = styled.video`
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
 `;
 
 const Thumbnail = styled.img`
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
 `;
 
 const LoadingOverlay = styled.div`
