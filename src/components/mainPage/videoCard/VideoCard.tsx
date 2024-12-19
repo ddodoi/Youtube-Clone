@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from "react";
 import { VideoCardProps } from "./types";
 import { formatVideoCount, formatDate } from "../../../utils/format";
-import VideoPreviewPlayer from "./VIdeoPreviewPlayer";
-import VideoCardSkeleton from "./VIdeoCardSkeleton";
+import VideoCardSkeleton from "./VideoCardSkeleton";
+import VideoPreviewPlayer from "./VideoPreviewPlayer";
 import {
     Container,
     ThumbnailWrapper,
