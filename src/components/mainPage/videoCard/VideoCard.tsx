@@ -44,7 +44,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onClick, size = "medium", 
     }, []);
 
     const handleChannelClick = (e: React.MouseEvent) => {
-        e.stopPropagation(); // 비디오 카드 클릭 이벤트가 발생하지 않도록 방지
+        e.stopPropagation(); 
     };
 
     if (isLoading) {
