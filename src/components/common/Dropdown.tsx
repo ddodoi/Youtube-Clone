@@ -1,12 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 interface Props {
     children: React.ReactNode;
     toggleButton: React.ReactNode;
+    setIsOpen: (v: boolean) => void;
+    isOpen: boolean;
 }
 
-const Dropdown: React.FC<Props> = ({ children, toggleButton }) => {
-    const [isOpen, setIsOpen] = useState(false);
+const Dropdown: React.FC<Props> = ({ children, toggleButton, isOpen, setIsOpen }) => {
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
