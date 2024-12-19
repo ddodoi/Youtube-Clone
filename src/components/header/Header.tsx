@@ -10,7 +10,7 @@ import LoginButton from "./LoginButton";
 import Dropdown from "@components/common/Dropdown";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import VideoUpload from "@components/VideoUpload";
+import VideoUpload from "@components/videoUpload/VideoUpload";
 import { ReactComponent as VideoUploadIcon } from "@assets/header/videoUpload.svg";
 
 const Header = () => {
