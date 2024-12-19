@@ -107,6 +107,8 @@ const myPage = [
     },
 ];
 
+// const subscription = [];
+
 const explore = [
     {
         title: "인기 급상승",
