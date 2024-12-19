@@ -66,7 +66,6 @@ export const Title = styled.h3`
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    flex: 1;
 `;
 
 export const Channel = styled.span`
@@ -153,9 +152,10 @@ export const TitleAndDropdown = styled.div`
   width: 100%;
   align-items: flex-start;
 `;
+
 export const TitleRow = styled.div`
     display: flex;
-    gap: 4px;
+    justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 4px;
 `;

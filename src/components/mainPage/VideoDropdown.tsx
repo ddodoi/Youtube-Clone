@@ -11,7 +11,7 @@ interface Props {
   videoId: string;
 }
 
-const VideoDropdown: React.FC<Props> = ({ videoId }) => {
+const VideoDropdown: React.FC<Props> = ({ }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
