@@ -33,8 +33,8 @@ const generateChannelName = (): string => {
 const generateMockVideo = (): Video => {
     const isShort = faker.datatype.boolean({ probability: 0.2 });
     const viewCount = faker.number.int({
-        min: isShort ? 100000 : 1000,
-        max: isShort ? 10000000 : 1000000,
+        min: isShort ? 100000 : 10000,
+        max: isShort ? 100000000 : 10000000,
     });
 
     return {

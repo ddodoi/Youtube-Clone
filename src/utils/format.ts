@@ -1,20 +1,24 @@
-// 조회수 포맷팅 함수
 export const formatVideoCount = (views: number): string => {
-    if (!views && views !== 0) return '0 views';
+    if (!views && views !== 0) return '0회';
     
-    if (views >= 1_000_000) {
-        const millions = (views / 1_000_000).toFixed(1);
-        return `${millions}M views`;
+    if (views >= 100000000) { // 1억 이상
+        const billions = Math.floor(views / 100000000);
+        return `${billions}억회`;
     }
     
-    if (views >= 1_000) {
-        const thousands = (views / 1_000).toFixed(1);
-        return `${thousands}K views`;
+    if (views >= 10000) { // 1만 이상
+        const tenThousands = Math.floor(views / 10000);
+        return `${tenThousands}만회`;
     }
     
-    return `${views} views`;
+    if (views >= 1000) { // 1천 이상
+        const thousands = Math.floor(views / 1000);
+        return `${thousands}천회`;
+    }
+    
+    return `${views}회`;
 };
-  
+
 // 날짜 포맷팅 함수
 export const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
@@ -80,14 +84,19 @@ export const formatDuration = (seconds: number): string => {
 export const formatNumber = (num: number): string => {
     if (!num && num !== 0) return '0';
     
-    if (num >= 1_000_000) {
-        const millions = (num / 1_000_000).toFixed(1);
-        return `${millions}M`;
+    if (num >= 100000000) { // 1억 이상
+        const billions = (num / 100000000).toFixed(1);
+        return `${billions}억`;
     }
     
-    if (num >= 1_000) {
-        const thousands = (num / 1_000).toFixed(1);
-        return `${thousands}K`;
+    if (num >= 10000) { // 1만 이상
+        const tenThousands = (num / 10000).toFixed(1);
+        return `${tenThousands}만`;
+    }
+    
+    if (num >= 1000) { // 1천 이상
+        const thousands = (num / 1000).toFixed(1);
+        return `${thousands}천`;
     }
     
     return num.toString();
