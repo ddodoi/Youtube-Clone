@@ -6,7 +6,8 @@ import { ThemeProvider } from "styled-components";
 import { useThemeStore } from "./stores/themeStore";
 import { GlobalStyle } from "./style/global";
 import Login from "./pages/Login";
-import MainPage from "./components/mainPage/MainPage";
+import MainPage from "@components/mainPage/MainPage";
+import SearchResult from "./pages/SearchResult";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -32,11 +33,20 @@ const router = createBrowserRouter([
         element: <Login />,
         errorElement: <Error />,
     },
+    {
+        path: "/results",
+        element: (
+            <Layout>
+                <SearchResult />
+            </Layout>
+        ),
+        errorElement: <Error />,
+    },
 ]);
 
 function App() {
     const { getTheme } = useThemeStore();
-    
+
     return (
         <QueryClientProvider client={queryClient}>
             <ThemeProvider theme={getTheme()}>
