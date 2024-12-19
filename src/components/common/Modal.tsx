@@ -2,13 +2,13 @@ import { MouseEvent, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { styled } from "styled-components";
 
-interface Props {
+interface Props extends React.CSSProperties {
     children: React.ReactNode;
     isOpen: boolean;
     setIsOpen: (v: boolean) => void;
 }
 
-const Modal: React.FC<Props> = ({ children, isOpen, setIsOpen }) => {
+const Modal: React.FC<Props> = ({ children, isOpen, setIsOpen, ...props }) => {
     const [isFadingout, setIsFadingout] = useState(false);
 
     const handleClose = (e?: MouseEvent) => {
@@ -47,9 +47,7 @@ const Modal: React.FC<Props> = ({ children, isOpen, setIsOpen }) => {
                 className={isFadingout ? "fade-out" : "fade-in"}
                 onAnimationEnd={handleAnimationEnd}
             >
-                <div className="modal-body">
-                    <div className="modal-content">{children}</div>
-                </div>
+                <ModalBodyStyle style={{ ...props }}>{children}</ModalBodyStyle>
             </ModalStyle>,
             document.body,
         )
@@ -89,16 +87,14 @@ const ModalStyle = styled.div`
     height: 100vh;
     background: rgba(0, 0, 0, 0.5);
     z-index: 4000;
+`;
 
-    .modal-body {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 300px;
-        height: 300px;
-        background: rgb(255, 255, 255);
-    }
+const ModalBodyStyle = styled.div`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgb(255, 255, 255);
 `;
 
 export default Modal;
