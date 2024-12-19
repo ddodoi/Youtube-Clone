@@ -62,12 +62,12 @@ const ViewCount = styled.span`
     color : #606060;
     font-size: 1.2rem;
     display: inline-block;
-`
+`;
 
 const UploadAt = styled.span`
     color : #606060;
     font-size: 1.2rem;
-`
+`;
 
 const Description = styled.span`
     color : #606060;

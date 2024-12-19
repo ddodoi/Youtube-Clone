@@ -58,13 +58,17 @@ const SidebarFooter = () => {
     return (
         <SidebarFooterStyle>
             <div className="top">
-                {top.map((item) => (
-                    <a href={item.href}>{item.title}</a>
+                {top.map((item, i) => (
+                    <a href={item.href} key={i}>
+                        {item.title}
+                    </a>
                 ))}
             </div>
             <div className="mid">
-                {mid.map((item) => (
-                    <a href={item.href}>{item.title}</a>
+                {mid.map((item, i) => (
+                    <a href={item.href} key={i}>
+                        {item.title}
+                    </a>
                 ))}
             </div>
             <div className="bottom">

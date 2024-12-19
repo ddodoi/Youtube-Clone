@@ -2,27 +2,20 @@ import { styled } from "styled-components";
 import SidebarOpen from "./SidebarOpen";
 import SidebarFolded from "./SidebarFolded";
 import { useLayoutStore } from "@stores/layoutStore";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 const Sidebar = () => {
     const { isSidebarOpen, setIsSidebarOpen } = useLayoutStore();
     const sidebarRef = useRef<HTMLDivElement>(null);
-    const backgroundRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        const handleBackgroundClick = () => {
-            setIsSidebarOpen(false);
-        };
-
-        backgroundRef.current?.addEventListener("click", handleBackgroundClick);
-
-        return () => backgroundRef.current?.removeEventListener("click", handleBackgroundClick);
-    }, []);
+    const handleBackgroundClick = () => {
+        setIsSidebarOpen(false);
+    };
 
     return (
         <SidebarStyle $isSidebarOpen={isSidebarOpen} ref={sidebarRef}>
             <SidebarOpen className="sidebar-open" />
-            <div className="background" ref={backgroundRef}></div>
+            <div className="background" onClick={handleBackgroundClick}></div>
             <SidebarFolded />
         </SidebarStyle>
     );
