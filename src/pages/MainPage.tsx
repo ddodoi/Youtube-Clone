@@ -1,7 +1,6 @@
 import { useRef, useCallback } from "react";
 import { Video } from "@@types/video.type";
-import VideoCard from "@components/mainPage/videoCard/VideoCard";
-import CategoryList from "@components/mainPage/category/CategoryList";
+import VideoCard from "../components/mainPage/videoCard/VideoCard";
 import styled from "styled-components";
 import { useVideos } from "@hooks/useVideos";
 import { useLayoutStore } from "@stores/layoutStore";
@@ -41,7 +40,6 @@ const MainPage = () => {
 
     return (
         <MainPageContainer $isSidebarOpen={isDesktopSidebarOpen}>
-            <CategoryList />
             <ScrollContainer>
                 <VideoGrid>
                     {isLoading
@@ -77,29 +75,26 @@ const MainPageContainer = styled.div<{ $isSidebarOpen: boolean }>`
     bottom: 0;
     z-index: 1;
     transition: left 0.2s;
-    @media screen and (${({theme})=>theme.mediaQuery.sidebar.tablet}) {
-         left: 72px;
+    @media screen and (${({ theme }) => theme.mediaQuery.sidebar.tablet}) {
+        left: 72px;
     }
-    @media screen and (${({theme})=>theme.mediaQuery.sidebar.mobile}) {
-         left: 0px;
+    @media screen and (${({ theme }) => theme.mediaQuery.sidebar.mobile}) {
+        left: 0px;
     }
 `;
 
 const ScrollContainer = styled.div`
     width: 100%;
-    height: calc(100vh - 56px);
+    height: 100%;
     overflow-y: auto;
     padding: 24px;
     box-sizing: border-box;
-
     &::-webkit-scrollbar {
         width: 8px;
     }
-
     &::-webkit-scrollbar-track {
         background: transparent;
     }
-
     &::-webkit-scrollbar-thumb {
         background-color: #909090;
         border-radius: 4px;
@@ -113,23 +108,18 @@ const VideoGrid = styled.div`
     width: 100%;
     max-width: 2200px;
     margin: 0 auto;
-
     @media (min-width: 1850px) {
         grid-template-columns: repeat(5, 1fr);
     }
-
     @media (min-width: 1500px) and (max-width: 1849px) {
         grid-template-columns: repeat(4, 1fr);
     }
-
     @media (min-width: 1000px) and (max-width: 1499px) {
         grid-template-columns: repeat(3, 1fr);
     }
-
     @media (min-width: 600px) and (max-width: 999px) {
         grid-template-columns: repeat(2, 1fr);
     }
-
     @media (max-width: 599px) {
         grid-template-columns: 1fr;
     }
