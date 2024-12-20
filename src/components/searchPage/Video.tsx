@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { VideoPreview } from "../types/searchResult.type";
+import { VideoPreview } from "@@types/searchResult.type";
 
 const Video: React.FC<VideoPreview> = ({ video }) => {
     return (
@@ -18,7 +18,6 @@ const Video: React.FC<VideoPreview> = ({ video }) => {
 };
 
 const VideoContainer = styled.div`
-    position: relative;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -36,7 +35,7 @@ const Thumbnail = styled.img`
     display: inline-block;
     min-height: 80px;
     min-width: 200px;
-    border-radius: 4px; //경계표시-추후삭제
+    border-radius: 10px; //경계표시-추후삭제
     border: 1px solid black; //추후삭제
     margin-right: 1.5rem;
     aspect-ratio: 16/9;
