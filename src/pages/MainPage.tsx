@@ -137,7 +137,7 @@ const VideoGrid = styled.div`
 const LoadingWrapper = styled.div`
     display: flex;
     justify-content: center;
-    padding: 20px 0;
+    padding: 100px 0px;
 `;
 
 const LoadingText = styled.div`
