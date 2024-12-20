@@ -16,9 +16,7 @@ const VideoUpload: React.FC<Props> = ({ isOpen, setIsOpen }) => {
     return (
         <VideoUploadContainer title="동영상 업로드" isOpen={isOpen} setIsOpen={setIsOpen}>
             {videoFile ? (
-                <form action="">
-                    <VideoUploaded />
-                </form>
+                <VideoUploaded />
             ) : (
                 <VideoUploadStyle>
                     <div className="content">

@@ -11,7 +11,7 @@ const VideoUploaded = () => {
     return (
         <VideoUploadedStyle>
             <h1>세부정보</h1>
-            <div className="video-body">
+            <VideoUploadedBody>
                 <div className="video-info">
                     <InputText label="제목(필수 항목)" content={videoTitle}></InputText>
                     <InputText
@@ -45,51 +45,59 @@ const VideoUploaded = () => {
                     </div>
                 </div>
                 <VideoCard />
-            </div>
+            </VideoUploadedBody>
+            <VideoUploadedFooter>
+                <div></div>
+                <button>다음</button>
+            </VideoUploadedFooter>
         </VideoUploadedStyle>
     );
 };
 
-const VideoUploadedStyle = styled.div`
+const VideoUploadedStyle = styled.form`
     display: flex;
     flex-direction: column;
+    padding-top: 20px;
+    height: 100%;
+
     h1 {
         margin: 8px 48px 17px 48px;
         font-size: 25px;
         line-height: 32px;
         font-weight: 600;
     }
+`;
 
-    .video-body {
+const VideoUploadedBody = styled.div`
+    display: flex;
+    padding: 0 48px 24px;
+    flex-grow: 1;
+
+    .video-info {
         display: flex;
-        padding: 0 48px 24px;
+        width: 100%;
+        flex-direction: column;
+        gap: 24px;
+    }
 
-        .video-info {
-            display: flex;
-            width: 100%;
-            flex-direction: column;
-            gap: 24px;
+    .thumbnail {
+        display: flex;
+        flex-direction: column;
+
+        .label {
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 24px;
         }
 
-        .thumbnail {
-            display: flex;
-            flex-direction: column;
+        .sub-label {
+            font-size: 13px;
+            line-height: 20px;
+            color: #606060;
 
-            .label {
-                font-size: 15px;
-                font-weight: 500;
-                line-height: 24px;
-            }
-
-            .sub-label {
-                font-size: 13px;
-                line-height: 20px;
-                color: #606060;
-
-                a {
-                    text-decoration: none;
-                    color: #065fd4;
-                }
+            a {
+                text-decoration: none;
+                color: #065fd4;
             }
         }
     }
@@ -124,6 +132,33 @@ const LabelStyle = styled.label`
         width: 100%;
         height: 100%;
         object-fit: contain;
+    }
+`;
+
+const VideoUploadedFooter = styled.div`
+    display: flex;
+    padding: 16px 24px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    div {
+        flex-grow: 1;
+    }
+
+    button {
+        min-width: 36px;
+        height: 36px;
+        margin-left: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 36px;
+        border-radius: 18px;
+        color: rgb(255, 255, 255);
+        background-color: rgb(3, 3, 3);
+        padding: 0 16px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgb(30, 30, 30);
+        }
     }
 `;
 
