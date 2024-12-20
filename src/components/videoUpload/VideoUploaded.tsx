@@ -3,9 +3,10 @@ import VideoCard from "./VideoCard";
 import FileButton from "@components/common/FileButton";
 import InputText from "@components/common/InputText";
 import { useVideoFile } from "@hooks/useVideoFile";
+import { ReactComponent as ThumbnailUploadIcon } from "@assets/videoUpload/thumbnailUpload.svg";
 
 const VideoUploaded = () => {
-    const { videoTitle } = useVideoFile();
+    const { videoTitle, handleThumbnailUpload, thumbnailURL } = useVideoFile();
 
     return (
         <VideoUploadedStyle>
@@ -27,8 +28,18 @@ const VideoUploaded = () => {
                             </a>
                         </div>
                         <div className="image-upload-button">
-                            <FileButton accept="image/*">
-                                <LabelStyle>파일 업로드</LabelStyle>
+                            <FileButton accept="image/*" onChange={handleThumbnailUpload}>
+                                <LabelStyle>
+                                    {thumbnailURL && <img src={thumbnailURL} />}
+                                    {!thumbnailURL && (
+                                        <>
+                                            <div className="upload-icon">
+                                                <ThumbnailUploadIcon />
+                                            </div>
+                                            <span className="upload-label">파일 업로드</span>
+                                        </>
+                                    )}
+                                </LabelStyle>
                             </FileButton>
                         </div>
                     </div>
@@ -80,13 +91,40 @@ const VideoUploadedStyle = styled.div`
                     color: #065fd4;
                 }
             }
-
-            .image-upload-button {
-            }
         }
     }
 `;
 
-const LabelStyle = styled.label``;
+const LabelStyle = styled.label`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 153px;
+    height: 84px;
+    border: 1px dashed rgb(204, 204, 204);
+    padding: 1px;
+
+    cursor: pointer;
+    &:hover {
+        border: 1px dashed rgb(94, 94, 94);
+    }
+
+    .upload-icon {
+        height: 24px;
+        margin: 4px;
+    }
+
+    .upload-label {
+        color: rgb(96, 96, 96);
+        font-size: 12px;
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+`;
 
 export default VideoUploaded;
