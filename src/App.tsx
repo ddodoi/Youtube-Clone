@@ -5,10 +5,11 @@ import Error from "./components/common/Error";
 import { ThemeProvider } from "styled-components";
 import { useThemeStore } from "./stores/themeStore";
 import { GlobalStyle } from "./style/global";
-import Login from "./pages/Login";
 import MainPage from "./pages/MainPage";
 import SearchResult from "./pages/SearchResult";
 import Channel from "./pages/Channel";
+import LoginPage from "./pages/LoginPage";
+import JoinPage from "./pages/JoinPage";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -41,7 +42,12 @@ const router = createBrowserRouter([
     },
     {
         path: "/login",
-        element: <Login />,
+        element: <LoginPage />,
+        errorElement: <Error />,
+    },
+    {
+        path: "/join",
+        element: <JoinPage />,
         errorElement: <Error />,
     },
     {
