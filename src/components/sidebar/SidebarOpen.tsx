@@ -253,19 +253,19 @@ const SidebarOpen: React.FC<Props> = ({ ...props }) => {
                     <SidebarSection>
                         <SidebarSectionTitle>구독</SidebarSectionTitle>
                         {subscriptions.map((item, i) => (
-                            <SidebarMenuItem aria-label={item.channelName} key={i}>
-                                <Link to={`/${item.channelEmail}`}>
-                                    <img src={item.profileImageURL} alt={item.channelName} />
-                                    <span>{item.channelName}</span>
+                            <SidebarMenuItem aria-label={item.name} key={i}>
+                                <Link to={`/${item.channelId}`}>
+                                    <img src={item.profileLocation} alt={item.name} />
+                                    <span>{item.name}</span>
                                 </Link>
                             </SidebarMenuItem>
                         ))}
                         {showMore &&
                             moreSubscriptions.map((item, i) => (
-                                <SidebarMenuItem aria-label={item.channelName} key={i}>
-                                    <Link to={`/${item.channelEmail}`}>
-                                        <img src={item.profileImageURL} alt={item.channelName} />
-                                        <span>{item.channelName}</span>
+                                <SidebarMenuItem aria-label={item.name} key={i}>
+                                    <Link to={`/${item.channelId}`}>
+                                        <img src={item.profileLocation} alt={item.name} />
+                                        <span>{item.name}</span>
                                     </Link>
                                 </SidebarMenuItem>
                             ))}
