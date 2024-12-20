@@ -7,6 +7,7 @@ import { LoginResponse, SubscriptionResponse, UserInfoResponse } from "../types/
 const user = {
     name: faker.person.fullName(),
     profileLocation: faker.image.avatar(),
+    channelId: faker.helpers.rangeToNumber({ min: 1, max: 10 }).toString(),
     email: faker.internet.email(),
 };
 
