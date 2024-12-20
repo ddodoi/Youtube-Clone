@@ -8,20 +8,21 @@ import { useUser } from "@hooks/useUser";
 import HeaderStart from "./HeaderStart";
 import LoginButton from "./LoginButton";
 import Dropdown from "@components/common/Dropdown";
-import { ReactComponent as VideoUpload } from "@assets/header/videoUpload.svg";
 import { Link } from "react-router-dom";
-
-const makePannelData = [
-    {
-        title: "동영상 만들기",
-        href: "",
-        icon: <VideoUpload />,
-    },
-];
+import { useState } from "react";
+import VideoUpload from "@components/videoUpload/VideoUpload";
+import { ReactComponent as VideoUploadIcon } from "@assets/header/videoUpload.svg";
 
 const Header = () => {
     const { isLoggedIn } = useAuth();
     const { user } = useUser();
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isMakeVideoOpen, setIsMakeVideoOpen] = useState(false);
+
+    const handleMakeVideo = () => {
+        setIsMakeVideoOpen(true);
+        setIsDropdownOpen(false);
+    };
 
     return (
         <HeaderStyle>
@@ -39,6 +40,8 @@ const Header = () => {
                     <>
                         <MakeButtonStyle>
                             <Dropdown
+                                isOpen={isDropdownOpen}
+                                setIsOpen={setIsDropdownOpen}
                                 toggleButton={
                                     <>
                                         <BsPlusLg size={24} />
@@ -47,16 +50,15 @@ const Header = () => {
                                 }
                             >
                                 <MakeButtonPanel>
-                                    {makePannelData.map((item, i) => (
-                                        <div key={i}>
-                                            {item.icon}
-                                            <Link to={item.href} aria-label={item.title}>
-                                                {item.title}
-                                            </Link>
-                                        </div>
-                                    ))}
+                                    <div onClick={handleMakeVideo}>
+                                        <VideoUploadIcon />
+                                        <Link to={""} aria-label={"동영상 만들기"}>
+                                            {"동영상 만들기"}
+                                        </Link>
+                                    </div>
                                 </MakeButtonPanel>
                             </Dropdown>
+                            <VideoUpload isOpen={isMakeVideoOpen} setIsOpen={setIsMakeVideoOpen} />
                         </MakeButtonStyle>
                         <div className="notification-button">
                             <div>

@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { styled } from "styled-components";
 
@@ -9,6 +9,7 @@ interface Props extends React.CSSProperties {
 }
 
 const Modal: React.FC<Props> = ({ children, isOpen, setIsOpen, ...props }) => {
+    const modalRef = useRef<HTMLDivElement>(null);
     const [isFadingout, setIsFadingout] = useState(false);
 
     const handleClose = (e?: MouseEvent) => {
@@ -22,8 +23,10 @@ const Modal: React.FC<Props> = ({ children, isOpen, setIsOpen, ...props }) => {
         }
     };
 
-    const handleBackgroundClick = () => {
-        handleClose();
+    const handleBackgroundClick = (e: MouseEvent) => {
+        if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+            handleClose();
+        }
     };
 
     const handleAnimationEnd = () => {
@@ -47,7 +50,9 @@ const Modal: React.FC<Props> = ({ children, isOpen, setIsOpen, ...props }) => {
                 className={isFadingout ? "fade-out" : "fade-in"}
                 onAnimationEnd={handleAnimationEnd}
             >
-                <ModalBodyStyle style={{ ...props }}>{children}</ModalBodyStyle>
+                <ModalBodyStyle ref={modalRef} style={{ ...props }}>
+                    {children}
+                </ModalBodyStyle>
             </ModalStyle>,
             document.body,
         )

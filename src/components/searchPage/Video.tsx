@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { VideoPreview } from '@@types/searchResult.type';
+import React from "react";
+import styled from "styled-components";
+import { VideoPreview } from "@@types/searchResult.type";
 
 const Video: React.FC<VideoPreview> = ({ video }) => {
     return (
@@ -12,7 +12,6 @@ const Video: React.FC<VideoPreview> = ({ video }) => {
                 {/* <UploadAt>{video.uploadAt} 전</UploadAt> */}
                 <Channel>{video.channel}</Channel>
                 <Description>{video.description}</Description>
-                
             </Details>
         </VideoContainer>
     );
@@ -21,12 +20,11 @@ const Video: React.FC<VideoPreview> = ({ video }) => {
 const VideoContainer = styled.div`
     display: flex;
     flex-direction: row;
-    align-items : flex-start;
+    align-items: flex-start;
     margin: 10px;
     padding: 10px;
     border-radius: 8px;
-    min-width : 428px;
-s
+    min-width: 428px;
 `;
 
 const Thumbnail = styled.img`
@@ -37,9 +35,9 @@ const Thumbnail = styled.img`
     display: inline-block;
     min-height: 80px;
     min-width: 200px;
-    border-radius: 10px;      //경계표시-추후삭제
-    border : 1px solid black; //추후삭제
-    margin-right : 1.5rem;
+    border-radius: 10px; //경계표시-추후삭제
+    border: 1px solid black; //추후삭제
+    margin-right: 1.5rem;
     aspect-ratio: 16/9;
 `;
 
@@ -52,32 +50,31 @@ const Details = styled.div`
 `;
 
 const Title = styled.div`
-    color: #0F0F0F;
+    color: #0f0f0f;
     font-size: 1.8rem;
     margin: 0;
 `;
 
 const ViewCount = styled.span`
-    color : #606060;
+    color: #606060;
     font-size: 1.2rem;
     display: inline-block;
 `;
 
 const UploadAt = styled.span`
-    color : #606060;
+    color: #606060;
     font-size: 1.2rem;
 `;
 
 const Description = styled.span`
-    color : #606060;
+    color: #606060;
     font-size: 1.2rem;
     margin: 5px 0;
 `;
 
 const Channel = styled.span`
-    color : #606060;
+    color: #606060;
     font-size: 1.2rem;
-}
 `;
 
 export default Video;
