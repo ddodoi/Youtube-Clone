@@ -40,7 +40,7 @@ const MainPage = () => {
     }, []) || [];
 
     return (
-        <MainPageContainer $isOpen={isDesktopSidebarOpen}>
+        <MainPageContainer $isSidebarOpen={isDesktopSidebarOpen}>
             <CategoryList />
             <ScrollContainer>
                 <VideoGrid>
@@ -69,22 +69,19 @@ const MainPage = () => {
     );
 };
 
-const MainPageContainer = styled.div<{ $isOpen: boolean }>`
+const MainPageContainer = styled.div<{ $isSidebarOpen: boolean }>`
     position: fixed;
     top: 56px;
-    left: ${({ $isOpen }) => ($isOpen ? "240px" : "72px")};
+    left: ${({ $isSidebarOpen }) => ($isSidebarOpen ? '240px' : '72px')};
     right: 0;
     bottom: 0;
     z-index: 1;
-    background-color: #fff;
     transition: left 0.2s;
-
-    @media (max-width: 1312px) {
-        left: 72px;
+    @media screen and (${({theme})=>theme.mediaQuery.sidebar.tablet}) {
+         left: 72px;
     }
-
-    @media (max-width: 791px) {
-        left: 0;
+    @media screen and (${({theme})=>theme.mediaQuery.sidebar.mobile}) {
+         left: 0px;
     }
 `;
 
