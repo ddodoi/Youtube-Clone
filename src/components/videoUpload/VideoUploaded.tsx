@@ -4,21 +4,38 @@ import FileButton from "@components/common/FileButton";
 import InputText from "@components/common/InputText";
 import { useVideoFile } from "@hooks/useVideoFile";
 import { ReactComponent as ThumbnailUploadIcon } from "@assets/videoUpload/thumbnailUpload.svg";
+import { FormEvent, useRef } from "react";
 
 const VideoUploaded = () => {
-    const { videoTitle, handleThumbnailUpload, thumbnailURL } = useVideoFile();
+    const { videoTitle, handleThumbnailUpload, thumbnailURL, handleSendFile } = useVideoFile();
+    const titleRef = useRef<HTMLDivElement>(null);
+    const descriptionRef = useRef<HTMLDivElement>(null);
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const description = descriptionRef.current?.textContent;
+        const postName = titleRef.current?.textContent;
+        const runningTime = videoRef.current?.duration.toString();
+        if (postName && runningTime && description !== null) {
+            handleSendFile(e, { description, postName, runningTime });
+        } else {
+            window.alert("제목과 썸네일을 입력해주세요");
+        }
+    };
 
     return (
-        <VideoUploadedStyle>
+        <VideoUploadedStyle onSubmit={handleSubmit}>
             <h1>세부정보</h1>
             <VideoUploadedBody>
                 <div className="video-info">
-                    <InputText label="제목(필수 항목)" content={videoTitle}></InputText>
+                    <InputText label="제목(필수 항목)" content={videoTitle} ref={titleRef} />
                     <InputText
+                        ref={descriptionRef}
                         label="설명"
                         placeholder="시청자에게 동영상에 대해 설명해주세요(채널을 멘션하려면 @ 입력)"
                         style={{ minHeight: 109 }}
-                    ></InputText>
+                    />
                     <div className="thumbnail">
                         <div className="label">썸네일</div>
                         <div className="sub-label">
@@ -44,7 +61,7 @@ const VideoUploaded = () => {
                         </div>
                     </div>
                 </div>
-                <VideoCard />
+                <VideoCard ref={videoRef} />
             </VideoUploadedBody>
             <VideoUploadedFooter>
                 <div></div>

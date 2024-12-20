@@ -19,9 +19,10 @@ const InputText = forwardRef(
         };
 
         return (
-            <InputTextStyle ref={ref}>
+            <InputTextStyle>
                 <div className="label">{label}</div>
                 <div
+                    ref={ref}
                     contentEditable={true}
                     className="editable"
                     data-placeholder={placeholder}
@@ -57,6 +58,7 @@ const InputTextStyle = styled.div`
     .editable {
         outline: none;
         cursor: text;
+        min-height: 22.5px;
     }
 
     .editable:empty::after {

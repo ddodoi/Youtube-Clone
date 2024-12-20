@@ -1,7 +1,8 @@
 import { useVideoFile } from "@hooks/useVideoFile";
+import { ForwardedRef, forwardRef } from "react";
 import { styled } from "styled-components";
 
-const VideoCard = () => {
+const VideoCard = forwardRef((_, ref: ForwardedRef<HTMLVideoElement>) => {
     const { videoURL, videoFile, thumbnailURL } = useVideoFile();
 
     if (!videoFile) {
@@ -10,7 +11,7 @@ const VideoCard = () => {
 
     return (
         <VideoCardStyle>
-            <video controls poster={thumbnailURL}>
+            <video controls poster={thumbnailURL} ref={ref}>
                 <source src={videoURL} type={videoFile.type} />
             </video>
             <div>
@@ -19,7 +20,7 @@ const VideoCard = () => {
             </div>
         </VideoCardStyle>
     );
-};
+});
 
 const VideoCardStyle = styled.div`
     padding-left: 24px;

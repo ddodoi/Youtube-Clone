@@ -1,12 +1,12 @@
 //비디오 정보 타입
-export interface Video{
+export interface Video {
     id: string;
     title: string;
-    channel:string;
+    channel: string;
     thumbnailUrl: string;
     previewUrl?: string;
     viewCount: number;
-    createdAt: string; 
+    createdAt: string;
     duration: string;
     channelId?: string;
 }
@@ -34,8 +34,14 @@ export interface PaginationMeta {
 
 // API 응답 타입
 export interface VideoListResponse {
-    success: boolean; 
-    data?: Video[];  
+    success: boolean;
+    data?: Video[];
     meta?: PaginationMeta;
-    error?: string;   
+    error?: string;
+}
+
+export interface VideoUpload {
+    runningTime: string;
+    postName: string;
+    description?: string;
 }
