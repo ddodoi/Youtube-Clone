@@ -4,13 +4,14 @@ import { UserInfoResponse } from "@@types/user.type";
 
 export const useUser = () => {
     const [user, setUser] = useState<UserInfoResponse>({
-        profileImageURL: "",
+        profileLocation: "",
         name: "",
+        email: "",
     });
 
     useEffect(() => {
-        fetchUserInfo().then(({ profileImageURL, name }: UserInfoResponse) => {
-            setUser({ profileImageURL, name });
+        fetchUserInfo().then(({ profileLocation, name, email }: UserInfoResponse) => {
+            setUser({ profileLocation, name, email });
         });
     }, []);
 

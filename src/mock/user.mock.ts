@@ -6,7 +6,8 @@ import { LoginResponse, SubscriptionResponse, UserInfoResponse } from "../types/
 
 const user = {
     name: faker.person.fullName(),
-    profileImageURL: faker.image.avatar(),
+    profileLocation: faker.image.avatar(),
+    email: faker.internet.email(),
 };
 
 const token = {
@@ -14,9 +15,9 @@ const token = {
 };
 
 const subscriptions = Array.from({ length: 10 }, () => ({
-    channelName: faker.person.fullName(),
-    channelEmail: faker.internet.email(),
-    profileImageURL: faker.image.avatar(),
+    name: faker.person.fullName(),
+    channelId: faker.helpers.rangeToNumber({ min: 1, max: 10 }).toString(),
+    profileLocation: faker.image.avatar(),
 }));
 
 export const authHandlers = [
