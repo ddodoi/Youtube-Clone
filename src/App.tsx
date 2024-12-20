@@ -8,13 +8,14 @@ import { GlobalStyle } from "./style/global";
 import Login from "./pages/Login";
 import MainPage from "./pages/MainPage";
 import SearchResult from "./pages/SearchResult";
+import Channel from "./pages/Channel";
 
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
             staleTime: 60 * 1000,
             retry: 1,
-            refetchOnWindowFocus: false
+            refetchOnWindowFocus: false,
         },
     },
 });
@@ -25,6 +26,15 @@ const router = createBrowserRouter([
         element: (
             <Layout>
                 <MainPage />
+            </Layout>
+        ),
+        errorElement: <Error />,
+    },
+    {
+        path: "/:channelId",
+        element: (
+            <Layout>
+                <Channel />
             </Layout>
         ),
         errorElement: <Error />,
