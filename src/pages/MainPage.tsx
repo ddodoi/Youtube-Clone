@@ -1,6 +1,7 @@
 import { useRef, useCallback } from "react";
 import { Video } from "@@types/video.type";
 import VideoCard from "../components/mainPage/videoCard/VideoCard";
+import CategoryList from "@components/mainPage/category/CategoryList";
 import styled from "styled-components";
 import { useVideos } from "@hooks/useVideos";
 import { useLayoutStore } from "@stores/layoutStore";
@@ -41,6 +42,7 @@ const MainPage = () => {
     return (
         <MainPageContainer $isSidebarOpen={isDesktopSidebarOpen}>
             <ScrollContainer>
+                <CategoryList />
                 <VideoGrid>
                     {isLoading
                         ? Array.from({ length: 20 }).map((_, index) => (
