@@ -3,8 +3,10 @@
 import React from "react";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
-import Video from "../components/searchPage/Video";
-import { VideoPreview } from "../types/searchResult.type";
+import Video from "@components/searchPage/Video";
+import { VideoPreview } from "@@types/searchResult.type";
+import CategoryList from "@components/mainPage/category/CategoryList";
+import { useLayoutStore } from "@stores/layoutStore";
 
 const sampleVideos: VideoPreview[] = [
     {
@@ -83,12 +85,14 @@ const sampleVideos: VideoPreview[] = [
 ];
 
 const SearchResult: React.FC = () => {
+    const { isDesktopSidebarOpen } = useLayoutStore();
     const [searchParams] = useSearchParams();
     const fetchSearchQuery = searchParams.get("search_query") || ""; // 쿼리 매개변수 추출
 
     return (
         <>
-            <SearchResultContainer>
+            <SearchResultContainer $isSidebarOpen={isDesktopSidebarOpen}>
+            <CategoryList />
                 <ScrollContainer>
                     <VideoGrid>
                         {sampleVideos.map((video) => (
@@ -101,13 +105,14 @@ const SearchResult: React.FC = () => {
     );
 };
 
-const SearchResultContainer = styled.div`
+const SearchResultContainer = styled.div<{ $isSidebarOpen: boolean }>`
     position: fixed;
     top: 56px; /* 헤더 높이 */
-    left: 72px; /* 사이드바 너비 */
+    left: ${({ $isSidebarOpen }) => ($isSidebarOpen ? '240px' : '72px')};
     right: 0;
     bottom: 0;
     z-index: 1;
+
 `;
 
 const VideoGrid = styled.div`
@@ -139,5 +144,7 @@ const ScrollContainer = styled.div`
         border-radius: 4px;
     }
 `;
+
+
 
 export default SearchResult;
