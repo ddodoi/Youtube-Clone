@@ -8,6 +8,7 @@ import { GlobalStyle } from "./style/global";
 import MainPage from "./pages/MainPage";
 import SearchResult from "./pages/SearchResult";
 import LoginPage from "./pages/LoginPage";
+import JoinPage from "./pages/JoinPage";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -32,6 +33,11 @@ const router = createBrowserRouter([
     {
         path: "/login",
         element: <LoginPage />,
+        errorElement: <Error />,
+    },
+    {
+        path: "/join",
+        element: <JoinPage />,
         errorElement: <Error />,
     },
     {

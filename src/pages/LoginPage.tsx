@@ -15,7 +15,7 @@ const LoginPage = () => {
     const handleLogin = (e: FormEvent) => {
         e.preventDefault();
         if (!email || !password) return;
-        userLogin(email, password);
+        userLogin({ email, password });
     };
 
     const handleEmailInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -62,7 +62,7 @@ const LoginPage = () => {
     );
 };
 
-const LoginPageStyle = styled.div`
+export const LoginPageStyle = styled.div`
     width: 100vw;
     height: 100vh;
     background: #f0f4f9;
