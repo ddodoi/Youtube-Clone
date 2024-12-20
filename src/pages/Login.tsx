@@ -1,27 +1,44 @@
-import { FormEvent, useRef } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { styled } from "styled-components";
 import { useAuth } from "../hooks/useAuth";
 
 const Login = () => {
-    const emailRef = useRef<HTMLInputElement>(null);
-    const passwordRef = useRef<HTMLInputElement>(null);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
     const { userLogin } = useAuth();
 
     const handleLogin = (e: FormEvent) => {
         e.preventDefault();
-        const email = emailRef.current?.value;
-        const password = passwordRef.current?.value;
         if (!email || !password) return;
         userLogin(email, password);
-        emailRef.current!.value = "";
-        passwordRef.current!.value = "";
+    };
+
+    const handleEmailInput = (e: ChangeEvent<HTMLInputElement>) => {
+        setEmail(e.target.value);
+    };
+
+    const handlePasswordInput = (e: ChangeEvent<HTMLInputElement>) => {
+        setPassword(e.target.value);
     };
 
     return (
         <LoginStyle>
             <form onSubmit={handleLogin}>
-                <input type="email" placeholder="이메일" ref={emailRef} required />
-                <input type="password" placeholder="비밀번호" ref={passwordRef} required />
+                <input
+                    type="email"
+                    placeholder="이메일"
+                    value={email}
+                    onChange={handleEmailInput}
+                    required
+                />
+                <input
+                    type="password"
+                    placeholder="비밀번호"
+                    value={password}
+                    onChange={handlePasswordInput}
+                    required
+                />
                 <button>로그인</button>
             </form>
         </LoginStyle>
