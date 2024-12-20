@@ -3,12 +3,13 @@ export interface LoginResponse {
 }
 
 export interface UserInfoResponse {
+    email: string;
     name: string;
-    profileImageURL: string;
+    profileLocation: string;
 }
 
 export interface SubscriptionResponse {
-    channelName: string;
-    channelEmail: string;
-    profileImageURL: string;
+    name: string;
+    channelId: string;
+    profileLocation: string;
 }

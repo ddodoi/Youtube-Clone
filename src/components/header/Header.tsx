@@ -65,7 +65,7 @@ const Header = () => {
                         </div>
                         <div className="avatar-button">
                             <button aria-label="계정 메뉴">
-                                <img src={user.profileImageURL} alt="아바타" />
+                                <img src={user.profileLocation} alt="아바타" />
                             </button>
                         </div>
                     </>
