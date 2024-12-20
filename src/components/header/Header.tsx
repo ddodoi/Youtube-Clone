@@ -1,37 +1,65 @@
 import { styled } from "styled-components";
 import { ReactComponent as Mike } from "@assets/header/mike.svg";
 import { ReactComponent as Bell } from "@assets/header/bell.svg";
-import SearchBox from "@components/common/header/SearchBox";
+import SearchBox from "@components/header/SearchBox";
 import { BsPlusLg, BsThreeDotsVertical } from "react-icons/bs";
 import { useAuth } from "@hooks/useAuth";
 import { useUser } from "@hooks/useUser";
 import HeaderStart from "./HeaderStart";
 import LoginButton from "./LoginButton";
+import Dropdown from "@components/common/Dropdown";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import VideoUpload from "@components/videoUpload/VideoUpload";
+import { ReactComponent as VideoUploadIcon } from "@assets/header/videoUpload.svg";
 
 const Header = () => {
     const { isLoggedIn } = useAuth();
     const { user } = useUser();
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isMakeVideoOpen, setIsMakeVideoOpen] = useState(false);
+
+    const handleMakeVideo = () => {
+        setIsMakeVideoOpen(true);
+        setIsDropdownOpen(false);
+    };
 
     return (
         <HeaderStyle>
             <HeaderStart isLoggedIn={isLoggedIn} />
-            <div className="center">
+            <CenterStyle>
                 <SearchBox />
-                <div className="voice-search-button">
+                <VoiceSearchButtonStyle>
                     <button>
                         <Mike width={24} height={24} />
                     </button>
-                </div>
-            </div>
+                </VoiceSearchButtonStyle>
+            </CenterStyle>
             <div className="end">
                 {isLoggedIn ? (
                     <>
-                        <div className="make-button">
-                            <button>
-                                <BsPlusLg size={24} />
-                                <div>만들기</div>
-                            </button>
-                        </div>
+                        <MakeButtonStyle>
+                            <Dropdown
+                                isOpen={isDropdownOpen}
+                                setIsOpen={setIsDropdownOpen}
+                                toggleButton={
+                                    <>
+                                        <BsPlusLg size={24} />
+                                        <div>만들기</div>
+                                    </>
+                                }
+                            >
+                                <MakeButtonPanel>
+                                    <div onClick={handleMakeVideo}>
+                                        <VideoUploadIcon />
+                                        <Link to={""} aria-label={"동영상 만들기"}>
+                                            {"동영상 만들기"}
+                                        </Link>
+                                    </div>
+                                </MakeButtonPanel>
+                            </Dropdown>
+                            <VideoUpload isOpen={isMakeVideoOpen} setIsOpen={setIsMakeVideoOpen} />
+                        </MakeButtonStyle>
                         <div className="notification-button">
                             <div>
                                 <Bell />
@@ -69,65 +97,12 @@ const HeaderStyle = styled.header`
     height: 56px;
     width: 100%;
 
-    .center {
-        display: flex;
-        flex: 0 1 732px;
-        align-items: center;
-
-        .voice-search-button {
-            width: 40px;
-            height: 40px;
-            padding: 0;
-            border-radius: 50%;
-            background-color: rgba(0, 0, 0, 0.05);
-            margin-left: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            button {
-                border: none;
-                outline: none;
-                background: none;
-                cursor: pointer;
-            }
-
-            &:hover {
-                background-color: rgba(0, 0, 0, 0.1);
-            }
-        }
-    }
-
     .end {
         display: flex;
         min-width: 225px;
         align-items: center;
         justify-content: flex-end;
         flex: 1;
-
-        .make-button {
-            margin-right: 8px;
-
-            button {
-                display: flex;
-                align-items: center;
-                padding: 0 16px;
-                height: 36px;
-                font-size: 14px;
-                line-height: 36px;
-                border-radius: 18px;
-                border: none;
-                outline: none;
-
-                &:hover {
-                    background-color: rgba(0, 0, 0, 0.1);
-                }
-
-                svg {
-                    margin: 0 6px 0 -6px;
-                }
-            }
-        }
 
         .notification-button {
             margin-right: 8px;
@@ -186,6 +161,100 @@ const HeaderStyle = styled.header`
                 cursor: pointer;
                 padding: 8px;
             }
+        }
+    }
+`;
+
+const CenterStyle = styled.div`
+    display: flex;
+    flex: 0 1 732px;
+    align-items: center;
+
+    @media screen and (${({ theme }) => theme.mediaQuery.searchBox.mobile}) {
+        flex: 1;
+        justify-content: flex-end;
+    }
+`;
+
+const VoiceSearchButtonStyle = styled.div`
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.05);
+    margin-left: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+        border: none;
+        outline: none;
+        background: none;
+        cursor: pointer;
+    }
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    @media screen and (${({ theme }) => theme.mediaQuery.searchBox.mobile}) {
+        background: none;
+        margin-left: 0;
+    }
+`;
+
+const MakeButtonStyle = styled.div`
+    margin-right: 8px;
+
+    button {
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        height: 36px;
+        font-size: 14px;
+        line-height: 36px;
+        border-radius: 18px;
+        border: none;
+        outline: none;
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        svg {
+            margin: 0 6px 0 -6px;
+        }
+    }
+`;
+
+const MakeButtonPanel = styled.div`
+    position: absolute;
+    padding: 8px 0;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+
+    div {
+        padding: 0 36px 0 16px;
+        display: flex;
+        align-items: center;
+        height: 40px;
+        width: 200px;
+
+        &:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        svg {
+            margin-right: 16px;
+        }
+
+        a {
+            text-decoration: none;
+            color: rgb(15, 15, 15);
+            font-size: 1.4rem;
+            line-height: 2rem;
         }
     }
 `;
