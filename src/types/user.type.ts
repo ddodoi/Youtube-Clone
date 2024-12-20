@@ -4,11 +4,11 @@ export interface LoginResponse {
 
 export interface UserInfoResponse {
     name: string;
-    profileImageURL: string;
+    profileLocation: string;
 }
 
 export interface SubscriptionResponse {
-    channelName: string;
-    channelEmail: string;
-    profileImageURL: string;
+    name: string;
+    email: string;
+    profileLocation: string;
 }
