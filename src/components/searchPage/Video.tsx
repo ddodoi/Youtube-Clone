@@ -1,15 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import { VideoPreview } from "@@types/searchResult.type";
+import { formatVideoCount, formatDate } from "../../utils/format";
 
 const Video: React.FC<VideoPreview> = ({ video }) => {
     return (
         <VideoContainer>
-            <Thumbnail src={video.thumbnailImageUrl} alt={video.title} />
+            <Thumbnail src={video.thumbnailUrl} alt={video.title} />
             <Details>
                 <Title>{video.title}</Title>
-                <ViewCount>조회수 {video.viewCount}회</ViewCount>
-                {/* <UploadAt>{video.uploadAt} 전</UploadAt> */}
+                <ViewCount>조회수 {formatVideoCount(video.viewCount)}</ViewCount>
+                <UploadAt>{formatDate(video.createdAt)}</UploadAt>
                 <Channel>{video.channel}</Channel>
                 <Description>{video.description}</Description>
             </Details>
@@ -35,8 +36,7 @@ const Thumbnail = styled.img`
     display: inline-block;
     min-height: 80px;
     min-width: 200px;
-    border-radius: 10px; //경계표시-추후삭제
-    border: 1px solid black; //추후삭제
+    border-radius: 10px;
     margin-right: 1.5rem;
     aspect-ratio: 16/9;
 `;
