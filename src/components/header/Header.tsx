@@ -2,27 +2,17 @@ import { styled } from "styled-components";
 import { ReactComponent as Mike } from "@assets/header/mike.svg";
 import { ReactComponent as Bell } from "@assets/header/bell.svg";
 import SearchBox from "@components/header/SearchBox";
-import { BsPlusLg, BsThreeDotsVertical } from "react-icons/bs";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import { useAuth } from "@hooks/useAuth";
-import { useUser } from "@hooks/useUser";
+
 import HeaderStart from "./HeaderStart";
 import LoginButton from "./LoginButton";
-import Dropdown from "@components/common/Dropdown";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import VideoUpload from "@components/videoUpload/VideoUpload";
-import { ReactComponent as VideoUploadIcon } from "@assets/header/videoUpload.svg";
+
+import MakeButton from "./MakeButton";
+import ProfileButton from "./ProfileButton";
 
 const Header = () => {
     const { isLoggedIn } = useAuth();
-    const { user } = useUser();
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [isMakeVideoOpen, setIsMakeVideoOpen] = useState(false);
-
-    const handleMakeVideo = () => {
-        setIsMakeVideoOpen(true);
-        setIsDropdownOpen(false);
-    };
 
     return (
         <HeaderStyle>
@@ -38,38 +28,13 @@ const Header = () => {
             <div className="end">
                 {isLoggedIn ? (
                     <>
-                        <MakeButtonStyle>
-                            <Dropdown
-                                isOpen={isDropdownOpen}
-                                setIsOpen={setIsDropdownOpen}
-                                toggleButton={
-                                    <>
-                                        <BsPlusLg size={24} />
-                                        <div>만들기</div>
-                                    </>
-                                }
-                            >
-                                <MakeButtonPanel>
-                                    <div onClick={handleMakeVideo}>
-                                        <VideoUploadIcon />
-                                        <Link to={""} aria-label={"동영상 만들기"}>
-                                            {"동영상 만들기"}
-                                        </Link>
-                                    </div>
-                                </MakeButtonPanel>
-                            </Dropdown>
-                            <VideoUpload isOpen={isMakeVideoOpen} setIsOpen={setIsMakeVideoOpen} />
-                        </MakeButtonStyle>
+                        <MakeButton />
                         <div className="notification-button">
                             <div>
                                 <Bell />
                             </div>
                         </div>
-                        <div className="avatar-button">
-                            <button aria-label="계정 메뉴">
-                                <img src={user.profileLocation} alt="아바타" />
-                            </button>
-                        </div>
+                        <ProfileButton />
                     </>
                 ) : (
                     <>
@@ -124,33 +89,6 @@ const HeaderStyle = styled.header`
             }
         }
 
-        .avatar-button {
-            padding: 1px 6px;
-
-            button {
-                border: none;
-                background: none;
-                width: 32px;
-                height: 32px;
-                cursor: pointer;
-                margin: 0 8px;
-                border-radius: 50%;
-                overflow: hidden;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                svg {
-                    width: 100%;
-                    height: 100%;
-                }
-                img {
-                    width: 32px;
-                    height: 32px;
-                }
-            }
-        }
-
         .menu-button {
             margin-right: 8px;
 
@@ -201,61 +139,6 @@ const VoiceSearchButtonStyle = styled.div`
     @media screen and (${({ theme }) => theme.mediaQuery.searchBox.mobile}) {
         background: none;
         margin-left: 0;
-    }
-`;
-
-const MakeButtonStyle = styled.div`
-    margin-right: 8px;
-
-    button {
-        display: flex;
-        align-items: center;
-        padding: 0 16px;
-        height: 36px;
-        font-size: 14px;
-        line-height: 36px;
-        border-radius: 18px;
-        border: none;
-        outline: none;
-
-        &:hover {
-            background-color: rgba(0, 0, 0, 0.1);
-        }
-
-        svg {
-            margin: 0 6px 0 -6px;
-        }
-    }
-`;
-
-const MakeButtonPanel = styled.div`
-    position: absolute;
-    padding: 8px 0;
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-
-    div {
-        padding: 0 36px 0 16px;
-        display: flex;
-        align-items: center;
-        height: 40px;
-        width: 200px;
-
-        &:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        svg {
-            margin-right: 16px;
-        }
-
-        a {
-            text-decoration: none;
-            color: rgb(15, 15, 15);
-            font-size: 1.4rem;
-            line-height: 2rem;
-        }
     }
 `;
 

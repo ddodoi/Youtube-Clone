@@ -3,6 +3,7 @@ export interface LoginResponse {
 }
 
 export interface UserInfoResponse {
+    channelId: string;
     email: string;
     name: string;
     profileLocation: string;
