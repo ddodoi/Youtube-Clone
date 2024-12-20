@@ -4,18 +4,15 @@ import { ReactComponent as Bell } from "@assets/header/bell.svg";
 import SearchBox from "@components/header/SearchBox";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { useAuth } from "@hooks/useAuth";
-import { useUser } from "@hooks/useUser";
+
 import HeaderStart from "./HeaderStart";
 import LoginButton from "./LoginButton";
-import Dropdown from "@components/common/Dropdown";
 
-import { useState } from "react";
 import MakeButton from "./MakeButton";
+import ProfileButton from "./ProfileButton";
 
 const Header = () => {
     const { isLoggedIn } = useAuth();
-    const { user } = useUser();
-    const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
     return (
         <HeaderStyle>
@@ -37,19 +34,7 @@ const Header = () => {
                                 <Bell />
                             </div>
                         </div>
-                        <Dropdown
-                            isOpen={isProfileDropdownOpen}
-                            setIsOpen={setIsProfileDropdownOpen}
-                            toggleButton={
-                                <div className="avatar-button">
-                                    <button aria-label="계정 메뉴">
-                                        <img src={user.profileLocation} alt="아바타" />
-                                    </button>
-                                </div>
-                            }
-                        >
-                            <div></div>
-                        </Dropdown>
+                        <ProfileButton />
                     </>
                 ) : (
                     <>
@@ -101,33 +86,6 @@ const HeaderStyle = styled.header`
             div {
                 width: 24px;
                 height: 24px;
-            }
-        }
-
-        .avatar-button {
-            padding: 1px 6px;
-
-            button {
-                border: none;
-                background: none;
-                width: 32px;
-                height: 32px;
-                cursor: pointer;
-                margin: 0 8px;
-                border-radius: 50%;
-                overflow: hidden;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                svg {
-                    width: 100%;
-                    height: 100%;
-                }
-                img {
-                    width: 32px;
-                    height: 32px;
-                }
             }
         }
 
