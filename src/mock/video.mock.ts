@@ -98,7 +98,7 @@ export const videoHandlers = [
 
         return HttpResponse.json(response);
     }),
-    http.post(baseURL("/channel/videopost"), async ({ request }) => {
+    http.post(baseURL("/videos/v"), async ({ request }) => {
         const formData = await request.formData();
 
         const videoFile = formData.get(FORMDATA.VIDEO_FILE);
