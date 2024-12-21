@@ -6,20 +6,26 @@ export interface Channel {
 }
 
 export interface VideoPost {
-    videopostId: string;
+    videopostId: number;
     videopostName: string; // 동영상 제목
-    channelId: string;
+    channelId: number;
     name: string; // 채널명
     thumbnailLocation: string;
     videoLocation: string;
-    views: string;
+    views: number;
     createAt: string; // 2020-05-06T15:41:24.000Z (ISO)
-    runningTime: string; // 43.21 (초)
+    runningTime: number; // 43.21 (초)
 }
 
 export interface ChannelVideoResponse {
     channel: Channel;
-    videoCount: string;
-    subscribers: string;
+    videoCount: number;
+    subscribers: number;
     userVideoposts: VideoPost[];
+    meta: Meta;
+}
+
+export interface Meta {
+    hasNextPage: boolean;
+    currentPage: number;
 }
