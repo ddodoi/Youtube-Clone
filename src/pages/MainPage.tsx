@@ -30,7 +30,7 @@ const MainPage = () => {
                         fetchNextPage();
                     }, 300);
                 }
-            });
+            );
 
             if (node) {
                 observerRef.current.observe(node);
@@ -38,7 +38,7 @@ const MainPage = () => {
         },
         [isLoading, isFetchingNextPage, hasNextPage, fetchNextPage],
     );
-
+              
     const allVideos =
         data?.pages.reduce<Video[]>((acc, page) => {
             if (page.success && page.data) {
@@ -69,7 +69,7 @@ const MainPage = () => {
                 </VideoGrid>
                 {isFetchingNextPage && (
                     <LoadingWrapper>
-                        <LoadingText>동영상을 불러오는 중...</LoadingText>
+                        <LoadingText>Loading</LoadingText>
                     </LoadingWrapper>
                 )}
             </ScrollContainer>

@@ -21,7 +21,7 @@ export const createVideo = async (formData: FormData) => {
             Authorization: getToken() || "",
         },
     });
-    const response = await httpClient.post("/channel/videopost", formData);
+    const response = await httpClient.post("/videos/v", formData);
 
     return response.data;
 };
