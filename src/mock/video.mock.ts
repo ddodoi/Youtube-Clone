@@ -32,55 +32,45 @@ const generateChannel = (): Channel => {
     };
 };
 
+const generageVideoLocation = () => {
+    const baseURL = "https://storage.googleapis.com/gtv-videos-bucket/sample/";
+    const videoName = faker.helpers.arrayElement([
+        "BigBuckBunny",
+        "ElephantsDream",
+        "ForBiggerBlazes",
+        "ForBiggerEscapes",
+        "ForBiggerFun",
+        "ForBiggerJoyrides",
+        "ForBiggerMeltdowns",
+        "Sintel",
+        "SubaruOutbackOnStreetAndDirt",
+        "TearsOfSteel",
+    ]);
+    return `${baseURL + videoName}.mp4`;
+};
+
 const generateMockVideo = (): Video => {
     const isShort = faker.datatype.boolean({ probability: 0.2 });
-    const viewCount = faker.number.int({
+    const views = faker.number.int({
         min: isShort ? 100000 : 10000,
         max: isShort ? 100000000 : 10000000,
     });
     const channel = generateChannel();
 
     return {
-        id: faker.string.uuid(),
-        title: generateVideoTitle(),
+        videopostId: faker.string.uuid(),
+        videopostName: generateVideoTitle(),
         description: faker.lorem.paragraph(),
-        thumbnailUrl: generateThumbnail(),
-        videoUrl: faker.helpers.arrayElement([
-            "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-            "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-            "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-            "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-            "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-        ]),
-        viewCount,
-        publishedAt: faker.date.past({ years: 2 }).toISOString(),
+        views,
+        createAt: faker.date.past({ years: 2 }).toISOString(),
         channelId: channel.id,
-        channelTitle: channel.title,
-        channelThumbnail: channel.thumbnail,
-        duration: `${faker.number.int({ min: 1, max: 59 })}:${faker.number.int({ min: 10, max: 59 })}`,
-        createdAt: faker.date.past({ years: 2 }).toISOString(),
-        channel,
-        previewUrl: faker.helpers.maybe(
-            () => {
-                return `https://storage.googleapis.com/gtv-videos-bucket/sample/${faker.helpers.arrayElement(
-                    [
-                        "BigBuckBunny",
-                        "ElephantsDream",
-                        "ForBiggerBlazes",
-                        "ForBiggerEscapes",
-                        "ForBiggerFun",
-                        "ForBiggerJoyrides",
-                        "ForBiggerMeltdowns",
-                        "Sintel",
-                        "SubaruOutbackOnStreetAndDirt",
-                        "TearsOfSteel",
-                    ],
-                )}.mp4`;
-            },
-            { probability: 0.7 },
-        ),
-        likes: faker.number.int({ min: 0, max: 1000000 }),
-        dislikes: faker.number.int({ min: 0, max: 10000 }),
+        name: channel.title,
+        thumbnailLocation: channel.thumbnail,
+        profileLocation: faker.image.avatar(),
+        runningTime: `${faker.number.int({ min: 1, max: 59 })}:${faker.number.int({ min: 10, max: 59 })}`,
+        videoLocation: generageVideoLocation(),
+        // likes: faker.number.int({ min: 0, max: 1000000 }),
+        // dislikes: faker.number.int({ min: 0, max: 10000 }),
     };
 };
 

@@ -6,29 +6,27 @@ import { BsThreeDots } from 'react-icons/bs';
 import { formatDate, formatNumber } from '../../utils/format';
 
 interface VideoInfoProps {
-    video: {
-        publishedAt: any;
-        title: string;
-        channelTitle: string;
-        viewCount: number;
-        tags?: string[];
-        description?: string;
-    };
+    publishedAt: any;
+    title: string;
+    channelTitle: string;
+    viewCount: number;
+    tags?: string[];
+    description?: string;
 }
 
-const VideoInfo = ({ video }: VideoInfoProps) => {
+const VideoInfo = ({ channelTitle, publishedAt, title, viewCount, description, tags}: VideoInfoProps) => {
     return (
         <Container>
-            <Title>{video.title}</Title>
+            <Title>{title}</Title>
             <MetaInfo>
-                <ViewCount>조회수 {formatNumber(video.viewCount)}회</ViewCount>
-                <UploadDate>{formatDate(video.publishedAt)}</UploadDate>
+                <ViewCount>조회수 {formatNumber(viewCount)}회</ViewCount>
+                <UploadDate>{formatDate(publishedAt)}</UploadDate>
             </MetaInfo>
             <ChannelRow>
                 <ChannelInfo>
                     <ChannelAvatar />
                     <ChannelMeta>
-                        <ChannelName>{video.channelTitle}</ChannelName>
+                        <ChannelName>{channelTitle}</ChannelName>
                         <SubscriberCount>구독자 123만명</SubscriberCount>
                     </ChannelMeta>
                     <SubscribeButton>구독</SubscribeButton>
@@ -57,7 +55,7 @@ const VideoInfo = ({ video }: VideoInfoProps) => {
                     </Button>
                 </ButtonRow>
             </ChannelRow>
-            <DescriptionBox>{video.description}</DescriptionBox>
+            <DescriptionBox>{description}</DescriptionBox>
         </Container>
     );
 };
