@@ -1,14 +1,20 @@
 import { create } from "zustand";
 import { Video, PlayerState } from "@@types/video.type";
 
-interface VideoStore {
+// 비디오 업로드 관련 상태 타입
+interface UploadState {
+    videoFile: File | null;
+    thumbnailFile: File | null;
+    setVideoFile: (videoFile: File | null) => void;
+    setThumbnailFile: (thumbnailFile: File | null) => void;
+}
+
+// 비디오 플레이어 관련 상태 타입
+interface PlayerStore {
     currentVideo: Video | null;
     playerState: PlayerState;
     isLoading: boolean;
     error: string | null;
-    videoFile: File | null;
-    thumbnailFile: File | null;
-
     setCurrentVideo: (video: Video) => void;
     setPlayerState: (state: Partial<PlayerState>) => void;
     togglePlay: () => void;
@@ -17,9 +23,10 @@ interface VideoStore {
     setVolume: (volume: number) => void;
     setError: (error: string | null) => void;
     setLoading: (loading: boolean) => void;
-    setVideoFile: (videoFile: File | null) => void;
-    setThumbnailFile: (thumbnailFile: File | null) => void;
 }
+
+// 전체 스토어 타입
+interface VideoStore extends PlayerStore, UploadState {}
 
 export const useVideoStore = create<VideoStore>((set) => ({
     currentVideo: null,
