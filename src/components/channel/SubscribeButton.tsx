@@ -4,7 +4,7 @@ const SubscribeButton = () => {
     return <SubscribeButtonStyle>구독</SubscribeButtonStyle>;
 };
 
-const SubscribeButtonStyle = styled.button`
+const SubscribeButtonStyle = styled.div`
     width: 58px;
     display: flex;
     justify-content: center;

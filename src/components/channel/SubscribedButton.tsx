@@ -21,7 +21,7 @@ const SubscribedButton = () => {
     );
 };
 
-const SubscribedButtonStyle = styled.button`
+const SubscribedButtonStyle = styled.div`
     color: #0f0f0f;
     background: rgba(0, 0, 0, 0.05);
     padding: 0 16px;
@@ -31,8 +31,6 @@ const SubscribedButtonStyle = styled.button`
     border-radius: 18px;
     width: 119px;
     display: flex;
-    border: none;
-    outline: none;
     align-items: center;
     cursor: pointer;
 
