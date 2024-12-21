@@ -10,7 +10,7 @@ const Video: React.FC<VideoPreview> = ({ video }) => {
             <Details>
                 <Title>{video.videopostName}</Title>
                 <ViewCount>조회수 {formatVideoCount(video.views)}</ViewCount>
-                <UploadAt>{formatDate(video.createdAt)}</UploadAt>
+                <UploadAt>{formatDate(video.createAt)}</UploadAt>
                 <Channel>{video.name}</Channel>
                 <Description>{video.description}</Description>
             </Details>

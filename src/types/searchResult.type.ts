@@ -7,7 +7,7 @@ export interface VideoPreview {
         thumbnailLocation: string;
         videoLocation?: string;
         views: number;
-        createdAt: string;
+        createAt: string;
         duration: string;
         channelId?: string;
         description?: string
