@@ -253,7 +253,7 @@ const SidebarOpen: React.FC<Props> = ({ ...props }) => {
                         <SidebarSectionTitle>구독</SidebarSectionTitle>
                         {subscriptions.map((item, i) => (
                             <SidebarMenuItem aria-label={item.name} key={i}>
-                                <Link to={`/${item.channelId}`}>
+                                <Link to={`/channel/${item.channelId}`}>
                                     <img src={item.profileLocation} alt={item.name} />
                                     <span>{item.name}</span>
                                 </Link>
@@ -262,7 +262,7 @@ const SidebarOpen: React.FC<Props> = ({ ...props }) => {
                         {showMore &&
                             moreSubscriptions.map((item, i) => (
                                 <SidebarMenuItem aria-label={item.name} key={i}>
-                                    <Link to={`/${item.channelId}`}>
+                                    <Link to={`/channel/${item.channelId}`}>
                                         <img src={item.profileLocation} alt={item.name} />
                                         <span>{item.name}</span>
                                     </Link>

@@ -10,7 +10,7 @@ import SearchResult from "./pages/SearchResult";
 import Channel from "./pages/Channel";
 import LoginPage from "./pages/LoginPage";
 import JoinPage from "./pages/JoinPage";
-import WatchPage from './pages/WatchPage';
+import WatchPage from "./pages/WatchPage";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -33,7 +33,7 @@ const router = createBrowserRouter([
         errorElement: <Error />,
     },
     {
-        path: "/:channelId",
+        path: "/channel/:channelId",
         element: (
             <Layout>
                 <Channel />
