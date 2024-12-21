@@ -7,6 +7,6 @@ interface ChannelFetchVideoParams {
 }
 
 export const fetchVideos = async ({ channelId, limit = 20, page = 1 }: ChannelFetchVideoParams) => {
-    const response = await httpClient.get(`/channel/${channelId}/p?limit=${limit}&page=${page}`);
+    const response = await httpClient.get(`/channel/${channelId}/p`, { params: { limit, page } });
     return response.data;
 };
