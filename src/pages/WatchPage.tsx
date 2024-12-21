@@ -22,20 +22,15 @@ const WatchPage = () => {
         <PageContainer>
             <MainColumn>
                 <VideoSection>
-                    <VideoPlayer videoUrl={currentVideo.videoUrl} />
+                    <VideoPlayer videoUrl={currentVideo.videoURL} />
                 </VideoSection>
                 <InfoSection>
-                    <Title>{currentVideo.title}</Title>
+                    <Title>{currentVideo.videopostName}</Title>
                     <MetaSection>
                         <ChannelInfo>
-                            <ChannelAvatar />
-                            // ChannelName 컴포넌트 부분만 수정
+                            <ChannelAvatar $src={currentVideo.channelThumbnailURL} />
                             <ChannelMeta>
-                                <ChannelName>
-                                    {typeof currentVideo.channel === "string"
-                                        ? currentVideo.channel
-                                        : "채널 정보 없음"}
-                                </ChannelName>
+                                <ChannelName>{currentVideo.name}</ChannelName>
                                 <SubscriberCount>구독자 123만명</SubscriberCount>
                             </ChannelMeta>
                             <SubscribeButton>구독</SubscribeButton>
@@ -65,7 +60,7 @@ const WatchPage = () => {
                         </ActionButtons>
                     </MetaSection>
                     <DescriptionCard>
-                        <ViewCount>조회수 {currentVideo.viewCount}회</ViewCount>
+                        <ViewCount>조회수 {currentVideo.views}회</ViewCount>
                         <Description>{currentVideo.description || "설명 없음"}</Description>
                     </DescriptionCard>
                 </InfoSection>
@@ -141,11 +136,14 @@ const ChannelInfo = styled.div`
     gap: 12px;
 `;
 
-const ChannelAvatar = styled.div`
+const ChannelAvatar = styled.div<{ $src: string }>`
     width: 40px;
     height: 40px;
     border-radius: 50%;
     background: #e5e5e5;
+    background-image: url(${(props) => props.$src});
+    background-size: cover;
+    background-position: center;
 `;
 
 const ChannelMeta = styled.div`

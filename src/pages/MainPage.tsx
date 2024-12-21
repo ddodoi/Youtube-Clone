@@ -10,7 +10,7 @@ const MainPage = () => {
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useVideos();
     const { isDesktopSidebarOpen } = useLayoutStore();
     const observerRef = useRef<IntersectionObserver | null>(null);
-    const timeoutRef = useRef<NodeJS.Timeout | null>(null);  // 타임아웃 참조
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null); // 타임아웃 참조
 
     const lastVideoRef = useCallback(
         (node: HTMLDivElement | null) => {
@@ -23,12 +23,12 @@ const MainPage = () => {
             observerRef.current = new IntersectionObserver((entries) => {
                 if (entries[0].isIntersecting && hasNextPage) {
                     if (timeoutRef.current) {
-                        clearTimeout(timeoutRef.current); 
+                        clearTimeout(timeoutRef.current);
                     }
 
                     timeoutRef.current = setTimeout(() => {
                         fetchNextPage();
-                    }, 300); 
+                    }, 300);
                 }
             });
 
@@ -36,15 +36,16 @@ const MainPage = () => {
                 observerRef.current.observe(node);
             }
         },
-        [isLoading, isFetchingNextPage, hasNextPage, fetchNextPage]
+        [isLoading, isFetchingNextPage, hasNextPage, fetchNextPage],
     );
 
-    const allVideos = data?.pages.reduce<Video[]>((acc, page) => {
-        if (page.success && page.data) {
-            return [...acc, ...page.data];
-        }
-        return acc;
-    }, []) || [];
+    const allVideos =
+        data?.pages.reduce<Video[]>((acc, page) => {
+            if (page.success && page.data) {
+                return [...acc, ...page.data];
+            }
+            return acc;
+        }, []) || [];
 
     return (
         <MainPageContainer $isSidebarOpen={isDesktopSidebarOpen}>
@@ -53,18 +54,18 @@ const MainPage = () => {
                 <VideoGrid>
                     {isLoading
                         ? Array.from({ length: 20 }).map((_, index) => (
-                              <div key={`skeleton-${index}`}>
-                                  <VideoCard isLoading size="medium" />
-                              </div>
-                          ))
+                            <div key={`skeleton-${index}`}>
+                                <VideoCard isLoading size="medium" />
+                            </div>
+                        ))
                         : allVideos.map((video, index) => (
-                              <div
-                                  key={video.id}
-                                  ref={index === allVideos.length - 1 ? lastVideoRef : null}
-                              >
-                                  <VideoCard video={video} size="medium" />
-                              </div>
-                          ))}
+                            <div
+                                key={video.videopostId}
+                                ref={index === allVideos.length - 1 ? lastVideoRef : null}
+                            >
+                                <VideoCard video={video} size="medium" />
+                            </div>
+                        ))}
                 </VideoGrid>
                 {isFetchingNextPage && (
                     <LoadingWrapper>
@@ -79,7 +80,7 @@ const MainPage = () => {
 const MainPageContainer = styled.div<{ $isSidebarOpen: boolean }>`
     position: fixed;
     top: 56px;
-    left: ${({ $isSidebarOpen }) => ($isSidebarOpen ? '240px' : '72px')};
+    left: ${({ $isSidebarOpen }) => ($isSidebarOpen ? "240px" : "72px")};
     right: 0;
     bottom: 0;
     z-index: 1;
