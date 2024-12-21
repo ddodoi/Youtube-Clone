@@ -5,9 +5,10 @@ import Error from "./components/common/Error";
 import { ThemeProvider } from "styled-components";
 import { useThemeStore } from "./stores/themeStore";
 import { GlobalStyle } from "./style/global";
-import Login from "./pages/Login";
 import MainPage from "./pages/MainPage";
 import SearchResult from "./pages/SearchResult";
+import LoginPage from "./pages/LoginPage";
+import JoinPage from "./pages/JoinPage";
 import WatchPage from './pages/WatchPage';
 
 const queryClient = new QueryClient({
@@ -15,7 +16,7 @@ const queryClient = new QueryClient({
         queries: {
             staleTime: 60 * 1000,
             retry: 1,
-            refetchOnWindowFocus: false
+            refetchOnWindowFocus: false,
         },
     },
 });
@@ -32,7 +33,12 @@ const router = createBrowserRouter([
     },
     {
         path: "/login",
-        element: <Login />,
+        element: <LoginPage />,
+        errorElement: <Error />,
+    },
+    {
+        path: "/join",
+        element: <JoinPage />,
         errorElement: <Error />,
     },
     {
