@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import { PaddingMediaQuery } from "./ChannelHeader";
 
 interface Props {
     contents: React.ReactNode;
@@ -13,6 +14,6 @@ const ChannelBody: React.FC<Props> = ({ contents }) => {
     );
 };
 
-const ChannelBodyStyle = styled.div``;
+const ChannelBodyStyle = styled(PaddingMediaQuery)``;
 
 export default ChannelBody;

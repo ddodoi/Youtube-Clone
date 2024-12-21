@@ -45,12 +45,3 @@ export interface VideoUpload {
     postName: string;
     description?: string;
 }
-
-export interface UserVideoPost {
-    id: string;
-    name: string; // 채널명
-    videopostName: string; // 동영상 제목
-    thumbnailLocation: string;
-    runningTime: string; // 43.21 (초)
-    createAt: string; // 2020-05-06T15:41:24.000Z (ISO)
-}
