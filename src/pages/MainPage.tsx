@@ -53,18 +53,18 @@ const MainPage = () => {
                 <VideoGrid>
                     {isLoading
                         ? Array.from({ length: 20 }).map((_, index) => (
-                              <div key={`skeleton-${index}`}>
-                                  <VideoCard isLoading size="medium" />
-                              </div>
-                          ))
+                            <div key={`skeleton-${index}`}>
+                                <VideoCard isLoading size="medium" />
+                            </div>
+                        ))
                         : allVideos.map((video, index) => (
-                              <div
-                                  key={video.id}
-                                  ref={index === allVideos.length - 1 ? lastVideoRef : null}
-                              >
-                                  <VideoCard video={video} size="medium" />
-                              </div>
-                          ))}
+                            <div
+                                key={video.id}
+                                ref={index === allVideos.length - 1 ? lastVideoRef : null}
+                            >
+                                <VideoCard video={video} size="medium" />
+                            </div>
+                        ))}
                 </VideoGrid>
                 {isFetchingNextPage && (
                     <LoadingWrapper>
