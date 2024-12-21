@@ -45,17 +45,13 @@ const router = createBrowserRouter([
         errorElement: <Error />,
     },
     {
-        path: "/watch",
+        path: "/watch/:videoId",
         element: (
             <Layout>
                 <WatchPage />
             </Layout>
         ),
         errorElement: <Error />,
-    },
-    {
-        path: "/watch/:videoId",
-        element: <WatchPage />,
     },
 ]);
 
