@@ -7,9 +7,10 @@ import { useThemeStore } from "./stores/themeStore";
 import { GlobalStyle } from "./style/global";
 import MainPage from "./pages/MainPage";
 import SearchResult from "./pages/SearchResult";
+import Channel from "./pages/Channel";
 import LoginPage from "./pages/LoginPage";
 import JoinPage from "./pages/JoinPage";
-import WatchPage from './pages/WatchPage';
+import WatchPage from "./pages/WatchPage";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -27,6 +28,15 @@ const router = createBrowserRouter([
         element: (
             <Layout>
                 <MainPage />
+            </Layout>
+        ),
+        errorElement: <Error />,
+    },
+    {
+        path: "/channel/:channelId",
+        element: (
+            <Layout>
+                <Channel />
             </Layout>
         ),
         errorElement: <Error />,
