@@ -75,7 +75,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, handleClick, size = "mediu
 
     const handleVideoClick = () => {
         if (video?.videopostId) {
-            navigate(`/watch/${video.videopostId}`);
+            navigate(`/watch?v=${video.videopostId}`);
         }
     };
 
