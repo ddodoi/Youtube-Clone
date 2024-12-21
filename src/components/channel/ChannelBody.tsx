@@ -1,9 +1,14 @@
 import { styled } from "styled-components";
 
-const ChannelBody = () => {
+interface Props {
+    contents: React.ReactNode;
+}
+
+const ChannelBody: React.FC<Props> = ({ contents }) => {
     return (
         <ChannelBodyStyle>
-            <h1>ChannelBody</h1>
+            <h1>바디</h1>
+            {contents}
         </ChannelBodyStyle>
     );
 };

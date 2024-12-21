@@ -1,17 +1,53 @@
 import ChannelBody from "@components/channel/ChannelBody";
 import ChannelHeader from "@components/channel/ChannelHeader";
+import ChannelVideos from "@components/channel/ChannelVideos";
 import { useLayoutStore } from "@stores/layoutStore";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { styled } from "styled-components";
+
+export interface TabItem {
+    title: string;
+    contents: React.ReactNode;
+}
+
+const tabContents: TabItem[] = [
+    {
+        title: "홈",
+        contents: <ChannelVideos />,
+    },
+    {
+        title: "동영상",
+        contents: <ChannelVideos />,
+    },
+    {
+        title: "라이브",
+        contents: <ChannelVideos />,
+    },
+    {
+        title: "재생목록",
+        contents: <ChannelVideos />,
+    },
+    {
+        title: "커뮤니티",
+        contents: <ChannelVideos />,
+    },
+];
 
 const Channel = () => {
     const { channelId } = useParams();
     const { isDesktopSidebarOpen, isSidebarOpen } = useLayoutStore();
+    const [activeIndex, setActiveIndex] = useState(0);
+    const contents = tabContents[activeIndex].contents;
 
     return (
         <ChannelStyle $isDesktopSidebarOpen={isDesktopSidebarOpen} $isSidebarOpen={isSidebarOpen}>
-            <ChannelHeader />
-            <ChannelBody />
+            <ChannelHeader
+                activeIndex={activeIndex}
+                setActiveIndex={setActiveIndex}
+                tabContents={tabContents}
+            />
+            <ChannelBody contents={contents} />
         </ChannelStyle>
     );
 };

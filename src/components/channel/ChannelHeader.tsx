@@ -3,8 +3,16 @@ import { formatNumber } from "../../utils/format";
 import SubscribedButton from "./SubscribedButton";
 import SubscribeButton from "./SubscribeButton";
 import { useState } from "react";
+import { Tab, Tabs } from "@components/common/Tabs";
+import { TabItem } from "../../pages/Channel";
 
-const ChannelHeader = () => {
+interface Props {
+    setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
+    activeIndex: number;
+    tabContents: TabItem[];
+}
+
+const ChannelHeader: React.FC<Props> = ({ setActiveIndex, activeIndex, tabContents }) => {
     const [isSubscribed, setIsSubscribed] = useState(false);
     const bannerImgURL =
         "https://yt3.googleusercontent.com/ad5OoGGexMhaZ3sT1YjIDCYbw_HcQnvFFkArA1LQEJVwrv-_PgbalL7YGBpt4-lemz28qMG4BA=w1060-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj";
@@ -54,6 +62,15 @@ const ChannelHeader = () => {
                     </Subscribe>
                 </ChannelMeta>
             </ChannelInfo>
+            <TabsWrapper>
+                <Tabs setActiveIndex={setActiveIndex} activeIndex={activeIndex}>
+                    {tabContents.map(({ title, contents }, i) => (
+                        <Tab title={title} key={i}>
+                            {contents}
+                        </Tab>
+                    ))}
+                </Tabs>
+            </TabsWrapper>
         </ChannelHeaderStyle>
     );
 };
@@ -61,7 +78,6 @@ const ChannelHeader = () => {
 const ChannelHeaderStyle = styled.header`
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
 `;
 
 export const PaddingMediaQuery = styled.div`
@@ -138,6 +154,8 @@ const ChannelInfo = styled(PaddingMediaQuery)`
     padding-top: 16px;
     width: 100%;
 `;
+
+const TabsWrapper = styled(PaddingMediaQuery)``;
 
 const ChannelProfile = styled.div`
     margin-right: 16px;
