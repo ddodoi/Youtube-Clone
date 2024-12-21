@@ -6,12 +6,12 @@ import { formatVideoCount, formatDate } from "../../utils/format";
 const Video: React.FC<VideoPreview> = ({ video }) => {
     return (
         <VideoContainer>
-            <Thumbnail src={video.thumbnailUrl} alt={video.title} />
+            <Thumbnail src={video.thumbnailLocation} alt={video.videopostName} />
             <Details>
-                <Title>{video.title}</Title>
-                <ViewCount>조회수 {formatVideoCount(video.viewCount)}</ViewCount>
+                <Title>{video.videopostName}</Title>
+                <ViewCount>조회수 {formatVideoCount(video.views)}</ViewCount>
                 <UploadAt>{formatDate(video.createdAt)}</UploadAt>
-                <Channel>{video.channel}</Channel>
+                <Channel>{video.name}</Channel>
                 <Description>{video.description}</Description>
             </Details>
         </VideoContainer>
