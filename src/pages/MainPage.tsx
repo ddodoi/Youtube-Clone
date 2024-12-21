@@ -10,7 +10,7 @@ const MainPage = () => {
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useVideos();
     const { isDesktopSidebarOpen } = useLayoutStore();
     const observerRef = useRef<IntersectionObserver | null>(null);
-    const timeoutRef = useRef<NodeJS.Timeout | null>(null);  // 타임아웃 참조
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null); // 타임아웃 참조
 
     const lastVideoRef = useCallback(
         (node: HTMLDivElement | null) => {
@@ -20,32 +20,32 @@ const MainPage = () => {
                 observerRef.current.disconnect();
             }
 
-            observerRef.current = new IntersectionObserver(
-                (entries) => {
-                    if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-                        console.log("Fetching next page...");
-                        fetchNextPage();
+            observerRef.current = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && hasNextPage) {
+                    if (timeoutRef.current) {
+                        clearTimeout(timeoutRef.current);
                     }
-                },
-                {
-                    rootMargin: "200px", // 하단부 200px 여유를 둠
-                }
+
+                    timeoutRef.current = setTimeout(() => {
+                        fetchNextPage();
+                    }, 300);
+                }}
             );
 
             if (node) {
                 observerRef.current.observe(node);
             }
         },
-        [isLoading, isFetchingNextPage, hasNextPage, fetchNextPage]
+        [isLoading, isFetchingNextPage, hasNextPage, fetchNextPage],
     );
-
-    // Restrict loading to 10 videos per page
-    const allVideos = data?.pages.reduce<Video[]>((acc, page) => {
-        if (page.success && page.data) {
-            return [...acc, ...page.data.slice(0, 10)]; // Limit to 10 videos per page
-        }
-        return acc;
-    }, []) || [];
+              
+    const allVideos =
+        data?.pages.reduce<Video[]>((acc, page) => {
+            if (page.success && page.data) {
+                return [...acc, ...page.data];
+            }
+            return acc;
+        }, []) || [];
 
     return (
         <MainPageContainer $isSidebarOpen={isDesktopSidebarOpen}>
@@ -53,19 +53,19 @@ const MainPage = () => {
             <ScrollContainer>
                 <VideoGrid>
                     {isLoading
-                        ? Array.from({ length: 10 }).map((_, index) => (
-                              <div key={`skeleton-${index}`}>
-                                  <VideoCard isLoading size="medium" />
-                              </div>
-                          ))
+                        ? Array.from({ length: 20 }).map((_, index) => (
+                            <div key={`skeleton-${index}`}>
+                                <VideoCard isLoading size="medium" />
+                            </div>
+                        ))
                         : allVideos.map((video, index) => (
-                              <div
-                                  key={video.id}
-                                  ref={index === allVideos.length - 1 ? lastVideoRef : null}
-                              >
-                                  <VideoCard video={video} size="medium" />
-                              </div>
-                          ))}
+                            <div
+                                key={video.videopostId}
+                                ref={index === allVideos.length - 1 ? lastVideoRef : null}
+                            >
+                                <VideoCard video={video} size="medium" />
+                            </div>
+                        ))}
                 </VideoGrid>
                 {isFetchingNextPage && (
                     <LoadingWrapper>
@@ -80,7 +80,7 @@ const MainPage = () => {
 const MainPageContainer = styled.div<{ $isSidebarOpen: boolean }>`
     position: fixed;
     top: 56px;
-    left: ${({ $isSidebarOpen }) => ($isSidebarOpen ? '240px' : '72px')};
+    left: ${({ $isSidebarOpen }) => ($isSidebarOpen ? "240px" : "72px")};
     right: 0;
     bottom: 0;
     z-index: 1;

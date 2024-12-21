@@ -1,6 +1,5 @@
 // 비디오 미리보기 타입
 export interface VideoPreview {
-    video:{
         videopostId: string;
         videopostName: string;
         name: string;
@@ -11,5 +10,4 @@ export interface VideoPreview {
         duration: string;
         channelId?: string;
         description?: string
-    }
 }

@@ -3,10 +3,15 @@ import styled from "styled-components";
 import { VideoPreview } from "@@types/searchResult.type";
 import { formatVideoCount, formatDate } from "../../utils/format";
 
-const Video: React.FC<VideoPreview> = ({ video }) => {
+interface Props{
+    video : VideoPreview;
+}
+const Video: React.FC<Props> = ({ video }) => { 
     return (
         <VideoContainer>
+            <div style = {{width: 500}}>
             <Thumbnail src={video.thumbnailLocation} alt={video.videopostName} />
+            </div>
             <Details>
                 <Title>{video.videopostName}</Title>
                 <ViewCount>조회수 {formatVideoCount(video.views)}</ViewCount>
@@ -26,10 +31,11 @@ const VideoContainer = styled.div`
     padding: 10px;
     border-radius: 8px;
     min-width: 428px;
+    max-height : 280px;
 `;
 
 const Thumbnail = styled.img`
-    width: 38%;
+    width: 100%;
     background-color: transparent;
     object-fit: cover;
     visibility: inherit;

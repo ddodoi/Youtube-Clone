@@ -6,38 +6,34 @@ export interface Channel {
 }
 
 export interface Video {
-    id: string;
-    title: string;
+    videopostId: string;
+    videopostName: string;
     description: string;
-    thumbnailUrl: string;
-    videoUrl: string;
-    viewCount: number;
-    publishedAt: string;
+    thumbnailLocation: string;
+    videoLocation: string;
+    views: number;
+    createAt: string;
     channelId: string;
-    channelTitle: string;
-    channelThumbnail: string;
-    // 추가되는 필드들
-    duration: string;
-    createdAt: string;
-    channel: Channel;
-    previewUrl?: string;
-    likes?: number;
-    dislikes?: number;
+    name: string;
+    profileLocation: string;
+    runningTime: string;
 }
 
 // 채널 정보 타입
 export interface channel {
     id: string;
     name: string;
-    profileImageUrl: string;
+    profileImageURL: string;
     subscriberCount: string;
     videoCount: string;
-    customUrl?: string;
+    customURL?: string;
     totalView?: number;
     joinDate?: string;
     country?: string;
     description?: string;
     email?: string;
+    channelThumbnailURL?: string;
+    channelTitle?: string;
 }
 
 export interface PaginationMeta {
@@ -79,7 +75,7 @@ export interface VideoResponse {
 // VideoCard 컴포넌트용 타입
 export interface VideoCardProps {
     video?: Video;
-    onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
+    handleClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
     size?: 'small' | 'medium' | 'large';
     isLoading?: boolean;
 }
