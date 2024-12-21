@@ -7,11 +7,12 @@ export const useUser = () => {
         profileLocation: "",
         name: "",
         email: "",
+        channelId: "",
     });
 
     useEffect(() => {
-        fetchUserInfo().then(({ profileLocation, name, email }: UserInfoResponse) => {
-            setUser({ profileLocation, name, email });
+        fetchUserInfo().then(({ profileLocation, name, email, channelId }: UserInfoResponse) => {
+            setUser({ profileLocation, name, email, channelId });
         });
     }, []);
 

@@ -25,7 +25,7 @@ const Dropdown: React.FC<Props> = ({ children, toggleButton, isOpen, setIsOpen }
     return (
         <div ref={dropdownRef}>
             <button onClick={() => setIsOpen(!isOpen)}>{toggleButton}</button>
-            {isOpen && <div>{children}</div>}
+            {isOpen && children}
         </div>
     );
 };

@@ -55,6 +55,8 @@ export const useVideoFile = () => {
         createVideo(formData).then((res) => {
             window.alert("성공적으로 업로드되었습니다.");
             console.log(res);
+            setVideoFile(null);
+            setThumbnailFile(null);
         });
     };
 
