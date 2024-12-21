@@ -9,13 +9,13 @@ export interface Video {
     videopostId: string;
     videopostName: string;
     description: string;
-    thumbnailURL: string;
-    videoURL: string;
+    thumbnailLocation: string;
+    videoLocation: string;
     views: number;
     createAt: string;
     channelId: string;
     name: string;
-    channelThumbnailURL: string;
+    profileLocation: string;
     runningTime: string;
 }
 

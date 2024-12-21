@@ -29,7 +29,7 @@ const MainPage = () => {
                     timeoutRef.current = setTimeout(() => {
                         fetchNextPage();
                     }, 300);
-                }
+                }}
             );
 
             if (node) {

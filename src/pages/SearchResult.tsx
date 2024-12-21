@@ -20,7 +20,7 @@ const SearchResult: React.FC = () => {
     const fetchVideos = useCallback(async () => {
         if (loading || !hasMore) return; // 이미 로딩 중이거나 데이터가 없으면 종료
 
-        setLoading(true);
+        // setLoading(true);
         try {
             const response = await fetch(`/videos?page=${page}&limit=10`); // 한 번에 10개 로드
             const data = await response.json();
@@ -63,14 +63,14 @@ const SearchResult: React.FC = () => {
     useEffect(() => {
         fetchVideos();
     }, [page, fetchVideos]);
-
+    console.log(videos[0]);
     return (
         <SearchResultContainer $isSidebarOpen={isDesktopSidebarOpen}>
             <CategoryList />
             <ScrollContainer>
                 <VideoGrid>
-                    {videos.map((video) => (
-                        <Video key={video} video={video} />
+                    {videos.map((video, i) => (
+                        <Video key={i} video={video} />
                     ))}
                 </VideoGrid>
                 {loading && <Loader>Loading...</Loader>}
