@@ -10,6 +10,7 @@ import SearchResult from "./pages/SearchResult";
 import Channel from "./pages/Channel";
 import LoginPage from "./pages/LoginPage";
 import JoinPage from "./pages/JoinPage";
+import WatchPage from './pages/WatchPage';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -55,6 +56,15 @@ const router = createBrowserRouter([
         element: (
             <Layout>
                 <SearchResult />
+            </Layout>
+        ),
+        errorElement: <Error />,
+    },
+    {
+        path: "/watch/:videoId",
+        element: (
+            <Layout>
+                <WatchPage />
             </Layout>
         ),
         errorElement: <Error />,

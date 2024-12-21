@@ -20,17 +20,17 @@ const MainPage = () => {
                 observerRef.current.disconnect();
             }
 
-            observerRef.current = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting && hasNextPage) {
-                    if (timeoutRef.current) {
-                        clearTimeout(timeoutRef.current); 
-                    }
-
-                    timeoutRef.current = setTimeout(() => {
+            observerRef.current = new IntersectionObserver(
+                (entries) => {
+                    if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+                        console.log("Fetching next page...");
                         fetchNextPage();
-                    }, 300); 
+                    }
+                },
+                {
+                    rootMargin: "200px", // 하단부 200px 여유를 둠
                 }
-            });
+            );
 
             if (node) {
                 observerRef.current.observe(node);
@@ -39,9 +39,10 @@ const MainPage = () => {
         [isLoading, isFetchingNextPage, hasNextPage, fetchNextPage]
     );
 
+    // Restrict loading to 10 videos per page
     const allVideos = data?.pages.reduce<Video[]>((acc, page) => {
         if (page.success && page.data) {
-            return [...acc, ...page.data];
+            return [...acc, ...page.data.slice(0, 10)]; // Limit to 10 videos per page
         }
         return acc;
     }, []) || [];
@@ -52,7 +53,7 @@ const MainPage = () => {
             <ScrollContainer>
                 <VideoGrid>
                     {isLoading
-                        ? Array.from({ length: 20 }).map((_, index) => (
+                        ? Array.from({ length: 10 }).map((_, index) => (
                               <div key={`skeleton-${index}`}>
                                   <VideoCard isLoading size="medium" />
                               </div>
@@ -68,7 +69,7 @@ const MainPage = () => {
                 </VideoGrid>
                 {isFetchingNextPage && (
                     <LoadingWrapper>
-                        <LoadingText>동영상을 불러오는 중...</LoadingText>
+                        <LoadingText>Loading</LoadingText>
                     </LoadingWrapper>
                 )}
             </ScrollContainer>
