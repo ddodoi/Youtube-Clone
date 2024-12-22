@@ -3,17 +3,18 @@ import { styled } from "styled-components";
 interface Props {
     size?: number;
     children: React.ReactNode;
+    color?: string;
 }
 
-const SVG: React.FC<Props> = ({ size, children }) => {
+const SVG: React.FC<Props> = ({ size, children, color }) => {
     return (
-        <SVGStyle style={{ width: size, height: size }} size={size}>
+        <SVGStyle style={{ width: size, height: size }} size={size} color={color}>
             {children}
         </SVGStyle>
     );
 };
 
-const SVGStyle = styled.div<{ size?: number }>`
+const SVGStyle = styled.div<{ size?: number; color?: string }>`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -21,6 +22,7 @@ const SVGStyle = styled.div<{ size?: number }>`
     svg {
         width: ${({ size }) => size}px;
         height: ${({ size }) => size}px;
+        color: ${({ color }) => color};
     }
 `;
 
