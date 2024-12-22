@@ -4,6 +4,7 @@ import CommentItem from "./CommentItem";
 import CommentInput from "./CommentInput";
 import styled from "styled-components";
 import { Comment } from "../../../types/comment.type";
+import { useUser } from "@hooks/useUser";
 
 interface CommentsProps {
     videoId: number;
@@ -12,18 +13,19 @@ interface CommentsProps {
 const Comments = ({ videoId }: CommentsProps) => {
     // 임시 댓글 데이터 상태
     const [localComments, setLocalComments] = useState<Comment[]>([]);
-    useComments(videoId);
+    const { user } = useUser();
+    // useComments(videoId);
 
     const handleSubmitComment = (content: string, parentId?: string) => {
         if (!content.trim()) return;
-
+        if (!user.channelId) return;
         const newComment: Comment = {
             id: Date.now().toString(),
             content,
             author: {
-                id: "user1",
-                name: "사용자",
-                avatar: "https://via.placeholder.com/40",
+                id: user.channelId.toString(),
+                name: user.name,
+                avatar: user.profileLocation,
             },
             likes: 0,
             createdAt: new Date().toISOString(),
@@ -74,7 +76,7 @@ const Comments = ({ videoId }: CommentsProps) => {
             <Header>
                 <CommentCount>댓글 {(localComments.length || 0).toLocaleString()}개</CommentCount>
             </Header>
-            <CommentInput onSubmit={handleSubmitComment} />
+            <CommentInput onSubmit={handleSubmitComment} user={user} />
             <CommentList>
                 {localComments.map((comment) => (
                     <CommentItem
@@ -82,7 +84,7 @@ const Comments = ({ videoId }: CommentsProps) => {
                         {...comment}
                         onReply={(content) => handleSubmitComment(content, comment.id)}
                         onDelete={handleDeleteComment}
-                        currentUserId="user1"
+                        currentUserId={user.channelId?.toString()}
                     />
                 ))}
             </CommentList>

@@ -206,7 +206,6 @@ const SidebarOpen: React.FC<Props> = ({ ...props }) => {
     const filteredMenus = isLoggedIn ? menus : menus.filter((item) => item.defaultShow);
     const filteredMyPage = isLoggedIn ? myPage : myPage.filter((item) => item.defaultShow);
 
-    console.log("SidebarOpen");
     return (
         <SidebarOpenStyle {...props}>
             <header>

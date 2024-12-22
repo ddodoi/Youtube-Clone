@@ -21,6 +21,8 @@ const Layout: React.FC<Props> = ({ children }) => {
 const LayoutStyle = styled.main`
     width: 100%;
     margin: 56px 0 0 72px;
+    z-index: 100;
+    position: relative;
 `;
 
 export default Layout;

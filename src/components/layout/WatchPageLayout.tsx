@@ -1,6 +1,5 @@
 import { styled } from "styled-components";
 import Header from "../header/Header";
-import DesktopSidebar from "@components/sidebar/DesktopSidebar";
 import Sidebar from "@components/sidebar/Sidebar";
 
 interface Props {
@@ -11,7 +10,6 @@ const WatchPageLayout: React.FC<Props> = ({ children }) => {
     return (
         <>
             <Header />
-            {/* <DesktopSidebar /> */}
             <Sidebar />
             <WatchPageLayoutStyle>{children}</WatchPageLayoutStyle>
         </>
@@ -21,6 +19,8 @@ const WatchPageLayout: React.FC<Props> = ({ children }) => {
 const WatchPageLayoutStyle = styled.main`
     width: 100%;
     margin: 56px 0 0 0px;
+    position: relative;
+    z-index: 100;
 `;
 
 export default WatchPageLayout;

@@ -1,10 +1,10 @@
-import styled from 'styled-components';
-import { AiOutlineLike, AiOutlineDislike, AiFillLike, AiFillDislike } from 'react-icons/ai';
-import { useState, useRef, useEffect } from 'react';
-import { Comment } from '../../../types/comment.type';
-import { formatDate, formatNumber } from '../../../utils/format';
-import { BsThreeDots } from 'react-icons/bs';
-import { MdOutlineFlag, MdKeyboardArrowDown, MdModeEdit, MdDelete } from 'react-icons/md';
+import styled from "styled-components";
+import { AiOutlineLike, AiOutlineDislike, AiFillLike, AiFillDislike } from "react-icons/ai";
+import { useState, useRef, useEffect } from "react";
+import { Comment } from "../../../types/comment.type";
+import { formatDate, formatNumber } from "../../../utils/format";
+import { BsThreeDots } from "react-icons/bs";
+import { MdOutlineFlag, MdKeyboardArrowDown, MdModeEdit, MdDelete } from "react-icons/md";
 
 interface CommentItemProps extends Comment {
     onReply: (content: string) => void;
@@ -13,12 +13,23 @@ interface CommentItemProps extends Comment {
     isReply?: boolean;
 }
 
-const CommentItem = ({ id, author, content, likes, createdAt, replies, onReply, onDelete, currentUserId, isReply }: CommentItemProps) => {
+const CommentItem = ({
+    id,
+    author,
+    content,
+    likes,
+    createdAt,
+    replies,
+    onReply,
+    onDelete,
+    currentUserId,
+    isReply,
+}: CommentItemProps) => {
     const [isLiked, setIsLiked] = useState(false);
     const [isDisliked, setIsDisliked] = useState(false);
     const [showReplyInput, setShowReplyInput] = useState(false);
     const [showReplies, setShowReplies] = useState(false);
-    const [replyContent, setReplyContent] = useState('');
+    const [replyContent, setReplyContent] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editContent, setEditContent] = useState(content);
@@ -32,9 +43,9 @@ const CommentItem = ({ id, author, content, likes, createdAt, replies, onReply, 
             }
         };
 
-        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener("mousedown", handleClickOutside);
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
 
@@ -66,19 +77,19 @@ const CommentItem = ({ id, author, content, likes, createdAt, replies, onReply, 
     const handleSubmitReply = () => {
         if (!replyContent.trim()) return;
         onReply(replyContent);
-        setReplyContent('');
+        setReplyContent("");
         setShowReplyInput(false);
     };
 
     const handleEdit = () => {
         if (!editContent.trim()) return;
-        console.log('Edit comment:', editContent);
+        console.log("Edit comment:", editContent);
         setIsEditing(false);
         setShowDropdown(false);
     };
 
     const handleDelete = () => {
-        if (window.confirm('댓글을 삭제하시겠습니까?')) {
+        if (window.confirm("댓글을 삭제하시겠습니까?")) {
             onDelete(id);
         }
         setShowDropdown(false);
@@ -86,11 +97,11 @@ const CommentItem = ({ id, author, content, likes, createdAt, replies, onReply, 
 
     const handleDropdownAction = (action: string) => {
         switch (action) {
-            case 'edit':
+            case "edit":
                 setIsEditing(true);
                 setShowDropdown(false);
                 break;
-            case 'delete':
+            case "delete":
                 handleDelete();
                 break;
             default:
@@ -104,24 +115,19 @@ const CommentItem = ({ id, author, content, likes, createdAt, replies, onReply, 
             <Content>
                 {isEditing ? (
                     <EditInput>
-                        <Input 
+                        <Input
                             value={editContent}
                             onChange={(e) => setEditContent(e.target.value)}
-                            onKeyPress={(e) => {
-                                if (e.key === 'Enter' && !e.shiftKey) {
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter" && !e.shiftKey) {
                                     e.preventDefault();
                                     handleEdit();
                                 }
                             }}
                         />
                         <ButtonGroup>
-                            <CancelButton onClick={() => setIsEditing(false)}>
-                                취소
-                            </CancelButton>
-                            <SubmitButton 
-                                onClick={handleEdit}
-                                disabled={!editContent.trim()}
-                            >
+                            <CancelButton onClick={() => setIsEditing(false)}>취소</CancelButton>
+                            <SubmitButton onClick={handleEdit} disabled={!editContent.trim()}>
                                 저장
                             </SubmitButton>
                         </ButtonGroup>
@@ -132,27 +138,35 @@ const CommentItem = ({ id, author, content, likes, createdAt, replies, onReply, 
                             <Author>{author.name}</Author>
                             <Timestamp>{formatDate(createdAt)}</Timestamp>
                             <MoreButtonWrapper ref={dropdownRef}>
-                                <MoreButton onClick={(e) => {
-                                    e.stopPropagation();
-                                    setShowDropdown(!showDropdown);
-                                }}>
-                                    <BsThreeDots size={20} style={{ transform: 'rotate(90deg)' }} />
+                                <MoreButton
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setShowDropdown(!showDropdown);
+                                    }}
+                                >
+                                    <BsThreeDots size={20} style={{ transform: "rotate(90deg)" }} />
                                 </MoreButton>
                                 {showDropdown && (
                                     <DropdownMenu>
                                         {isAuthor ? (
                                             <>
-                                                <DropdownItem onClick={() => handleDropdownAction('edit')}>
+                                                <DropdownItem
+                                                    onClick={() => handleDropdownAction("edit")}
+                                                >
                                                     <MdModeEdit size={20} />
                                                     수정
                                                 </DropdownItem>
-                                                <DropdownItem onClick={() => handleDropdownAction('delete')}>
+                                                <DropdownItem
+                                                    onClick={() => handleDropdownAction("delete")}
+                                                >
                                                     <MdDelete size={20} />
                                                     삭제
                                                 </DropdownItem>
                                             </>
                                         ) : (
-                                            <DropdownItem onClick={() => handleDropdownAction('report')}>
+                                            <DropdownItem
+                                                onClick={() => handleDropdownAction("report")}
+                                            >
                                                 <MdOutlineFlag size={20} />
                                                 신고
                                             </DropdownItem>
@@ -167,37 +181,37 @@ const CommentItem = ({ id, author, content, likes, createdAt, replies, onReply, 
                 <Actions>
                     <ActionButton onClick={handleLike} $isLiked={isLiked}>
                         {isLiked ? <AiFillLike size={16} /> : <AiOutlineLike size={16} />}
-                        <Count>{likeCount > 0 ? formatNumber(likeCount) : ''}</Count>
+                        <Count>{likeCount > 0 ? formatNumber(likeCount) : ""}</Count>
                     </ActionButton>
                     <ActionButton onClick={handleDislike} $isDisliked={isDisliked}>
                         {isDisliked ? <AiFillDislike size={16} /> : <AiOutlineDislike size={16} />}
                     </ActionButton>
-                    <ReplyButton onClick={() => setShowReplyInput(true)}>
-                        답글
-                    </ReplyButton>
+                    <ReplyButton onClick={() => setShowReplyInput(true)}>답글</ReplyButton>
                 </Actions>
                 {showReplyInput && (
                     <ReplyInput>
                         <UserAvatar />
-                        <Input 
-                            placeholder="답글 추가..." 
+                        <Input
+                            placeholder="답글 추가..."
                             value={replyContent}
                             onChange={(e) => setReplyContent(e.target.value)}
                             onKeyPress={(e) => {
-                                if (e.key === 'Enter' && !e.shiftKey) {
+                                if (e.key === "Enter" && !e.shiftKey) {
                                     e.preventDefault();
                                     handleSubmitReply();
                                 }
                             }}
                         />
                         <ButtonGroup>
-                            <CancelButton onClick={() => {
-                                setShowReplyInput(false);
-                                setReplyContent('');
-                            }}>
+                            <CancelButton
+                                onClick={() => {
+                                    setShowReplyInput(false);
+                                    setReplyContent("");
+                                }}
+                            >
                                 취소
                             </CancelButton>
-                            <SubmitButton 
+                            <SubmitButton
                                 onClick={handleSubmitReply}
                                 disabled={!replyContent.trim()}
                             >
@@ -209,19 +223,19 @@ const CommentItem = ({ id, author, content, likes, createdAt, replies, onReply, 
                 {replies && replies.length > 0 && (
                     <RepliesSection>
                         <ShowRepliesButton onClick={() => setShowReplies(!showReplies)}>
-                            <MdKeyboardArrowDown 
-                                size={30} 
-                                style={{ 
-                                    transform: showReplies ? 'rotate(180deg)' : 'rotate(0deg)',
-                                    transition: 'transform 0.2s ease'
-                                }} 
+                            <MdKeyboardArrowDown
+                                size={30}
+                                style={{
+                                    transform: showReplies ? "rotate(180deg)" : "rotate(0deg)",
+                                    transition: "transform 0.2s ease",
+                                }}
                             />
-                            {showReplies ? '답글 숨기기' : `답글 ${replies.length}개`}
+                            {showReplies ? "답글 숨기기" : `답글 ${replies.length}개`}
                         </ShowRepliesButton>
                         {showReplies && (
                             <RepliesList>
                                 {replies.map((reply) => (
-                                    <CommentItem 
+                                    <CommentItem
                                         key={reply.id}
                                         {...reply}
                                         onReply={onReply}
@@ -242,7 +256,7 @@ const CommentItem = ({ id, author, content, likes, createdAt, replies, onReply, 
 const Container = styled.div<{ $isReply?: boolean }>`
     display: flex;
     gap: 12px;
-    padding: ${(props) => (props.$isReply ? '8px 0 8px 48px' : '8px 0')};
+    padding: ${(props) => (props.$isReply ? "8px 0 8px 48px" : "8px 0")};
     width: 100%;
     position: relative;
 `;
@@ -271,18 +285,18 @@ const AuthorInfo = styled.div`
 const Author = styled.span`
     font-size: 13px;
     font-weight: 500;
-    color: ${({ theme }) => theme?.colors?.text?.primary || '#030303'};
+    color: ${({ theme }) => theme?.colors?.text?.primary || "#030303"};
 `;
 
 const Timestamp = styled.span`
     font-size: 12px;
-    color: ${({ theme }) => theme?.colors?.text?.secondary || '#606060'};
+    color: ${({ theme }) => theme?.colors?.text?.secondary || "#606060"};
 `;
 
 const Text = styled.p`
     font-size: 14px;
     line-height: 20px;
-    color: ${({ theme }) => theme?.colors?.text?.primary || '#030303'};
+    color: ${({ theme }) => theme?.colors?.text?.primary || "#030303"};
     margin: 0;
 `;
 
@@ -302,17 +316,17 @@ const ActionButton = styled.button<{ $isLiked?: boolean; $isDisliked?: boolean }
     padding: 8px;
     border-radius: 50%;
     cursor: pointer;
-    color: ${({ theme }) => theme?.colors?.text?.primary || '#030303'};
+    color: ${({ theme }) => theme?.colors?.text?.primary || "#030303"};
 
     &:hover {
-        background: ${({ theme }) => theme?.colors?.button?.hover || '#e5e5e5'};
+        background: ${({ theme }) => theme?.colors?.button?.hover || "#e5e5e5"};
     }
 
     svg {
-        color: ${(props) => (props.$isLiked || props.$isDisliked 
-                ? '#065fd4'
-                : ({ theme }) => theme?.colors?.text?.secondary || '#606060')
-        };
+        color: ${(props) =>
+            props.$isLiked || props.$isDisliked
+                ? "#065fd4"
+                : ({ theme }) => theme?.colors?.text?.secondary || "#606060"};
     }
 `;
 
@@ -326,11 +340,11 @@ const ReplyButton = styled.button`
     padding: 8px;
     font-size: 12px;
     font-weight: 500;
-    color: ${({ theme }) => theme?.colors?.text?.secondary || '#606060'};
+    color: ${({ theme }) => theme?.colors?.text?.secondary || "#606060"};
     cursor: pointer;
 
     &:hover {
-        background: ${({ theme }) => theme?.colors?.button?.hover || '#e5e5e5'};
+        background: ${({ theme }) => theme?.colors?.button?.hover || "#e5e5e5"};
         border-radius: 50%;
     }
 `;
@@ -346,7 +360,7 @@ const ReplyInput = styled.div`
 const Input = styled.input`
     flex: 1;
     border: none;
-    border-bottom: 1px solid ${({ theme }) => theme?.colors?.border || '#e5e5e5'};
+    border-bottom: 1px solid ${({ theme }) => theme?.colors?.border || "#e5e5e5"};
     padding: 4px 0;
     font-size: 14px;
     outline: none;
@@ -405,11 +419,11 @@ const CancelButton = styled.button`
     border-radius: 18px;
     font-size: 14px;
     font-weight: 500;
-    color: ${({ theme }) => theme?.colors?.text?.primary || '#030303'};
+    color: ${({ theme }) => theme?.colors?.text?.primary || "#030303"};
     cursor: pointer;
 
     &:hover {
-        background: ${({ theme }) => theme?.colors?.button?.hover || '#e5e5e5'};
+        background: ${({ theme }) => theme?.colors?.button?.hover || "#e5e5e5"};
     }
 `;
 
@@ -418,13 +432,13 @@ const SubmitButton = styled.button`
     border-radius: 18px;
     font-size: 14px;
     font-weight: 500;
-    background: ${({ theme }) => theme?.colors?.button?.primary || '#065fd4'};
+    background: ${({ theme }) => theme?.colors?.button?.primary || "#065fd4"};
     color: white;
     border: none;
     cursor: pointer;
 
     &:disabled {
-        background: ${({ theme }) => theme?.colors?.button?.disabled || '#cccccc'};
+        background: ${({ theme }) => theme?.colors?.button?.disabled || "#cccccc"};
         cursor: not-allowed;
     }
 `;
@@ -466,7 +480,7 @@ const DropdownItem = styled.div`
     padding: 8px 16px;
     cursor: pointer;
     font-size: 14px;
-    
+
     &:hover {
         background: #f2f2f2;
     }
@@ -484,4 +498,4 @@ const EditInput = styled.div`
     padding-left: 40px;
 `;
 
-export default CommentItem; 
+export default CommentItem;
