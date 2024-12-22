@@ -73,10 +73,11 @@ const router = createBrowserRouter([
 
 function App() {
     const { getTheme } = useThemeStore();
+    const currentTheme = getTheme();
 
     return (
         <QueryClientProvider client={queryClient}>
-            <ThemeProvider theme={getTheme()}>
+            <ThemeProvider theme={currentTheme}>
                 <GlobalStyle />
                 <RouterProvider router={router} />
             </ThemeProvider>

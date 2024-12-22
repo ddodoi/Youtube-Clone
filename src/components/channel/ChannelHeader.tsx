@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Tab, Tabs } from "@components/common/Tabs";
 import { TabItem } from "../../pages/Channel";
 import { useChannel } from "@hooks/useChannel";
+import { useParams } from "react-router-dom";
 
 interface Props {
     setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -14,7 +15,9 @@ interface Props {
 }
 
 const ChannelHeader: React.FC<Props> = ({ setActiveIndex, activeIndex, tabContents }) => {
-    const { channel } = useChannel();
+    const params = useParams();
+    const channelId = Number(params.channelId) || undefined;
+    const { channel } = useChannel({ channelId });
     const {
         bannerLocation: bannerURL,
         description,

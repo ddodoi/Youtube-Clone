@@ -21,7 +21,11 @@ export const formatVideoCount = (views: number): string => {
 
 // 날짜 포맷팅 함수
 export const formatDate = (dateString: string): string => {
+    if (!dateString) return '';
+    
     const date = new Date(dateString);
+    if (isNaN(date.getTime())) return '';  // 유효하지 않은 날짜면 빈 문자열 반환
+    
     const now = new Date();
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
   
@@ -62,6 +66,7 @@ export const formatDate = (dateString: string): string => {
   
     // 1년 이상
     const diffInYears = Math.floor(diffInDays / 365);
+    if (isNaN(diffInYears)) return '';  // 계산 결과가 NaN이면 빈 문자열 반환
     return `${diffInYears}년 전`;
 };
   
@@ -100,4 +105,10 @@ export const formatNumber = (num: number): string => {
     }
     
     return num.toString();
+};
+
+export const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 };

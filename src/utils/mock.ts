@@ -116,6 +116,10 @@ export class Mock {
         return this.videos.slice((page - 1) * limit, (page - 1) * limit + limit);
     }
 
+    getVideo({ videopostId }: { videopostId: number }) {
+        return this.videos.find((video) => video.videopostId === videopostId);
+    }
+
     getRandomChannel(): Channel {
         const channelId = Math.floor(Math.random() * this.channels.length) + 1;
         return this.channels.find((channel) => channel.channelId === channelId)!;
