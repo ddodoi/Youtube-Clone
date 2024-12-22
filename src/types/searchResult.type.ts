@@ -1,6 +1,6 @@
 // 비디오 미리보기 타입
 export interface VideoPreview {
-        videopostId: string;
+        videopostId: number;
         videopostName: string;
         name: string;
         thumbnailLocation: string;
@@ -8,6 +8,7 @@ export interface VideoPreview {
         views: number;
         createAt: string;
         duration?: string;
-        channelId?: string;
-        description?: string
-}
+        channelId?: number;
+        description?: string;
+    }
+    
