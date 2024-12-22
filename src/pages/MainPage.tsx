@@ -1,6 +1,6 @@
 import { useRef, useCallback } from "react";
 import { Video } from "@@types/video.type";
-import VideoCard from "../components/mainPage/videoCard/VideoCard";
+import VideoCard from "@components/mainPage/videoCard/VideoCard";
 import CategoryList from "@components/mainPage/category/CategoryList";
 import styled from "styled-components";
 import { useVideos } from "@hooks/useVideos";
@@ -42,6 +42,8 @@ const MainPage = () => {
     const allVideos =
         data?.pages.reduce<Video[]>((acc, page) => {
             if (page.success && page.data) {
+                console.log(acc)
+                console.log(page)
                 return [...acc, ...page.data];
             }
             return acc;
