@@ -18,6 +18,11 @@ const ChannelHeader: React.FC<Props> = ({ setActiveIndex, activeIndex, tabConten
     const params = useParams();
     const channelId = Number(params.channelId) || undefined;
     const { channel } = useChannel({ channelId });
+    const [isSubscribed, setIsSubscribed] = useState(false);
+    const [isImgLoading, setIsImgLoading] = useState(true);
+    if (!channel) {
+        return <div>채널 정보 조회중</div>;
+    }
     const {
         bannerLocation: bannerURL,
         description,
@@ -29,8 +34,6 @@ const ChannelHeader: React.FC<Props> = ({ setActiveIndex, activeIndex, tabConten
     } = channel;
 
     // const bannerURL = "";
-    const [isSubscribed, setIsSubscribed] = useState(false);
-    const [isImgLoading, setIsImgLoading] = useState(true);
 
     const handleSubscribe = () => {
         setIsSubscribed(!isSubscribed);
