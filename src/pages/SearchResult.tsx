@@ -1,23 +1,22 @@
-import React, {useState, useRef, useCallback } from "react";
+import React, {useRef, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import Video from "@components/searchPage/Video";
-import { VideoPreview } from "@@types/searchResult.type";
 import CategoryList from "@components/mainPage/category/CategoryList";
 import { useLayoutStore } from "@stores/layoutStore";
 import { useVideos } from "@hooks/useVideos";
 import VideoCard from "@components/mainPage/videoCard/VideoCard";
 
+
 const SearchResult: React.FC = () => {
-    const { isDesktopSidebarOpen } = useLayoutStore();
     const [searchParams] = useSearchParams();
     const fetchSearchQuery = searchParams.get("search_query") || ""; // 검색어 가져오기
-    const [loading] = useState(false); // 로딩 상태
-    const [hasMore] = useState(true); // 추가 데이터 유무
-    const loaderRef = useRef<HTMLDivElement | null>(null); // 로더 참조
     const observerRef = useRef<IntersectionObserver | null>(null);
     const timeoutRef = useRef<NodeJS.Timeout | null>(null); // 타임아웃 참조
-    const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useVideos();
+    const { videos, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useVideos();
+    const { isDesktopSidebarOpen } = useLayoutStore();
+
+
 
     const lastVideoRef = useCallback(
         (node: HTMLDivElement | null) => {
@@ -45,15 +44,7 @@ const SearchResult: React.FC = () => {
         },
         [isLoading, isFetchingNextPage, hasNextPage, fetchNextPage],
     );
-              
-    const allVideos =
-        data?.pages.reduce<VideoPreview[]>((acc, page) => {
-            if (page.success && page.data) {
-                return [...acc, ...page.data];
-            }
-            return acc;
-        }, []) || [];
-        
+
     return (
         <SearchResultContainer $isSidebarOpen={isDesktopSidebarOpen}>
             <CategoryList />
@@ -62,24 +53,24 @@ const SearchResult: React.FC = () => {
                     {isLoading
                         ? Array.from({ length: 10 }).map((_, index) => (
                             <div key={`skeleton-${index}`}>
-                                <VideoCard isLoading/>
+                                <VideoCard isLoading />
                             </div>
                         ))
-                        : allVideos.map((video, i) => (
+                        : videos.map((video, i) => (
                             <div
                                 key={video.videopostId}
-                                ref={i === allVideos.length - 1 ? lastVideoRef : null}
+                                ref={i === videos.length - 1 ? lastVideoRef : null}
                             >
                                 <Video key={i} video={video} />
                             </div>
-                    ))}
+                        ))}
                 </VideoGrid>
-                {loading && <Loader>Loading...</Loader>}
-                {hasMore && <div ref={loaderRef} style={{ height: "1px" }} />} {/* 로더 */}
+                {isFetchingNextPage && <Loader>Loading...</Loader>}
             </ScrollContainer>
         </SearchResultContainer>
     );
 };
+
 
 const SearchResultContainer = styled.div<{ $isSidebarOpen: boolean }>`
     position: fixed;
