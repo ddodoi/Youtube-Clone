@@ -1,13 +1,12 @@
 import { useRef, useCallback } from "react";
-import { Video } from "@@types/video.type";
-import VideoCard from "@components/mainPage/videoCard/VideoCard";
+import VideoCard from "../components/mainPage/videoCard/VideoCard";
 import CategoryList from "@components/mainPage/category/CategoryList";
 import styled from "styled-components";
 import { useVideos } from "@hooks/useVideos";
 import { useLayoutStore } from "@stores/layoutStore";
 
 const MainPage = () => {
-    const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useVideos();
+    const { videos, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useVideos();
     const { isDesktopSidebarOpen } = useLayoutStore();
     const observerRef = useRef<IntersectionObserver | null>(null);
     const timeoutRef = useRef<NodeJS.Timeout | null>(null); // 타임아웃 참조
@@ -29,8 +28,8 @@ const MainPage = () => {
                     timeoutRef.current = setTimeout(() => {
                         fetchNextPage();
                     }, 300);
-                }}
-            );
+                }
+            });
 
             if (node) {
                 observerRef.current.observe(node);
@@ -38,16 +37,6 @@ const MainPage = () => {
         },
         [isLoading, isFetchingNextPage, hasNextPage, fetchNextPage],
     );
-              
-    const allVideos =
-        data?.pages.reduce<Video[]>((acc, page) => {
-            if (page.success && page.data) {
-                console.log(acc)
-                console.log(page)
-                return [...acc, ...page.data];
-            }
-            return acc;
-        }, []) || [];
 
     return (
         <MainPageContainer $isSidebarOpen={isDesktopSidebarOpen}>
@@ -56,18 +45,18 @@ const MainPage = () => {
                 <VideoGrid>
                     {isLoading
                         ? Array.from({ length: 20 }).map((_, index) => (
-                            <div key={`skeleton-${index}`}>
-                                <VideoCard isLoading size="medium" />
-                            </div>
-                        ))
-                        : allVideos.map((video, index) => (
-                            <div
-                                key={video.videopostId}
-                                ref={index === allVideos.length - 1 ? lastVideoRef : null}
-                            >
-                                <VideoCard video={video} size="medium" />
-                            </div>
-                        ))}
+                              <div key={`skeleton-${index}`}>
+                                  <VideoCard isLoading size="medium" />
+                              </div>
+                          ))
+                        : videos.map((video, index) => (
+                              <div
+                                  key={video.videopostId}
+                                  ref={index === videos.length - 1 ? lastVideoRef : null}
+                              >
+                                  <VideoCard video={video} size="medium" />
+                              </div>
+                          ))}
                 </VideoGrid>
                 {isFetchingNextPage && (
                     <LoadingWrapper>
@@ -137,13 +126,13 @@ const VideoGrid = styled.div`
     }
 `;
 
-const LoadingWrapper = styled.div`
+export const LoadingWrapper = styled.div`
     display: flex;
     justify-content: center;
     padding: 100px 0px;
 `;
 
-const LoadingText = styled.div`
+export const LoadingText = styled.div`
     color: #606060;
     font-size: 14px;
     text-align: center;

@@ -61,7 +61,7 @@ const router = createBrowserRouter([
         errorElement: <Error />,
     },
     {
-        path: "/watch/:videoId",
+        path: "/watch",
         element: (
             <Layout>
                 <WatchPage />

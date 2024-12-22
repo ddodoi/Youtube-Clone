@@ -1,14 +1,46 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchVideos } from "../apis/videos.api";
+import { Video } from "@@types/video.type";
+import { useParams } from "react-router-dom";
 
 export const useVideos = (limit: number = 20) => {
-    return useInfiniteQuery({
+    const params = useParams();
+    const channelId = Number(params.channelId) || undefined;
+
+    const getVideos = ({ pageParam }: { pageParam: number }) => {
+        return fetchVideos({
+            channelId,
+            page: pageParam,
+            limit,
+        });
+    };
+
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isFetching,
+        isFetched,
+        isLoading,
+    } = useInfiniteQuery({
         queryKey: ["videos"],
-        queryFn: ({ pageParam = 1 }) => fetchVideos({ page: pageParam, limit }),
+        queryFn: ({ pageParam }) => getVideos({ pageParam }),
+        initialPageParam: 1,
         getNextPageParam: (lastPage) => {
-            if (!lastPage.success || !lastPage.meta) return undefined;
             return lastPage.meta.hasNextPage ? lastPage.meta.currentPage + 1 : undefined;
         },
-        initialPageParam: 1,
     });
+
+    const videos: Video[] = data ? data.pages.flatMap((page) => page.videos) : [];
+
+    return {
+        videos,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isFetching,
+        isFetched,
+        isLoading,
+    };
 };

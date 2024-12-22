@@ -52,6 +52,7 @@ const Header = () => {
 };
 
 const HeaderStyle = styled.header`
+    background: #fff;
     position: fixed;
     top: 0;
     left: 0;

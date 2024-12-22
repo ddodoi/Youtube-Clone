@@ -1,28 +1,30 @@
-import { fetchVideos } from "@apis/channel.api";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { Channel } from "@@types/channel.type";
+import { fetchChannel } from "@apis/channel.api";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 export const useChannel = () => {
     const params = useParams();
-    const channelId = params.channelId;
-
-    const getVideos = ({ pageParam }: { pageParam: number }) => {
-        if (!channelId) return;
-        return fetchVideos({
-            channelId: Number(channelId),
-            page: pageParam,
-            limit: 20,
-        });
-    };
-
-    const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery({
-        queryKey: ["videos", channelId],
-        queryFn: ({ pageParam }) => getVideos({ pageParam }),
-        initialPageParam: 1,
-        getNextPageParam: (lastPage) => {
-            return lastPage.meta.hasNextPage ? lastPage.meta.currentPage + 1 : undefined;
-        },
+    const channelId = Number(params.channelId) || null;
+    const [channel, setChannel] = useState<Channel>({
+        bannerLocation: "",
+        description: "",
+        name: "",
+        profileLocation: "",
+        subscribers: 0,
+        videoCount: 0,
+        email: "",
+        channelId,
     });
 
-    return { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading };
+    useEffect(() => {
+        if (!channelId) {
+            return window.alert("channelId path parameter가 필요함니다.");
+        }
+        fetchChannel({ channelId }).then((channel: Channel) => {
+            setChannel({ ...channel });
+        });
+    }, [channelId]);
+
+    return { channel };
 };

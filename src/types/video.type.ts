@@ -1,53 +1,24 @@
-//비디오 정보 타입
-export interface Channel {
-    id: string;
-    title: string;
-    thumbnail: string;
-}
-
 export interface Video {
-    videopostId: string;
-    videopostName: string;
-    description: string;
+    videopostId: number;
+    videopostName: string; // 동영상 제목
     thumbnailLocation: string;
     videoLocation: string;
     views: number;
-    createAt: string;
-    channelId: string;
-    name: string;
-    profileLocation: string;
-    runningTime: string;
+    createAt: string; // 2020-05-06T15:41:24.000Z (ISO)
+    channelId: number;
+    name: string; // 채널명
+    runningTime: number; // 43.21 (초)
 }
 
-// 채널 정보 타입
-export interface channel {
-    id: string;
-    name: string;
-    profileImageURL: string;
-    subscriberCount: string;
-    videoCount: string;
-    customURL?: string;
-    totalView?: number;
-    joinDate?: string;
-    country?: string;
-    description?: string;
-    email?: string;
-    channelThumbnailURL?: string;
-    channelTitle?: string;
-}
-
-export interface PaginationMeta {
-    currentPage: number;
-    totalPage: number;
+export interface Meta {
     hasNextPage: boolean;
+    currentPage: number;
 }
 
 // API 응답 타입
-export interface VideoListResponse {
-    success: boolean;
-    data?: Video[];
-    meta?: PaginationMeta;
-    error?: string;
+export interface VideosResponse {
+    videos: Video[];
+    meta: Meta;
 }
 
 export interface VideoUpload {
@@ -67,15 +38,7 @@ export interface PlayerState {
 }
 
 // 비디오 API 응답 타입
-export interface VideoResponse {
-    items: Video[];
-    nextPageToken?: string;
-}
-
-// VideoCard 컴포넌트용 타입
-export interface VideoCardProps {
-    video?: Video;
-    handleClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
-    size?: 'small' | 'medium' | 'large';
-    isLoading?: boolean;
-}
+// export interface VideoResponse {
+//     items: Video[];
+//     nextPageToken?: string;
+// }
