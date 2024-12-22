@@ -1,6 +1,7 @@
-import { useRef, useEffect, memo } from 'react';
-import styled from 'styled-components';
+import { useRef, useEffect, memo } from "react";
+import styled from "styled-components";
 import { MdVolumeOff, MdVolumeUp, MdSubtitles } from "react-icons/md";
+import { formatDuration } from "../../../utils/format";
 
 interface VideoMetadata {
     isHovered: boolean;
@@ -17,98 +18,97 @@ interface VideoPreviewPlayerProps {
     onMouseLeave: () => void;
     onToggleMute: (e: React.MouseEvent) => void;
     onToggleCaptions: (e: React.MouseEvent) => void;
-    duration?: string;
+    duration?: number;
 }
 
-const VideoPreviewPlayer = memo(({
-    thumbnailUrl,
-    previewUrl,
-    metadata,
-    onMouseEnter,
-    onMouseLeave,
-    onToggleMute,
-    onToggleCaptions,
-    duration
-}: VideoPreviewPlayerProps) => {
-    const videoRef = useRef<HTMLVideoElement>(null);
-    const previewTimeoutRef = useRef<NodeJS.Timeout>();
+const VideoPreviewPlayer = memo(
+    ({
+        thumbnailUrl,
+        previewUrl,
+        metadata,
+        onMouseEnter,
+        onMouseLeave,
+        onToggleMute,
+        onToggleCaptions,
+        duration,
+    }: VideoPreviewPlayerProps) => {
+        const videoRef = useRef<HTMLVideoElement>(null);
+        const previewTimeoutRef = useRef<NodeJS.Timeout>();
 
-    useEffect(() => {
-        if (metadata.isHovered && videoRef.current && previewUrl) {
-            previewTimeoutRef.current = setTimeout(() => {
-                videoRef.current?.play();
-            }, 300);
-        }
-
-        return () => {
-            if (previewTimeoutRef.current) {
-                clearTimeout(previewTimeoutRef.current);
+        useEffect(() => {
+            if (metadata.isHovered && videoRef.current && previewUrl) {
+                previewTimeoutRef.current = setTimeout(() => {
+                    videoRef.current?.play();
+                }, 300);
             }
+
+            return () => {
+                if (previewTimeoutRef.current) {
+                    clearTimeout(previewTimeoutRef.current);
+                }
+                if (videoRef.current) {
+                    videoRef.current.pause();
+                    videoRef.current.currentTime = 0;
+                }
+            };
+        }, [metadata.isHovered, previewUrl]);
+
+        useEffect(() => {
             if (videoRef.current) {
-                videoRef.current.pause();
-                videoRef.current.currentTime = 0;
+                videoRef.current.muted = metadata.isMuted;
             }
-        };
-    }, [metadata.isHovered, previewUrl]);
+        }, [metadata.isMuted]);
 
-    useEffect(() => {
-        if (videoRef.current) {
-            videoRef.current.muted = metadata.isMuted;
-        }
-    }, [metadata.isMuted]);
-
-    return (
-        <Container
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-        >
-            {metadata.isHovered && previewUrl ? (
-                <>
-                    <Video
-                        ref={videoRef}
-                        src={previewUrl}
-                        muted={metadata.isMuted}
-                        loop
-                        playsInline
-                    >
-                        {metadata.showCaptions && (
-                            <track 
-                                kind="captions" 
-                                src="/captions/ko.vtt" 
-                                srcLang="ko" 
-                                label="한국어" 
-                                default 
-                            />
-                        )}
-                    </Video>
-                    {metadata.isLoading && <LoadingOverlay />}
-                    <Controls>
-                        <ControlButton
-                            onClick={onToggleMute}
-                            aria-label={metadata.isMuted ? "음소거 해제" : "음소거"}
-                            title={metadata.isMuted ? "음소거 해제" : "음소거"}
+        return (
+            <Container onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+                {metadata.isHovered && previewUrl ? (
+                    <>
+                        <Video
+                            ref={videoRef}
+                            src={previewUrl}
+                            muted={metadata.isMuted}
+                            loop
+                            playsInline
                         >
-                            {metadata.isMuted ? <MdVolumeOff /> : <MdVolumeUp />}
-                        </ControlButton>
-                        <ControlButton
-                            onClick={onToggleCaptions}
-                            aria-label={metadata.showCaptions ? "자막 끄기" : "자막 켜기"}
-                            title={metadata.showCaptions ? "자막 끄기" : "자막 켜기"}
-                            $active={metadata.showCaptions}
-                        >
-                            <MdSubtitles />
-                        </ControlButton>
-                    </Controls>
-                </>
-            ) : (
-                <Thumbnail src={thumbnailUrl} alt="" loading="lazy" />
-            )}
-            {duration && <DurationBadge>{duration}</DurationBadge>}
-        </Container>
-    );
-});
+                            {metadata.showCaptions && (
+                                <track
+                                    kind="captions"
+                                    src="/captions/ko.vtt"
+                                    srcLang="ko"
+                                    label="한국어"
+                                    default
+                                />
+                            )}
+                        </Video>
+                        {metadata.isLoading && <LoadingOverlay />}
+                        <Controls>
+                            <ControlButton
+                                onClick={onToggleMute}
+                                aria-label={metadata.isMuted ? "음소거 해제" : "음소거"}
+                                title={metadata.isMuted ? "음소거 해제" : "음소거"}
+                            >
+                                {metadata.isMuted ? <MdVolumeOff /> : <MdVolumeUp />}
+                            </ControlButton>
+                            <ControlButton
+                                onClick={onToggleCaptions}
+                                aria-label={metadata.showCaptions ? "자막 끄기" : "자막 켜기"}
+                                title={metadata.showCaptions ? "자막 끄기" : "자막 켜기"}
+                                $active={metadata.showCaptions}
+                            >
+                                <MdSubtitles />
+                            </ControlButton>
+                        </Controls>
+                    </>
+                ) : (
+                    <Thumbnail src={thumbnailUrl} alt="" loading="lazy" />
+                )}
+                {duration && <DurationBadge>{formatDuration(Math.floor(duration))}</DurationBadge>}
+            </Container>
+        );
+    },
+);
 
-VideoPreviewPlayer.displayName = 'VideoPreviewPlayer';
+VideoPreviewPlayer.displayName = "VideoPreviewPlayer";
 
 const Container = styled.div`
     position: relative;
@@ -171,7 +171,7 @@ const ControlButton = styled.button<{ $active?: boolean }>`
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: ${props => props.$active ? '#1c62b9' : 'white'};
+    color: ${(props) => (props.$active ? "#1c62b9" : "white")};
     transition: all 0.2s;
 
     &:hover {

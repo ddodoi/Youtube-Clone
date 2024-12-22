@@ -5,16 +5,7 @@ import { formatVideoCount, formatDate } from "../../../utils/format";
 import VideoCardSkeleton from "./VideoCardSkeleton";
 import VideoPreviewPlayer from "./VideoPreviewPlayer";
 import VideoDropdown from "../VideoDropdown";
-import {
-    ThumbnailWrapper,
-    Info,
-    Title,
-    Channel,
-    Stats,
-    Views,
-    Date,
-    TitleRow,
-} from "./styles";
+import { ThumbnailWrapper, Info, Title, Channel, Stats, Views, Date, TitleRow } from "./styles";
 import styled from "styled-components";
 
 const ChannelWrapper = styled.div`
@@ -36,7 +27,12 @@ const ChannelTooltip = styled.div`
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 `;
 
-const VideoCard: React.FC<VideoCardProps> = ({ video, handleClick, size = "medium", isLoading }) => {
+const VideoCard: React.FC<VideoCardProps> = ({
+    video,
+    handleClick,
+    size = "medium",
+    isLoading,
+}) => {
     const navigate = useNavigate();
 
     const [metadata, setMetadata] = useState({
@@ -89,8 +85,8 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, handleClick, size = "mediu
         <Container size={size} onClick={handleClick || handleVideoClick}>
             <ThumbnailWrapper>
                 <VideoPreviewPlayer
-                    thumbnailUrl={video.thumbnailURL}
-                    previewUrl={video.videoURL}
+                    thumbnailUrl={video.thumbnailLocation}
+                    previewUrl={video.videoLocation}
                     duration={video.runningTime}
                     metadata={metadata}
                     onMouseEnter={handleMouseEnter}
@@ -126,7 +122,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, handleClick, size = "mediu
     );
 };
 
-const Container = styled.div<{ size: 'small' | 'medium' | 'large' }>`
+const Container = styled.div<{ size: "small" | "medium" | "large" }>`
     cursor: pointer;
     position: relative;
 `;

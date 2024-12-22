@@ -25,7 +25,10 @@ export class Mock {
     constructor({ videoCount, channelCount }: { videoCount: number; channelCount: number }) {
         this.videoCount = videoCount;
         this.channelCount = channelCount;
-        this.videos = Array.from({ length: this.videoCount }, () => this.video());
+        this.videos = Array.from({ length: this.videoCount }, (_, i) => ({
+            videopostId: i + 1,
+            ...this.video(),
+        }));
         this.channels = Array.from({ length: channelCount }, (_, i) => ({
             channelId: i + 1,
             ...this.channel(),
@@ -44,7 +47,7 @@ export class Mock {
         };
     }
 
-    video(): Video {
+    video(): Omit<Video, "videopostId"> {
         return {
             channelId: faker.helpers.rangeToNumber({ min: 1, max: 10 }),
             createAt: faker.date.past().toISOString(),
@@ -52,7 +55,6 @@ export class Mock {
             runningTime: Number((faker.number.float() * 1000).toFixed(2)),
             thumbnailLocation: faker.image.urlPicsumPhotos({ width: 1280, height: 720 }),
             videoLocation: this.videoLocation(),
-            videopostId: faker.helpers.rangeToNumber({ min: 1, max: 10 }),
             videopostName: faker.lorem.lines(),
             views: faker.helpers.rangeToNumber({ min: 0, max: 10_000_000_000 }),
             // likes: faker.number.int({ min: 0, max: 1000000 }),
