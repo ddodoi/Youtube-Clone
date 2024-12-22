@@ -2,9 +2,10 @@ import { styled } from "styled-components";
 import { formatNumber } from "../../utils/format";
 import SubscribedButton from "./SubscribedButton";
 import SubscribeButton from "./SubscribeButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Tab, Tabs } from "@components/common/Tabs";
 import { TabItem } from "../../pages/Channel";
+import { useChannel } from "@hooks/useChannel";
 
 interface Props {
     setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -13,31 +14,37 @@ interface Props {
 }
 
 const ChannelHeader: React.FC<Props> = ({ setActiveIndex, activeIndex, tabContents }) => {
-    const [isSubscribed, setIsSubscribed] = useState(false);
-    const bannerImgURL =
-        "https://yt3.googleusercontent.com/ad5OoGGexMhaZ3sT1YjIDCYbw_HcQnvFFkArA1LQEJVwrv-_PgbalL7YGBpt4-lemz28qMG4BA=w1060-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj";
-    const profileURL =
-        "https://yt3.googleusercontent.com/ytc/AIdro_kqf6MgVU6c8LWzVAVqpggLLS4bTxdKe_aiQzM17HsqRhk=s120-c-k-c0x00ffffff-no-rj";
+    const { channel, subscribers, videoCount, isFetched } = useChannel();
+    const {
+        bannerLocation: bannerURL,
+        description,
+        name: channelName,
+        profileLocation: profileURL,
+    } = channel;
 
-    const channelName = "슈카월드";
+    // const bannerURL = "";
+    const [isSubscribed, setIsSubscribed] = useState(false);
+    const [isImgLoading, setIsImgLoading] = useState(true);
     const email = "@syukaworld";
-    const subscribers = 3_440_000;
-    const videoCount = 1_800;
-    const description = `각종 문의 : ad@syukafriends.com 으로 부탁드립니다.
-경제, 금융을 기반으로 달리는 방송!
-정치는 아주. 전혀. 대단히. 모릅니다. 
-누군가를 비판하거나 비난하지 않도록 노력하겠습니다.
-실수가 있더라도 너그럽고 재미있게 봐주세요.
-감사합니다.
-`;
+
     const handleSubscribe = () => {
         setIsSubscribed(!isSubscribed);
     };
+
+    useEffect(() => {
+        if (isFetched && !bannerURL) setIsImgLoading(false);
+    }, [isFetched]);
+
     return (
         <ChannelHeaderStyle>
-            {bannerImgURL && (
-                <Banner>
-                    <img src={bannerImgURL} alt="배너" />
+            {isImgLoading && (
+                <BannerSkeleton>
+                    <div></div>
+                </BannerSkeleton>
+            )}
+            {bannerURL && (
+                <Banner $isImgLoading={isImgLoading}>
+                    <img src={bannerURL} alt="배너" onLoad={() => setIsImgLoading(false)} />
                 </Banner>
             )}
 
@@ -142,10 +149,25 @@ const Description = styled(FontMediaQuery)`
     margin-top: 12px;
 `;
 
-const Banner = styled(PaddingMediaQuery)`
+const BannerSkeleton = styled(PaddingMediaQuery)`
+    div {
+        width: 100%;
+        border-radius: 16px;
+        object-fit: cover;
+        height: 200px;
+        background: rgb(219, 219, 219);
+    }
+`;
+
+const Banner = styled(PaddingMediaQuery)<{ $isImgLoading: boolean }>`
+    height: ${({ $isImgLoading }) => ($isImgLoading ? "0px" : "100%")};
+
     img {
         width: 100%;
         border-radius: 16px;
+        object-fit: cover;
+        height: 100%;
+        max-height: 200px;
     }
 `;
 
@@ -163,10 +185,10 @@ const ChannelProfile = styled.div`
         width: 160px;
         height: 160px;
 
-        @media screen and (max-width: 840px) {
+        /* @media screen and (max-width: 840px) {
             width: 120px;
             height: 120px;
-        }
+        } */
     }
 `;
 
