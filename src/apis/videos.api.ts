@@ -8,6 +8,11 @@ interface FetchVideosParams {
     channelId?: number;
 }
 
+interface FetchKeywordVideosParams {
+    page?: number;
+    limit?: number;
+    searchQuery: string;
+}
 export const fetchVideos = async ({ page = 1, limit = 20, channelId }: FetchVideosParams) => {
     const response = await httpClient.get<VideosResponse>("/videos", {
         params: { page, limit, channelId },
@@ -17,6 +22,17 @@ export const fetchVideos = async ({ page = 1, limit = 20, channelId }: FetchVide
 
 export const fetchVideo = async ({ videopostId }: { videopostId: number }) => {
     const response = await httpClient.get<Video>(`/videos/${videopostId}`);
+    return response.data;
+};
+
+export const fetchKeywordVideos = async ({
+    page = 1,
+    limit = 20,
+    searchQuery,
+}: FetchKeywordVideosParams) => {
+    const response = await httpClient.get<VideosResponse>("/videos/s", {
+        params: { page, limit, search_query: searchQuery },
+    });
     return response.data;
 };
 

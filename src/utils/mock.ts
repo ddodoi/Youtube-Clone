@@ -16,6 +16,10 @@ interface ChannelVideoParams extends VideoParams {
     channelId: number;
 }
 
+// interface KeywordVideoParams {
+//     searchQuery: string;
+// }
+
 export class Mock {
     videoCount: number;
     videos: Video[];
@@ -111,6 +115,12 @@ export class Mock {
             .filter((video) => video.channelId === channelId)
             .slice((page - 1) * limit, (page - 1) * limit + limit);
     }
+
+    // getKeywordVideos({ searchQuery, page, limit }: KeywordVideoParams): Video[] {
+    //     return this.videos
+    //         .filter((video) => video.channelId === channelId)
+    //         .slice((page - 1) * limit, (page - 1) * limit + limit);
+    // }
 
     getVideos({ page, limit }: VideoParams) {
         return this.videos.slice((page - 1) * limit, (page - 1) * limit + limit);
