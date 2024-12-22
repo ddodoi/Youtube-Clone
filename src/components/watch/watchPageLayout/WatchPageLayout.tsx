@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 import { ReactNode } from 'react';
 
+// interface WatchPageLayoutProps {
+//     main: ReactNode;
+//     secondary: ReactNode;
+// }
+
 interface WatchPageGridProps {
     sidebar: ReactNode;
     main: ReactNode;
@@ -21,7 +26,7 @@ const GridContainer = styled.div`
     display: grid;
     grid-template-columns: 240px minmax(850px, 1fr) 426px;
     gap: 24px;
-    padding: 24px;
+    padding: 30px 24px;
     width: 100%;
     
     @media (max-width: 1850px) {
