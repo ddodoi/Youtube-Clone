@@ -171,7 +171,7 @@ const ControlButton = styled.button<{ $active?: boolean }>`
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: ${props => props.$active ? '#1c62b9' : 'white'};
+    color: ${(props) => (props.$active ? '#1c62b9' : 'white')};
     transition: all 0.2s;
 
     &:hover {

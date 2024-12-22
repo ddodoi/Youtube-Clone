@@ -36,7 +36,7 @@ const ChannelTooltip = styled.div`
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 `;
 
-const VideoCard: React.FC<VideoCardProps> = ({ video, size = "medium", isLoading }) => {
+const VideoCard: React.FC<VideoCardProps> = ({ video, handleClick, size = "medium", isLoading }) => {
     const navigate = useNavigate();
 
     const [metadata, setMetadata] = useState({
@@ -73,9 +73,9 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, size = "medium", isLoading
     const handleChannelMouseEnter = () => setShowChannelTooltip(true);
     const handleChannelMouseLeave = () => setShowChannelTooltip(false);
 
-    const handleClick = () => {
-        if (video?.id) {
-            navigate(`/watch?v=${video.id}`);
+    const handleVideoClick = () => {
+        if (video?.videopostId) {
+            navigate(`/watch?v=${video.videopostId}`);
         }
     };
 
@@ -86,24 +86,26 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, size = "medium", isLoading
     if (!video) return null;
 
     return (
-        <Container size={size} onClick={handleClick}>
+        <Container size={size} onClick={handleClick || handleVideoClick}>
             <ThumbnailWrapper>
                 <VideoPreviewPlayer
-                    thumbnailUrl={video.thumbnailUrl}
-                    previewUrl={video.previewUrl}
+                    thumbnailUrl={video.channelThumbnailURL}
+                    previewUrl={video.previewURL}
+                    duration={video.runningTime}
                     metadata={metadata}
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                     onToggleMute={toggleMute}
                     onToggleCaptions={toggleCaptions}
-                    duration={video.duration}
                 />
             </ThumbnailWrapper>
 
             <Info>
                 <TitleRow>
-                    <Title>{video.title}</Title>
-                    <VideoDropdown videoId={video.id} />
+                    <Title>{video.videopostName}</Title>
+                    <VideoDropdown videoId={video.videopostId} handleClose={function (): void {
+                        throw new Error("Function not implemented.");
+                    } } />
                 </TitleRow>
                 <ChannelWrapper>
                     <Link
@@ -113,13 +115,13 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, size = "medium", isLoading
                         onMouseLeave={handleChannelMouseLeave}
                         style={{ textDecoration: "none" }}
                     >
-                        <Channel>{video.channelTitle}</Channel>
+                        <Channel>{video.name}</Channel>
                     </Link>
-                    {showChannelTooltip && <ChannelTooltip>{video.channelTitle}</ChannelTooltip>}
+                    {showChannelTooltip && <ChannelTooltip>{video.name}</ChannelTooltip>}
                 </ChannelWrapper>
                 <Stats>
-                    <Views>{formatVideoCount(video.viewCount)} • </Views>
-                    <Date>{formatDate(video.publishedAt)}</Date>
+                    <Views>{formatVideoCount(video.views)}</Views>
+                    <Date>{formatDate(video.createAt)}</Date>
                 </Stats>
             </Info>
         </Container>
