@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, AllHTMLAttributes } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { VideoCardProps } from "@@types/video.type";
+import { Video } from "@@types/video.type";
 import { formatVideoCount, formatDate } from "../../../utils/format";
 import VideoCardSkeleton from "./VideoCardSkeleton";
 import VideoPreviewPlayer from "./VideoPreviewPlayer";
@@ -27,12 +27,13 @@ const ChannelTooltip = styled.div`
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 `;
 
-const VideoCard: React.FC<VideoCardProps> = ({
-    video,
-    handleClick,
-    size = "medium",
-    isLoading,
-}) => {
+export interface VideoCardProps {
+    video?: Video;
+    size?: "small" | "medium" | "large";
+    isLoading?: boolean;
+}
+
+const VideoCard: React.FC<VideoCardProps> = ({ video, size = "medium", isLoading }) => {
     const navigate = useNavigate();
 
     const [metadata, setMetadata] = useState({
@@ -82,7 +83,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
     if (!video) return null;
 
     return (
-        <Container size={size} onClick={handleClick || handleVideoClick}>
+        <Container size={size} onClick={handleVideoClick}>
             <ThumbnailWrapper>
                 <VideoPreviewPlayer
                     thumbnailUrl={video.thumbnailLocation}

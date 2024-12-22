@@ -42,11 +42,3 @@ export interface PlayerState {
 //     items: Video[];
 //     nextPageToken?: string;
 // }
-
-// VideoCard 컴포넌트용 타입
-export interface VideoCardProps {
-    video?: Video;
-    handleClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
-    size?: "small" | "medium" | "large";
-    isLoading?: boolean;
-}
