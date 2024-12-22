@@ -28,6 +28,8 @@ export const useVideos = (limit: number = 20) => {
         queryFn: ({ pageParam }) => getVideos({ pageParam }),
         initialPageParam: 1,
         getNextPageParam: (lastPage) => {
+            if (typeof lastPage.meta.currentPage === "string")
+                lastPage.meta.currentPage = Number(lastPage.meta.currentPage);
             return lastPage.meta.hasNextPage ? lastPage.meta.currentPage + 1 : undefined;
         },
     });
