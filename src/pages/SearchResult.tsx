@@ -1,76 +1,77 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, {useState, useRef, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import Video from "@components/searchPage/Video";
 import { VideoPreview } from "@@types/searchResult.type";
 import CategoryList from "@components/mainPage/category/CategoryList";
 import { useLayoutStore } from "@stores/layoutStore";
+import { useVideos } from "@hooks/useVideos";
+import VideoCard from "@components/mainPage/videoCard/VideoCard";
 
 const SearchResult: React.FC = () => {
     const { isDesktopSidebarOpen } = useLayoutStore();
     const [searchParams] = useSearchParams();
     const fetchSearchQuery = searchParams.get("search_query") || ""; // 검색어 가져오기
-    const [videos, setVideos] = useState<VideoPreview[]>([]); // 동영상 데이터 상태
-    const [page, setPage] = useState(1); // 현재 페이지 상태
-    const [loading, setLoading] = useState(false); // 로딩 상태
-    const [hasMore, setHasMore] = useState(true); // 추가 데이터 유무
+    const [loading] = useState(false); // 로딩 상태
+    const [hasMore] = useState(true); // 추가 데이터 유무
     const loaderRef = useRef<HTMLDivElement | null>(null); // 로더 참조
+    const observerRef = useRef<IntersectionObserver | null>(null);
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null); // 타임아웃 참조
+    const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useVideos();
 
-    // 데이터를 가져오는 함수
-    const fetchVideos = useCallback(async () => {
-        if (loading || !hasMore) return; // 이미 로딩 중이거나 데이터가 없으면 종료
+    const lastVideoRef = useCallback(
+        (node: HTMLDivElement | null) => {
+            if (isLoading || isFetchingNextPage) return;
 
-        // setLoading(true);
-        try {
-            const response = await fetch(`/videos?page=${page}&limit=10`); // 한 번에 10개 로드
-            const data = await response.json();
-
-            if (data.data.length > 0) {
-                setVideos((prevVideos) => [...prevVideos, ...data.data]); // 기존 데이터와 병합
-                if (data.data.length < 10) setHasMore(false); // 10개 미만 데이터면 더 이상 로드하지 않음
-            } else {
-                setHasMore(false); // 데이터가 없으면 로드 중단
+            if (observerRef.current) {
+                observerRef.current.disconnect();
             }
-        } catch (error) {
-            console.error("Failed to fetch videos:", error);
-        } finally {
-            setLoading(false);
-        }
-    }, [page, loading, hasMore]);
 
-    // Intersection Observer 설정
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                const target = entries[0];
-                if (target.isIntersecting && hasMore && !loading) {
-                    setPage((prevPage) => prevPage + 1); // 다음 페이지 요청
-                }
-            },
-            { root: null, rootMargin: "0px", threshold: 1.0 } // 100% 화면에 나타나야 트리거
-        );
+            observerRef.current = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && hasNextPage) {
+                    if (timeoutRef.current) {
+                        clearTimeout(timeoutRef.current);
+                    }
 
-        if (loaderRef.current) {
-            observer.observe(loaderRef.current);
-        }
+                    timeoutRef.current = setTimeout(() => {
+                        fetchNextPage();
+                    }, 100);
+                }}
+            );
 
-        return () => {
-            if (loaderRef.current) observer.unobserve(loaderRef.current);
-        };
-    }, [hasMore, loading]);
-
-    // 페이지 변경 시 데이터를 가져옴
-    useEffect(() => {
-        fetchVideos();
-    }, [page, fetchVideos]);
-    console.log(videos[0]);
+            if (node) {
+                observerRef.current.observe(node);
+            }
+        },
+        [isLoading, isFetchingNextPage, hasNextPage, fetchNextPage],
+    );
+              
+    const allVideos =
+        data?.pages.reduce<VideoPreview[]>((acc, page) => {
+            if (page.success && page.data) {
+                return [...acc, ...page.data];
+            }
+            return acc;
+        }, []) || [];
+        
     return (
         <SearchResultContainer $isSidebarOpen={isDesktopSidebarOpen}>
             <CategoryList />
             <ScrollContainer>
                 <VideoGrid>
-                    {videos.map((video, i) => (
-                        <Video key={i} video={video} />
+                    {isLoading
+                        ? Array.from({ length: 10 }).map((_, index) => (
+                            <div key={`skeleton-${index}`}>
+                                <VideoCard isLoading/>
+                            </div>
+                        ))
+                        : allVideos.map((video, i) => (
+                            <div
+                                key={video.videopostId}
+                                ref={i === allVideos.length - 1 ? lastVideoRef : null}
+                            >
+                                <Video key={i} video={video} />
+                            </div>
                     ))}
                 </VideoGrid>
                 {loading && <Loader>Loading...</Loader>}
