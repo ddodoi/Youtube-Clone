@@ -10,7 +10,7 @@ import RelatedVideos from "@components/watch/relatedVideos/RelatedVideos";
 import { useVideo } from "@hooks/useVideo";
 import { fakerKO as faker } from "@faker-js/faker";
 import { useChannel } from "@hooks/useChannel";
-import { formatNumber } from "../utils/format";
+import { formatNumber, formatNumberComma } from "../utils/format";
 
 const WatchPage = () => {
     const [searchParams] = useSearchParams();
@@ -48,6 +48,7 @@ const WatchPage = () => {
                                 <ButtonGroup>
                                     <ActionButton>
                                         <AiOutlineLike size={20} />
+                                        {/* 동영상 좋아요 수 */}
                                         <span>2.3만</span>
                                     </ActionButton>
                                     <Divider />
@@ -69,7 +70,7 @@ const WatchPage = () => {
                             </ActionButtons>
                         </MetaSection>
                         <DescriptionCard>
-                            <ViewCount>조회수 {video.views}회</ViewCount>
+                            <ViewCount>조회수 {formatNumberComma(video.views)}회</ViewCount>
                             {/* 영상 설명 */}
                             <Description>{faker.lorem.paragraph()}</Description>
                         </DescriptionCard>
