@@ -251,8 +251,8 @@ const SidebarOpen: React.FC<Props> = ({ ...props }) => {
                 {isLoggedIn ? (
                     <SidebarSection>
                         <SidebarSectionTitle>구독</SidebarSectionTitle>
-                        {subscriptions.map((item, i) => (
-                            <SidebarMenuItem aria-label={item.name} key={i}>
+                        {subscriptions.map((item) => (
+                            <SidebarMenuItem aria-label={item.name} key={item.channelId}>
                                 <Link to={`/channel/${item.channelId}`}>
                                     <img src={item.profileLocation} alt={item.name} />
                                     <span>{item.name}</span>
@@ -260,8 +260,8 @@ const SidebarOpen: React.FC<Props> = ({ ...props }) => {
                             </SidebarMenuItem>
                         ))}
                         {showMore &&
-                            moreSubscriptions.map((item, i) => (
-                                <SidebarMenuItem aria-label={item.name} key={i}>
+                            moreSubscriptions.map((item) => (
+                                <SidebarMenuItem aria-label={item.name} key={item.channelId}>
                                     <Link to={`/channel/${item.channelId}`}>
                                         <img src={item.profileLocation} alt={item.name} />
                                         <span>{item.name}</span>

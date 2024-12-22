@@ -29,7 +29,7 @@ export class Mock {
             videopostId: i + 1,
             ...this.video(),
         }));
-        this.channels = Array.from({ length: channelCount }, (_, i) => ({
+        this.channels = Array.from({ length: this.channelCount }, (_, i) => ({
             channelId: i + 1,
             ...this.channel(),
         }));
@@ -122,7 +122,7 @@ export class Mock {
     }
 
     getChannel(channelId: number) {
-        return this.channels[channelId];
+        return this.channels.find((channel) => channel.channelId === channelId);
     }
 }
 

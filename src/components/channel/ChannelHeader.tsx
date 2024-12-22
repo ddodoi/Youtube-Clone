@@ -14,26 +14,28 @@ interface Props {
 }
 
 const ChannelHeader: React.FC<Props> = ({ setActiveIndex, activeIndex, tabContents }) => {
-    const { channel, subscribers, videoCount, isFetched } = useChannel();
+    const { channel } = useChannel();
     const {
         bannerLocation: bannerURL,
         description,
         name: channelName,
         profileLocation: profileURL,
+        subscribers,
+        email,
+        videoCount,
     } = channel;
 
     // const bannerURL = "";
     const [isSubscribed, setIsSubscribed] = useState(false);
     const [isImgLoading, setIsImgLoading] = useState(true);
-    const email = "@syukaworld";
 
     const handleSubscribe = () => {
         setIsSubscribed(!isSubscribed);
     };
 
     useEffect(() => {
-        if (isFetched && !bannerURL) setIsImgLoading(false);
-    }, [isFetched]);
+        if (!bannerURL) setIsImgLoading(false);
+    }, []);
 
     return (
         <ChannelHeaderStyle>
@@ -184,7 +186,7 @@ const ChannelProfile = styled.div`
     img {
         width: 160px;
         height: 160px;
-
+        border-radius: 50%;
         /* @media screen and (max-width: 840px) {
             width: 120px;
             height: 120px;

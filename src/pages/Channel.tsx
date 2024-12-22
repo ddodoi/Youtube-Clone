@@ -35,7 +35,6 @@ const tabContents: TabItem[] = [
 ];
 
 const Channel = () => {
-    const { channel } = useChannel();
     const { isDesktopSidebarOpen, isSidebarOpen } = useLayoutStore();
     const [activeIndex, setActiveIndex] = useState(0);
     const contents = tabContents[activeIndex].contents;
@@ -47,7 +46,7 @@ const Channel = () => {
                 setActiveIndex={setActiveIndex}
                 tabContents={tabContents}
             />
-            <ChannelBody contents={contents} channel={channel} />
+            <ChannelBody contents={contents} />
         </ChannelStyle>
     );
 };
