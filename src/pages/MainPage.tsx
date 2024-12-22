@@ -54,7 +54,7 @@ const MainPage = () => {
                     {isLoading
                         ? Array.from({ length: 20 }).map((_, index) => (
                             <div key={`skeleton-${index}`}>
-                                <VideoCard isLoading size="medium" />
+                                <VideoCard isLoading size="medium" video={undefined} />
                             </div>
                         ))
                         : allVideos.map((video, index) => (

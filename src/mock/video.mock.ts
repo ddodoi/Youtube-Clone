@@ -33,54 +33,47 @@ const generateChannel = (): Channel => {
 };
 
 const generateMockVideo = (): Video => {
+    const channel = generateChannel();
     const isShort = faker.datatype.boolean({ probability: 0.2 });
     const viewCount = faker.number.int({
         min: isShort ? 100000 : 10000,
         max: isShort ? 100000000 : 10000000,
     });
-    const channel = generateChannel();
 
     return {
         id: faker.string.uuid(),
-        title: generateVideoTitle(),
+        videopostId: faker.string.uuid(),
+        videopostName: generateVideoTitle(),
         description: faker.lorem.paragraph(),
-        thumbnailUrl: generateThumbnail(),
-        videoUrl: faker.helpers.arrayElement([
+        thumbnailLocation: generateThumbnail(),
+        videoLocation: faker.helpers.arrayElement([
             "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
             "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
             "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
             "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
             "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
         ]),
-        viewCount,
-        publishedAt: faker.date.past({ years: 2 }).toISOString(),
+        views: viewCount,
+        createAt: faker.date.past().toISOString(),
         channelId: channel.id,
-        channelTitle: channel.title,
-        channelThumbnail: channel.thumbnail,
-        duration: `${faker.number.int({ min: 1, max: 59 })}:${faker.number.int({ min: 10, max: 59 })}`,
-        createdAt: faker.date.past({ years: 2 }).toISOString(),
-        channel,
-        previewUrl: faker.helpers.maybe(
-            () => {
-                return `https://storage.googleapis.com/gtv-videos-bucket/sample/${faker.helpers.arrayElement(
-                    [
-                        "BigBuckBunny",
-                        "ElephantsDream",
-                        "ForBiggerBlazes",
-                        "ForBiggerEscapes",
-                        "ForBiggerFun",
-                        "ForBiggerJoyrides",
-                        "ForBiggerMeltdowns",
-                        "Sintel",
-                        "SubaruOutbackOnStreetAndDirt",
-                        "TearsOfSteel",
-                    ],
-                )}.mp4`;
-            },
-            { probability: 0.7 },
-        ),
-        likes: faker.number.int({ min: 0, max: 1000000 }),
-        dislikes: faker.number.int({ min: 0, max: 10000 }),
+        name: channel.title,
+        channelThumbnailURL: channel.thumbnail,
+        runningTime: `${faker.number.int({ min: 1, max: 59 })}:${faker.number.int({ min: 10, max: 59 })}`,
+        previewURL: faker.helpers.maybe(
+            () => `https://storage.googleapis.com/gtv-videos-bucket/sample/${faker.helpers.arrayElement([
+                "BigBuckBunny",
+                "ElephantsDream",
+                "ForBiggerBlazes",
+                "ForBiggerEscapes",
+                "ForBiggerFun",
+                "ForBiggerJoyrides",
+                "ForBiggerMeltdowns",
+                "Sintel",
+                "SubaruOutbackOnStreetAndDirt",
+                "TearsOfSteel",
+            ])}.mp4`,
+            { probability: 0.7 }
+        ) || '',
     };
 };
 
@@ -123,5 +116,23 @@ export const videoHandlers = [
         console.log(videoFile, thumbnailFile, description, postName, runningTime);
 
         return HttpResponse.json(null, { status: 201 });
+    }),
+
+    http.get(baseURL("/videos/:videoId"), async ({ params }) => {
+        const { videoId } = params;
+        const video = generateMockVideo();
+        video.videopostId = videoId as string;
+
+        const response: VideoListResponse = {
+            success: true,
+            data: [video],
+            meta: {
+                currentPage: 1,
+                totalPage: 1,
+                hasNextPage: false,
+            },
+        };
+
+        return HttpResponse.json(response);
     }),
 ];
