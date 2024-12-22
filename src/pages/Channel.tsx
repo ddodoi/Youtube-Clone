@@ -55,7 +55,7 @@ const ChannelStyle = styled.div<{ $isDesktopSidebarOpen: boolean; $isSidebarOpen
     height: 100vh;
     position: absolute;
     left: 0;
-
+    /* 
     @media screen and (${({ theme }) => theme.mediaQuery.sidebar.desktop}) {
         left: ${({ $isDesktopSidebarOpen }) => ($isDesktopSidebarOpen ? "240px" : "64px")};
     }
@@ -66,7 +66,7 @@ const ChannelStyle = styled.div<{ $isDesktopSidebarOpen: boolean; $isSidebarOpen
 
     @media screen and (${({ theme }) => theme.mediaQuery.sidebar.mobile}) {
         left: ${({ $isSidebarOpen }) => ($isSidebarOpen ? "0px" : "0px")};
-    }
+    } */
 `;
 
 export default Channel;
