@@ -3,7 +3,6 @@ import styled from "styled-components";
 export const VideoContainer = styled.div`
     position: relative;
     width: 100%;
-    max-width: 900px;
     aspect-ratio: 16/9;
     background: #000;
     margin-left: auto;

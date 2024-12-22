@@ -21,6 +21,8 @@ const WatchPageLayoutStyle = styled.main`
     margin: 56px 0 0 0px;
     position: relative;
     z-index: 100;
+    display: flex;
+    justify-content: center;
 `;
 
 export default WatchPageLayout;

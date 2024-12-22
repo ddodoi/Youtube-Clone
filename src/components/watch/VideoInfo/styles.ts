@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const InfoContainer = styled.div`
     padding: 12px 0;
-    width: 900px;
     margin-left: auto;
     margin-right: auto;
 
@@ -24,7 +23,7 @@ export const Title = styled.h1`
     font-weight: 600;
     line-height: 28px;
     margin: 0 0 8px 0;
-    color: ${({ theme }) => theme?.colors?.text?.primary || '#030303'};
+    color: ${({ theme }) => theme?.colors?.text?.primary || "#030303"};
 `;
 
 export const MetaSection = styled.div`
@@ -58,17 +57,17 @@ export const ChannelMeta = styled.div`
 export const ChannelName = styled.div`
     font-size: 16px;
     font-weight: 500;
-    color: ${({ theme }) => theme?.colors?.text?.primary || '#030303'};
+    color: ${({ theme }) => theme?.colors?.text?.primary || "#030303"};
 `;
 
 export const SubscriberCount = styled.div`
     font-size: 12px;
-    color: ${({ theme }) => theme?.colors?.text?.secondary || '#606060'};
+    color: ${({ theme }) => theme?.colors?.text?.secondary || "#606060"};
 `;
 
 export const SubscribeButton = styled.button`
-    background: ${({ theme }) => theme?.colors?.text?.primary || '#030303'};
-    color: ${({ theme }) => theme?.colors?.background || '#ffffff'};
+    background: ${({ theme }) => theme?.colors?.text?.primary || "#030303"};
+    color: ${({ theme }) => theme?.colors?.background || "#ffffff"};
     border: none;
     padding: 8px 14px;
     border-radius: 20px;
@@ -77,7 +76,7 @@ export const SubscribeButton = styled.button`
     cursor: pointer;
 
     &:hover {
-        background: ${({ theme }) => theme?.colors?.text?.secondary || '#606060'};
+        background: ${({ theme }) => theme?.colors?.text?.secondary || "#606060"};
     }
 `;
 
@@ -87,13 +86,13 @@ export const ActionButtons = styled.div`
     gap: 8px;
     flex-wrap: wrap;
     padding-bottom: 8px;
-    border-bottom: 1px solid ${({ theme }) => theme?.colors?.border || '#e5e5e5'};
+    border-bottom: 1px solid ${({ theme }) => theme?.colors?.border || "#e5e5e5"};
 `;
 
 export const ButtonGroup = styled.div`
     display: flex;
     align-items: center;
-    background: ${({ theme }) => theme?.colors?.button?.background || '#f2f2f2'};
+    background: ${({ theme }) => theme?.colors?.button?.background || "#f2f2f2"};
     border-radius: 20px;
     margin-right: 8px;
 `;
@@ -105,27 +104,27 @@ export const ActionButton = styled.button`
     padding: 4px 10px;
     border: none;
     border-radius: 18px;
-    background: ${({ theme }) => theme?.colors?.button?.background || '#f2f2f2'};
-    color: ${({ theme }) => theme?.colors?.text?.primary || '#030303'};
+    background: ${({ theme }) => theme?.colors?.button?.background || "#f2f2f2"};
+    color: ${({ theme }) => theme?.colors?.text?.primary || "#030303"};
     font-size: 13px;
     font-weight: 500;
     cursor: pointer;
 
     &:hover {
-        background: ${({ theme }) => theme?.colors?.button?.hover || '#e5e5e5'};
+        background: ${({ theme }) => theme?.colors?.button?.hover || "#e5e5e5"};
     }
 `;
 
 export const Divider = styled.div`
     width: 1px;
     height: 24px;
-    background: ${({ theme }) => theme?.colors?.border || '#e5e5e5'};
+    background: ${({ theme }) => theme?.colors?.border || "#e5e5e5"};
 `;
 
 export const Description = styled.div`
     margin-top: 8px;
     padding: 8px;
-    background: ${({ theme }) => theme?.colors?.button?.background || '#f2f2f2'};
+    background: ${({ theme }) => theme?.colors?.button?.background || "#f2f2f2"};
     border-radius: 10px;
     width: 100%;
 `;
@@ -133,8 +132,8 @@ export const Description = styled.div`
 export const ViewCount = styled.div`
     font-size: 14px;
     font-weight: 500;
-    color: ${({ theme }) => theme?.colors?.text?.primary || '#030303'};
+    color: ${({ theme }) => theme?.colors?.text?.primary || "#030303"};
     margin-bottom: 8px;
 `;
 
-// ... 나머지 스타일 컴포넌트들 
+// ... 나머지 스타일 컴포넌트들

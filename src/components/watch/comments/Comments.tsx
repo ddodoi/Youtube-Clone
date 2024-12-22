@@ -15,6 +15,7 @@ const Comments = ({ videoId }: CommentsProps) => {
     const [localComments, setLocalComments] = useState<Comment[]>([]);
     const { user } = useUser();
     // useComments(videoId);
+    if (!user) return;
 
     const handleSubmitComment = (content: string, parentId?: string) => {
         if (!content.trim()) return;
@@ -93,8 +94,7 @@ const Comments = ({ videoId }: CommentsProps) => {
 };
 
 const Container = styled.div`
-    width: 900px;
-    margin: 24px auto;
+    width: 100%;
 
     @media (max-width: 1200px) {
         width: 800px;

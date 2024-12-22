@@ -70,10 +70,8 @@ const RelatedVideos = () => {
 
 const Container = styled.div`
     width: 100%;
-    padding: 30px 0;
     position: relative;
     z-index: 1;
-    margin-left: -80px;
 `;
 
 const CategorySection = styled.div`
