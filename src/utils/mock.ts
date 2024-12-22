@@ -56,7 +56,7 @@ export class Mock {
             thumbnailLocation: faker.image.urlPicsumPhotos({ width: 1280, height: 720 }),
             videoLocation: this.videoLocation(),
             videopostName: faker.lorem.lines(),
-            views: faker.helpers.rangeToNumber({ min: 0, max: 10_000_000_000 }),
+            views: faker.helpers.rangeToNumber({ min: 0, max: 100_000_000 }),
             // likes: faker.number.int({ min: 0, max: 1000000 }),
             // dislikes: faker.number.int({ min: 0, max: 10000 }),
         };
