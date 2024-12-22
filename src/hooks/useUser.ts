@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
 import { fetchUserInfo } from "@apis/user.api";
-import { UserInfoResponse } from "@@types/user.type";
+import { Channel } from "@@types/channel.type";
 
 export const useUser = () => {
-    const [user, setUser] = useState<UserInfoResponse>({
-        profileLocation: "",
+    const [user, setUser] = useState<Channel>({
+        bannerLocation: "",
+        description: "",
         name: "",
+        profileLocation: "",
+        subscribers: 0,
+        videoCount: 0,
         email: "",
-        channelId: "",
+        channelId: null,
     });
 
     useEffect(() => {
-        fetchUserInfo().then(({ profileLocation, name, email, channelId }: UserInfoResponse) => {
-            setUser({ profileLocation, name, email, channelId });
+        fetchUserInfo().then((channel: Channel) => {
+            setUser({ ...channel });
         });
     }, []);
 

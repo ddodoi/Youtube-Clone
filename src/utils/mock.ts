@@ -19,13 +19,20 @@ interface ChannelVideoParams extends VideoParams {
 export class Mock {
     videoCount: number;
     videos: Video[];
+    channels: Channel[];
+    channelCount: number;
 
-    constructor(videoCount: number) {
+    constructor({ videoCount, channelCount }: { videoCount: number; channelCount: number }) {
         this.videoCount = videoCount;
+        this.channelCount = channelCount;
         this.videos = Array.from({ length: this.videoCount }, () => this.video());
+        this.channels = Array.from({ length: channelCount }, (_, i) => ({
+            channelId: i + 1,
+            ...this.channel(),
+        }));
     }
 
-    channel(): Channel {
+    channel(): Omit<Channel, "channelId"> {
         return {
             name: faker.person.fullName(),
             description: faker.lorem.paragraph(),
@@ -33,6 +40,7 @@ export class Mock {
             bannerLocation: faker.image.urlPicsumPhotos({ width: 1280, height: 720 }),
             videoCount: faker.helpers.rangeToNumber({ min: 0, max: 100 }),
             subscribers: faker.helpers.rangeToNumber({ min: 0, max: 100_000_000 }),
+            email: faker.internet.email(),
         };
     }
 
@@ -105,4 +113,16 @@ export class Mock {
     getVideos({ page, limit }: VideoParams) {
         return this.videos.slice((page - 1) * limit, (page - 1) * limit + limit);
     }
+
+    getRandomChannel(): Channel {
+        const channelId = Math.floor(Math.random() * this.channels.length) + 1;
+        return this.channels.find((channel) => channel.channelId === channelId)!;
+    }
+
+    getChannel(channelId: number) {
+        return this.channels[channelId];
+    }
 }
+
+const mock = new Mock({ videoCount: 1000, channelCount: 10 });
+export default mock;

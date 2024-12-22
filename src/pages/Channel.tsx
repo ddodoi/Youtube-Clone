@@ -1,9 +1,9 @@
 import ChannelBody from "@components/channel/ChannelBody";
 import ChannelHeader from "@components/channel/ChannelHeader";
 import ChannelVideos from "@components/channel/ChannelVideos";
+import { useChannel } from "@hooks/useChannel";
 import { useLayoutStore } from "@stores/layoutStore";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 import { styled } from "styled-components";
 
 export interface TabItem {
@@ -35,7 +35,7 @@ const tabContents: TabItem[] = [
 ];
 
 const Channel = () => {
-    const { channelId } = useParams();
+    const { channel } = useChannel();
     const { isDesktopSidebarOpen, isSidebarOpen } = useLayoutStore();
     const [activeIndex, setActiveIndex] = useState(0);
     const contents = tabContents[activeIndex].contents;
@@ -47,7 +47,7 @@ const Channel = () => {
                 setActiveIndex={setActiveIndex}
                 tabContents={tabContents}
             />
-            <ChannelBody contents={contents} />
+            <ChannelBody contents={contents} channel={channel} />
         </ChannelStyle>
     );
 };

@@ -5,4 +5,6 @@ export interface Channel {
     bannerLocation: string;
     videoCount: number;
     subscribers: number;
+    email: string;
+    channelId?: number | null;
 }

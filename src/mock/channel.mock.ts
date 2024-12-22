@@ -1,17 +1,16 @@
 import { http, HttpResponse } from "msw";
 import { baseURL } from "../utils/baseURL";
-import { Mock } from "../utils/mock";
+import mock from "../utils/mock";
 
 export const channelHandlers = [
     http.get(baseURL("/channel/:id/p"), ({ request }) => {
         const url = new URL(request.url);
-        const channelId = Number(url.pathname.split("/")[1]) || null;
-        const mock = new Mock(100);
-        const channel = mock.channel();
-
-        console.log("channelId = ", channelId);
+        const channelId = Number(url.pathname.split("/")[2]) || null;
 
         if (!channelId) return HttpResponse.json(null, { status: 400 });
+
+        const channel = mock.getChannel(channelId);
+
         return HttpResponse.json(channel);
     }),
 ];

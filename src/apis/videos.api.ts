@@ -1,15 +1,16 @@
 import { getToken } from "@stores/authStore";
 import { createClient, httpClient } from "./http.api";
-import { VideoListResponse } from "@@types/video.type";
+import { VideosResponse } from "@@types/video.type";
 
 interface FetchVideosParams {
     page?: number;
     limit?: number;
+    channelId?: number;
 }
 
-export const fetchVideos = async ({ page = 1, limit = 20 }: FetchVideosParams) => {
-    const response = await httpClient.get<VideoListResponse>("/videos", {
-        params: { page, limit },
+export const fetchVideos = async ({ page = 1, limit = 20, channelId }: FetchVideosParams) => {
+    const response = await httpClient.get<VideosResponse>("/videos", {
+        params: { page, limit, channelId },
     });
     return response.data;
 };

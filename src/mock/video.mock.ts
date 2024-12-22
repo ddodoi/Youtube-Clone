@@ -2,7 +2,7 @@ import { http, HttpResponse, delay } from "msw";
 import { VideosResponse } from "../types/video.type";
 import { baseURL } from "../utils/baseURL";
 import { FORMDATA } from "../constants/formData";
-import { Mock } from "../utils/mock";
+import mock from "../utils/mock";
 
 export const videoHandlers = [
     http.get(baseURL("/videos"), async ({ request }) => {
@@ -10,7 +10,6 @@ export const videoHandlers = [
         const page = Number(url.searchParams.get("page")) || 1;
         const limit = Number(url.searchParams.get("limit")) || 20;
         const channelId = Number(url.searchParams.get("channelId")) || null;
-        const mock = new Mock(100);
 
         const response: VideosResponse = {
             videos: [],
