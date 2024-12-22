@@ -39,7 +39,7 @@ export const useVideos = (limit: number = 20) => {
             searchQuery ? getKeywordVideos({ pageParam }) : getVideos({ pageParam }),
         initialPageParam: 1,
         getNextPageParam: (lastPage) => {
-            return lastPage.meta.hasNextPage ? lastPage.meta.currentPage + 1 : undefined;
+            return lastPage.meta.hasNextPage ? Number(lastPage.meta.currentPage) + 1 : undefined;
         },
     });
 
