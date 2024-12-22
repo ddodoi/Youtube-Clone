@@ -89,8 +89,8 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, handleClick, size = "mediu
         <Container size={size} onClick={handleClick || handleVideoClick}>
             <ThumbnailWrapper>
                 <VideoPreviewPlayer
-                    thumbnailUrl={video.thumbnailURL}
-                    previewUrl={video.videoURL}
+                    thumbnailUrl={video.thumbnailLocation}
+                    previewUrl={video. videoLocation}
                     duration={video.runningTime}
                     metadata={metadata}
                     onMouseEnter={handleMouseEnter}
