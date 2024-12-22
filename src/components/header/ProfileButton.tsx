@@ -39,9 +39,7 @@ const ProfileButton = () => {
                             <div className="name">{user.name}</div>
                             <div className="email">{user.email}</div>
                             <div className="link">
-                                <Link to={user.channelId ? user.channelId.toString() : "1"}>
-                                    내 채널 보기
-                                </Link>
+                                <Link to={"/channel/" + user.channelId}>내 채널 보기</Link>
                             </div>
                         </div>
                     </div>

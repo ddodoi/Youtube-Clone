@@ -70,7 +70,9 @@ const WatchPage = () => {
                             </ActionButtons>
                         </MetaSection>
                         <DescriptionCard>
-                            <ViewCount>조회수 {formatNumberComma(video.views)}회</ViewCount>
+                            <ViewCount>
+                                조회수 {formatNumberComma(video.views ? video.views : 0)}회
+                            </ViewCount>
                             {/* 영상 설명 */}
                             <Description>{faker.lorem.paragraph()}</Description>
                         </DescriptionCard>
