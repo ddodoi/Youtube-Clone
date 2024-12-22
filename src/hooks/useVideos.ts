@@ -32,7 +32,6 @@ export const useVideos = (limit: number = 20) => {
         },
     });
 
-    console.log(data);
     const videos: Video[] = data ? data.pages.flatMap((page) => page.videos) : [];
 
     return {

@@ -126,13 +126,13 @@ const VideoGrid = styled.div`
     }
 `;
 
-const LoadingWrapper = styled.div`
+export const LoadingWrapper = styled.div`
     display: flex;
     justify-content: center;
     padding: 100px 0px;
 `;
 
-const LoadingText = styled.div`
+export const LoadingText = styled.div`
     color: #606060;
     font-size: 14px;
     text-align: center;

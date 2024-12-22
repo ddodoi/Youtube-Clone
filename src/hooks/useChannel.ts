@@ -16,7 +16,6 @@ export const useChannel = () => {
         email: "",
         channelId,
     });
-    console.log(channelId);
 
     useEffect(() => {
         if (!channelId) {

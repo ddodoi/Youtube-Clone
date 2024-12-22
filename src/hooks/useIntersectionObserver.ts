@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
 export const useIntersectionObserver = (callback: IntersectionObserverCallback) => {
-    const targetRef = useRef<Element>(null);
+    const targetRef = useRef(null);
 
     useEffect(() => {
         const observer = new IntersectionObserver(callback);
@@ -16,5 +16,5 @@ export const useIntersectionObserver = (callback: IntersectionObserverCallback) 
         };
     });
 
-    return { targetRef };
+    return targetRef;
 };
