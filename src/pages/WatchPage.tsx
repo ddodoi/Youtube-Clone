@@ -9,6 +9,8 @@ import Comments from "@components/watch/comments/Comments";
 import RelatedVideos from "@components/watch/relatedVideos/RelatedVideos";
 import { useVideo } from "@hooks/useVideo";
 import { fakerKO as faker } from "@faker-js/faker";
+import { useChannel } from "@hooks/useChannel";
+import { formatNumber } from "../utils/format";
 
 const WatchPage = () => {
     const [searchParams] = useSearchParams();
@@ -20,6 +22,7 @@ const WatchPage = () => {
         return;
     }
     const { video } = useVideo({ videoId });
+    const { channel } = useChannel({ channelId: video?.channelId });
 
     if (!video) return <div>로딩중...</div>;
 
@@ -32,10 +35,12 @@ const WatchPage = () => {
                         <Title>{video.videopostName}</Title>
                         <MetaSection>
                             <ChannelInfo>
-                                <ChannelAvatar />
+                                <ChannelAvatar src={channel.profileLocation} />
                                 <ChannelMeta>
-                                    <ChannelName>채널명</ChannelName>
-                                    <SubscriberCount>구독자 123만명</SubscriberCount>
+                                    <ChannelName>{channel.name}</ChannelName>
+                                    <SubscriberCount>
+                                        {formatNumber(channel.subscribers)}명
+                                    </SubscriberCount>
                                 </ChannelMeta>
                                 <SubscribeButton>구독</SubscribeButton>
                             </ChannelInfo>
@@ -69,8 +74,8 @@ const WatchPage = () => {
                             <Description>{faker.lorem.paragraph()}</Description>
                         </DescriptionCard>
                     </InfoSection>
-                    <Comments videoId={video.videopostId} />
                 </VideoSection>
+                <Comments videoId={video.videopostId} />
             </MainContent>
             <SecondaryContent>
                 <RelatedVideos />
@@ -85,27 +90,32 @@ const PageContainer = styled.div`
     padding: 24px;
     margin-top: 56px;
     width: 100%;
-    max-width: 1900px;
     margin: 56px 24px 0 0;
-    justify-content: flex-start;
+    justify-content: center;
 `;
 
 const MainContent = styled.div`
     flex: 1;
-    max-width: 1280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     min-width: 0;
-    margin-left: -46px;
 `;
 
 const VideoSection = styled.div`
     width: 100%;
     max-width: 1280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `;
 
 const InfoSection = styled.div`
-    width: 90%;
-    margin: 10px 30px 24px;
-    padding: 0 10px;
+    width: 100%;
+    max-width: 900px;
+    @media (max-width: 1200px) {
+        max-width: 800px;
+    }
 `;
 
 const Title = styled.h1`

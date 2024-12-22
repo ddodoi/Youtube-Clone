@@ -15,9 +15,7 @@ export const useChannel = ({ channelId }: { channelId?: number }) => {
     });
 
     useEffect(() => {
-        if (!channelId) {
-            return window.alert("channelId path parameter가 필요함니다.");
-        }
+        if (!channelId) return;
         fetchChannel({ channelId }).then((channel: Channel) => {
             setChannel({ ...channel });
         });

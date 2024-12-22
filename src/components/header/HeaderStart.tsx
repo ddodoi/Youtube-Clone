@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 import { ReactComponent as Premium } from "@assets/premium.svg";
 import { ReactComponent as Bars } from "@assets/bars.svg";
 import { ReactComponent as Youtube } from "@assets/youtube.svg";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useThemeStore } from "@stores/themeStore";
 import { useLayoutStore } from "@stores/layoutStore";
 
@@ -13,10 +13,14 @@ interface Props {
 const HeaderStart: React.FC<Props> = ({ isLoggedIn }) => {
     const { getTheme } = useThemeStore();
     const { toggleDesktopSidebar, toggleSidebar } = useLayoutStore();
+    const location = useLocation();
 
     const handleToggleSidebar = () => {
         const theme = getTheme();
-        if (window.matchMedia(theme.mediaQuery.sidebar.desktop).matches) {
+        if (
+            window.matchMedia(theme.mediaQuery.sidebar.desktop).matches &&
+            location.pathname !== "/watch"
+        ) {
             toggleDesktopSidebar();
         } else {
             toggleSidebar();

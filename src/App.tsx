@@ -11,6 +11,7 @@ import Channel from "./pages/Channel";
 import LoginPage from "./pages/LoginPage";
 import JoinPage from "./pages/JoinPage";
 import WatchPage from "./pages/WatchPage";
+import WatchPageLayout from "@components/layout/WatchPageLayout";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -63,9 +64,9 @@ const router = createBrowserRouter([
     {
         path: "/watch",
         element: (
-            <Layout>
+            <WatchPageLayout>
                 <WatchPage />
-            </Layout>
+            </WatchPageLayout>
         ),
         errorElement: <Error />,
     },

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const VideoContainer = styled.div`
     position: relative;
@@ -90,7 +90,7 @@ export const PreviewBar = styled.div`
     position: absolute;
     top: -80px;
     display: none;
-    
+
     ${ProgressBar}:hover & {
         display: block;
     }
@@ -163,7 +163,7 @@ export const PlayButton = styled.button<{ $isPlaying: boolean }>`
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
