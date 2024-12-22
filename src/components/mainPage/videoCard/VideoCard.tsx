@@ -1,4 +1,4 @@
-import React, { useState, useCallback, AllHTMLAttributes } from "react";
+import React, { useState, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Video } from "@@types/video.type";
 import { formatVideoCount, formatDate } from "../../../utils/format";
