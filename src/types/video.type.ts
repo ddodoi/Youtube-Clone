@@ -8,6 +8,9 @@ export interface Video {
     channelId: number;
     name: string; // 채널명
     runningTime: number; // 43.21 (초)
+    // description?: string;
+    // likes?: number;
+    // dislikes? number;
 }
 
 export interface Meta {
@@ -36,9 +39,3 @@ export interface PlayerState {
     currentTime: number;
     duration: number;
 }
-
-// 비디오 API 응답 타입
-// export interface VideoResponse {
-//     items: Video[];
-//     nextPageToken?: string;
-// }

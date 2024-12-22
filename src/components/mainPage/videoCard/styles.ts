@@ -79,6 +79,7 @@ export const Channel = styled.span`
         color: #030303;
     }
 `;
+
 export const Stats = styled.div`
     display: flex;
     align-items: center;

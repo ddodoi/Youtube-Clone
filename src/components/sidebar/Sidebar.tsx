@@ -2,18 +2,21 @@ import { styled } from "styled-components";
 import SidebarOpen from "./SidebarOpen";
 import SidebarFolded from "./SidebarFolded";
 import { useLayoutStore } from "@stores/layoutStore";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const Sidebar = () => {
     const { isSidebarOpen, setIsSidebarOpen } = useLayoutStore();
     const sidebarRef = useRef<HTMLDivElement>(null);
+    const location = useLocation();
+    const [isWatchPage] = useState(location.pathname === "/watch");
 
     const handleBackgroundClick = () => {
         setIsSidebarOpen(false);
     };
 
     return (
-        <SidebarStyle $isSidebarOpen={isSidebarOpen} ref={sidebarRef}>
+        <SidebarStyle $isSidebarOpen={isSidebarOpen} ref={sidebarRef} $isWatchPage={isWatchPage}>
             <SidebarOpen className="sidebar-open" />
             <div className="background" onClick={handleBackgroundClick}></div>
             <SidebarFolded />
@@ -23,6 +26,7 @@ const Sidebar = () => {
 
 interface SidebarStyleProps {
     $isSidebarOpen: boolean;
+    $isWatchPage: boolean;
 }
 
 const SidebarStyle = styled.div<SidebarStyleProps>`
@@ -48,7 +52,7 @@ const SidebarStyle = styled.div<SidebarStyleProps>`
     }
 
     @media screen and (${({ theme }) => theme.mediaQuery.sidebar.desktop}) {
-        display: none;
+        display: ${({ $isWatchPage }) => ($isWatchPage ? "block" : "none")};
     }
 `;
 

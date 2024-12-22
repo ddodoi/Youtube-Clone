@@ -1,11 +1,8 @@
 import { Channel } from "@@types/channel.type";
 import { fetchChannel } from "@apis/channel.api";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 
-export const useChannel = () => {
-    const params = useParams();
-    const channelId = Number(params.channelId) || null;
+export const useChannel = ({ channelId }: { channelId?: number }) => {
     const [channel, setChannel] = useState<Channel>({
         bannerLocation: "",
         description: "",
@@ -18,9 +15,7 @@ export const useChannel = () => {
     });
 
     useEffect(() => {
-        if (!channelId) {
-            return window.alert("channelId path parameter가 필요함니다.");
-        }
+        if (!channelId) return;
         fetchChannel({ channelId }).then((channel: Channel) => {
             setChannel({ ...channel });
         });

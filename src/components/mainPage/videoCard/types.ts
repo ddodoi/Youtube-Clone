@@ -8,4 +8,5 @@ export interface VideoCardProps {
     onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
     size?: 'small' | 'medium' | 'large';
     isLoading?: boolean;
+    layout?: 'vertical' | 'horizontal';
 }

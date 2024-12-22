@@ -9,6 +9,7 @@ import { RiUserUnfollowLine } from "react-icons/ri";
 
 interface Props {
     videoId: number;
+    handleClose: () => void;
 }
 
 const VideoDropdown: React.FC<Props> = ({}) => {

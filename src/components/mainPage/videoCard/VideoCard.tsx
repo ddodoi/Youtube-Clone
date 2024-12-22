@@ -100,7 +100,10 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, size = "medium", isLoading
             <Info>
                 <TitleRow>
                     <Title>{video.videopostName}</Title>
-                    <VideoDropdown videoId={video.videopostId} />
+                    <VideoDropdown
+                        videoId={video.videopostId}
+                        handleClose={() => console.error("Function not implemented.")}
+                    />
                 </TitleRow>
                 <ChannelWrapper>
                     <Link

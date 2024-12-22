@@ -5,6 +5,8 @@ import { ReactComponent as YoutubeMusic } from "@assets/sidebar/youtubeMusic.svg
 import { ReactComponent as UserCircle } from "@assets/userCircle.svg";
 import { ReactComponent as Download } from "@assets/sidebar/download.svg";
 import { styled } from "styled-components";
+import { useLocation, useParams } from "react-router-dom";
+import { useState } from "react";
 
 const menus = [
     {
@@ -40,19 +42,24 @@ const menus = [
 ];
 
 const SidebarFolded = () => {
+    const location = useLocation();
+    const [isWatchPage, _] = useState(location.pathname === "/watch");
+
     return (
-        <SidebarFoldedStyle>
-            <div className="menu-items">
-                {menus.map((menu, i) => (
-                    <MenuItem aria-label={menu.title} key={i}>
-                        <a href={menu.href}>
-                            {menu.icon}
-                            <span>{menu.title}</span>
-                        </a>
-                    </MenuItem>
-                ))}
-            </div>
-        </SidebarFoldedStyle>
+        isWatchPage || (
+            <SidebarFoldedStyle>
+                <div className="menu-items">
+                    {menus.map((menu, i) => (
+                        <MenuItem aria-label={menu.title} key={i}>
+                            <a href={menu.href}>
+                                {menu.icon}
+                                <span>{menu.title}</span>
+                            </a>
+                        </MenuItem>
+                    ))}
+                </div>
+            </SidebarFoldedStyle>
+        )
     );
 };
 

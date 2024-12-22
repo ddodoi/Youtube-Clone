@@ -1,5 +1,5 @@
 import { http, HttpResponse, delay } from "msw";
-import { VideosResponse } from "../types/video.type";
+import { Video, VideosResponse } from "@@types/video.type";
 import { baseURL } from "../utils/baseURL";
 import { FORMDATA } from "../constants/formData";
 import mock from "../utils/mock";
@@ -38,5 +38,16 @@ export const videoHandlers = [
         console.log(videoFile, thumbnailFile, description, postName, runningTime);
 
         return HttpResponse.json(null, { status: 201 });
+    }),
+
+    http.get(baseURL("/videos/:videoId"), async ({ params }) => {
+        const { videoId } = params;
+        if (!videoId || Array.isArray(videoId)) return HttpResponse.json(null, { status: 400 });
+        const videopostId = Number(videoId);
+
+        const video: Video | null = mock.getVideo({ videopostId }) || null;
+        if (!video) return HttpResponse.json(null, { status: 404 });
+
+        return HttpResponse.json(video);
     }),
 ];
