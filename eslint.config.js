@@ -38,7 +38,7 @@ export default [
             ...pluginReact.configs.flat.recommended, // 리액트
         },
         rules: {
-            "@stylistic/indent": ["error", 4, { SwitchCase: 1 }], // https://eslint.style/rules/js/indent
+            // "@stylistic/indent": ["error", 4, { SwitchCase: 1 }], // https://eslint.style/rules/js/indent
             semi: "error", // https://eslint.org/docs/latest/rules/semi
             camelcase: ["error", { properties: "always" }], // https://eslint.org/docs/latest/rules/camelcase
             "no-var": "error", // https://eslint.org/docs/latest/rules/no-var
@@ -65,6 +65,7 @@ export default [
             "@stylistic/implicit-arrow-linebreak": ["error", "beside"], // https://eslint.style/rules/js/implicit-arrow-linebreak
             "@stylistic/brace-style": ["error", "1tbs", { allowSingleLine: true }], // https://eslint.style/rules/js/brace-style
             "@stylistic/keyword-spacing": "error", // https://eslint.style/rules/js/keyword-spacing
+            "@stylistic/no-confusing-arrow": ["never"],
         },
     },
 ];
