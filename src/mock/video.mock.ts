@@ -1,103 +1,30 @@
-import { fakerKO as faker } from "@faker-js/faker";
 import { http, HttpResponse, delay } from "msw";
-import { Video, VideoListResponse, Channel } from "../types/video.type";
+import { VideosResponse } from "../types/video.type";
 import { baseURL } from "../utils/baseURL";
 import { FORMDATA } from "../constants/formData";
-
-const generateThumbnail = () => {
-    const randomId = faker.number.int({ min: 1, max: 200 });
-    return `https://picsum.photos/seed/${randomId}/1280/720`;
-};
-
-const generateVideoTitle = (): string => {
-    const types = ["MV", "Official Video", "Shorts", "Vlog", "리뷰", "튜토리얼", "하이라이트"];
-    const subjects = [
-        "[이슈] ",
-        "[일상] ",
-        "[충격] ",
-        "ENG/JPN SUB ",
-        "(eng sub) ",
-        "【4K】 ",
-        "[최초공개] ",
-    ];
-
-    return `${faker.helpers.arrayElement(subjects)}${faker.lorem.sentence(3)} ${faker.helpers.arrayElement(types)}`;
-};
-
-const generateChannel = (): Channel => {
-    return {
-        id: faker.string.uuid(),
-        title: faker.company.name(),
-        thumbnail: generateThumbnail()
-    };
-};
-
-const generageVideoLocation = () => {
-    const baseURL = "https://storage.googleapis.com/gtv-videos-bucket/sample/";
-    const videoName = faker.helpers.arrayElement([
-        "BigBuckBunny",
-        "ElephantsDream",
-        "ForBiggerBlazes",
-        "ForBiggerEscapes",
-        "ForBiggerFun",
-        "ForBiggerJoyrides",
-        "ForBiggerMeltdowns",
-        "Sintel",
-        "SubaruOutbackOnStreetAndDirt",
-        "TearsOfSteel",
-    ]);
-    return `${baseURL + videoName}.mp4`;
-};
-
-const generateMockVideo = (): Video => {
-    const isShort = faker.datatype.boolean({ probability: 0.2 });
-    const views = faker.number.int({
-        min: isShort ? 100000 : 10000,
-        max: isShort ? 100000000 : 10000000,
-    });
-    const channel = generateChannel();
-
-    return {
-        videopostId: faker.string.uuid(),
-        videopostName: generateVideoTitle(),
-        description: faker.lorem.paragraph(),
-        views,
-        createAt: faker.date.past({ years: 2 }).toISOString(),
-        channelId: channel.id,
-        name: channel.title,
-        thumbnailLocation: channel.thumbnail,
-        profileLocation: faker.image.avatar(),
-        runningTime: `${faker.number.int({ min: 1, max: 59 })}:${faker.number.int({ min: 10, max: 59 })}`,
-        videoLocation: generageVideoLocation(),
-        // likes: faker.number.int({ min: 0, max: 1000000 }),
-        // dislikes: faker.number.int({ min: 0, max: 10000 }),
-    };
-};
-
-const generateMockVideos = (count: number = 20): Video[] => {
-    return Array.from({ length: count }, generateMockVideo);
-};
+import { Mock } from "../utils/mock";
 
 export const videoHandlers = [
     http.get(baseURL("/videos"), async ({ request }) => {
         const url = new URL(request.url);
         const page = Number(url.searchParams.get("page")) || 1;
         const limit = Number(url.searchParams.get("limit")) || 20;
+        const channelId = Number(url.searchParams.get("channelId")) || null;
+        const mock = new Mock(100);
 
-        const videos = generateMockVideos(limit);
+        const response: VideosResponse = {
+            videos: [],
+            meta: mock.meta({ page, limit }),
+        };
+        if (channelId) {
+            response.videos = mock.getChannelVideos({ channelId, page, limit });
+        } else {
+            response.videos = mock.getVideos({ page, limit });
+        }
 
         await delay(500);
 
-        const response: VideoListResponse = {
-            success: true,
-            data: videos,
-            meta: {
-                currentPage: page,
-                totalPage: 200,
-                hasNextPage: page < 10,
-            },
-        };
-
+        if (!page || !limit) return HttpResponse.json(null, { status: 400 });
         return HttpResponse.json(response);
     }),
     http.post(baseURL("/videos/v"), async ({ request }) => {
