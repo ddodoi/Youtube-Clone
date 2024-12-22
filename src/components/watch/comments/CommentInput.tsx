@@ -1,32 +1,34 @@
-import { useState } from 'react';
-import styled from 'styled-components';
+import { Channel } from "@@types/channel.type";
+import { useState } from "react";
+import styled from "styled-components";
 
 interface CommentInputProps {
     onSubmit: (content: string) => void;
+    user: Channel;
 }
 
-const CommentInput = ({ onSubmit }: CommentInputProps) => {
-    const [content, setContent] = useState('');
+const CommentInput = ({ onSubmit, user }: CommentInputProps) => {
+    const [content, setContent] = useState("");
     const [isFocused, setIsFocused] = useState(false);
 
     const handleSubmit = () => {
         if (!content.trim()) return;
         onSubmit(content);
-        setContent('');
+        setContent("");
         setIsFocused(false);
     };
 
     return (
         <Container>
-            <UserAvatar />
+            <UserAvatar src={user.profileLocation} />
             <InputWrapper>
                 <Input
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     onFocus={() => setIsFocused(true)}
                     placeholder="댓글 추가..."
-                    onKeyPress={(e) => {
-                        if (e.key === 'Enter' && !e.shiftKey) {
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
                             e.preventDefault();
                             handleSubmit();
                         }
@@ -34,16 +36,15 @@ const CommentInput = ({ onSubmit }: CommentInputProps) => {
                 />
                 {isFocused && (
                     <ButtonGroup>
-                        <CancelButton onClick={() => {
-                            setIsFocused(false);
-                            setContent('');
-                        }}>
+                        <CancelButton
+                            onClick={() => {
+                                setIsFocused(false);
+                                setContent("");
+                            }}
+                        >
                             취소
                         </CancelButton>
-                        <SubmitButton 
-                            onClick={handleSubmit}
-                            disabled={!content.trim()}
-                        >
+                        <SubmitButton onClick={handleSubmit} disabled={!content.trim()}>
                             댓글
                         </SubmitButton>
                     </ButtonGroup>
@@ -59,7 +60,7 @@ const Container = styled.div`
     margin-bottom: 32px;
 `;
 
-const UserAvatar = styled.div`
+const UserAvatar = styled.img`
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -74,7 +75,7 @@ const InputWrapper = styled.div`
 const Input = styled.input`
     width: 100%;
     border: none;
-    border-bottom: 1px solid ${({ theme }) => theme?.colors?.border || '#e5e5e5'};
+    border-bottom: 1px solid ${({ theme }) => theme?.colors?.border || "#e5e5e5"};
     padding: 4px 0;
     font-size: 14px;
     outline: none;
@@ -102,22 +103,22 @@ const Button = styled.button`
 const CancelButton = styled(Button)`
     background: none;
     border: none;
-    color: ${({ theme }) => theme?.colors?.text?.primary || '#030303'};
+    color: ${({ theme }) => theme?.colors?.text?.primary || "#030303"};
 
     &:hover {
-        background: ${({ theme }) => theme?.colors?.button?.hover || '#e5e5e5'};
+        background: ${({ theme }) => theme?.colors?.button?.hover || "#e5e5e5"};
     }
 `;
 
 const SubmitButton = styled(Button)`
-    background: ${({ theme }) => theme?.colors?.button?.primary || '#065fd4'};
+    background: ${({ theme }) => theme?.colors?.button?.primary || "#065fd4"};
     color: white;
     border: none;
-    
+
     &:disabled {
-        background: ${({ theme }) => theme?.colors?.button?.disabled || '#cccccc'};
+        background: ${({ theme }) => theme?.colors?.button?.disabled || "#cccccc"};
         cursor: not-allowed;
     }
 `;
 
-export default CommentInput; 
+export default CommentInput;

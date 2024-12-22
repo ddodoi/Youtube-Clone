@@ -87,11 +87,9 @@ const WatchPage = () => {
 
 const PageContainer = styled.div`
     display: flex;
-    gap: 50px;
-    padding: 24px;
-    margin-top: 56px;
+    max-width: 1700px;
+    padding-top: 24px;
     width: 100%;
-    margin: 56px 24px 0 0;
     justify-content: center;
 `;
 
@@ -113,7 +111,6 @@ const VideoSection = styled.div`
 
 const InfoSection = styled.div`
     width: 100%;
-    max-width: 900px;
     @media (max-width: 1200px) {
         max-width: 800px;
     }
@@ -263,8 +260,6 @@ const Description = styled.p`
 const SecondaryContent = styled.div`
     width: 426px;
     flex-shrink: 0;
-    margin-top: -40px;
-    margin-right: 50px;
 
     @media (max-width: 1200px) {
         display: none;

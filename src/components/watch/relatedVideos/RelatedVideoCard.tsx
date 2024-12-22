@@ -1,37 +1,37 @@
-import VideoDropdown from '@components/mainPage/VideoDropdown';
-import { Video } from '../../../types/video.type';
-import { formatVideoCount, formatDate } from '../../../utils/format';
-import styled from 'styled-components';
+import VideoDropdown from "@components/mainPage/VideoDropdown";
+import { Video } from "../../../types/video.type";
+import { formatVideoCount, formatDate, formatDuration } from "../../../utils/format";
+import styled from "styled-components";
 
 interface RelatedVideoCardProps {
     video: Video;
 }
 
 const RelatedVideoCard = ({ video }: RelatedVideoCardProps) => {
-
     const handleClick = () => {
-        window.location.href = `/watch?v=${video.id}`;
+        window.location.href = `/watch?v=${video.videopostId}`;
     };
 
     return (
         <Container onClick={handleClick}>
             <ThumbnailWrapper>
                 <Thumbnail src={video.thumbnailLocation} alt={video.videopostName} />
-                <Duration>{video.runningTime}</Duration>
+                <Duration>{formatDuration(Math.floor(video.runningTime))}</Duration>
             </ThumbnailWrapper>
             <InfoContainer>
                 <Title>{video.videopostName}</Title>
                 <MetaInfo>
-                    <ChannelName>{video.channelTitle}</ChannelName>
+                    <ChannelName>{video.name}</ChannelName>
                     <Stats>
                         조회수 {formatVideoCount(video.views)} • {formatDate(video.createAt)}
                     </Stats>
                 </MetaInfo>
             </InfoContainer>
             <MoreButtonWrapper>
-                <VideoDropdown videoId={video.id} handleClose={function (): void {
-                    throw new Error('Function not implemented.');
-                } } />
+                <VideoDropdown
+                    videoId={video.videopostId}
+                    handleClose={() => window.alert("Function not implemented.")}
+                />
             </MoreButtonWrapper>
         </Container>
     );
@@ -109,4 +109,4 @@ const MoreButtonWrapper = styled.div`
     position: relative;
 `;
 
-export default RelatedVideoCard; 
+export default RelatedVideoCard;
