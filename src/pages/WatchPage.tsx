@@ -76,7 +76,7 @@ const WatchPage = () => {
                         </DescriptionCard>
                     </InfoSection>
                 </VideoSection>
-                <Comments videoId={video.videopostId} />
+                <Comments />
             </MainContent>
             <SecondaryContent>
                 <RelatedVideos />

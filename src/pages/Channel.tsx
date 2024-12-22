@@ -1,7 +1,6 @@
 import ChannelBody from "@components/channel/ChannelBody";
 import ChannelHeader from "@components/channel/ChannelHeader";
 import ChannelVideos from "@components/channel/ChannelVideos";
-import { useChannel } from "@hooks/useChannel";
 import { useLayoutStore } from "@stores/layoutStore";
 import { useState } from "react";
 import { styled } from "styled-components";

@@ -5,7 +5,7 @@ import { ReactComponent as YoutubeMusic } from "@assets/sidebar/youtubeMusic.svg
 import { ReactComponent as UserCircle } from "@assets/userCircle.svg";
 import { ReactComponent as Download } from "@assets/sidebar/download.svg";
 import { styled } from "styled-components";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useState } from "react";
 
 const menus = [

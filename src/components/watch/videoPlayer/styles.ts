@@ -113,11 +113,11 @@ export const VolumeControl = styled.div`
 export const VolumeSlider = styled.input`
     width: 80px;
     height: 3px;
-    -webkit-appearance: none;
+    appearance: none;
     background: rgba(255, 255, 255, 0.3);
 
     &::-webkit-slider-thumb {
-        -webkit-appearance: none;
+        appearance: none;
         width: 12px;
         height: 12px;
         background: white;

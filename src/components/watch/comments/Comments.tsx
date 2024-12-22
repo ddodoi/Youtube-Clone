@@ -1,20 +1,15 @@
 import { useState } from "react";
-import { useComments } from "@hooks/useComments";
 import CommentItem from "./CommentItem";
 import CommentInput from "./CommentInput";
 import styled from "styled-components";
 import { Comment } from "../../../types/comment.type";
 import { useUser } from "@hooks/useUser";
 
-interface CommentsProps {
-    videoId: number;
-}
-
-const Comments = ({ videoId }: CommentsProps) => {
+const Comments = () => {
     // 임시 댓글 데이터 상태
     const [localComments, setLocalComments] = useState<Comment[]>([]);
     const { user } = useUser();
-    // useComments(videoId);
+
     if (!user) return;
 
     const handleSubmitComment = (content: string, parentId?: string) => {
