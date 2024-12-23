@@ -40,6 +40,27 @@ export const videoHandlers = [
         return HttpResponse.json(null, { status: 201 });
     }),
 
+    http.get(baseURL("/videos/s"), async ({ request }) => {
+        const url = new URL(request.url);
+        const page = Number(url.searchParams.get("page")) || 1;
+        const limit = Number(url.searchParams.get("limit")) || 20;
+        const searchQuery = url.searchParams.get("search_query");
+        console.log(searchQuery);
+        if (!searchQuery) return HttpResponse.json(null, { status: 400 });
+
+        const response: VideosResponse = {
+            videos: [],
+            meta: mock.meta({ page, limit }),
+        };
+
+        response.videos = mock.getVideos({ page, limit });
+
+        await delay(500);
+        console.log(response);
+        if (!page || !limit) return HttpResponse.json(null, { status: 400 });
+        return HttpResponse.json(response);
+    }),
+
     http.get(baseURL("/videos/:videoId"), async ({ params }) => {
         const { videoId } = params;
         if (!videoId || Array.isArray(videoId)) return HttpResponse.json(null, { status: 400 });
@@ -50,26 +71,4 @@ export const videoHandlers = [
 
         return HttpResponse.json(video);
     }),
-
-    // http.get(baseURL("/videos/s"), async ({ request }) => {
-    //     const url = new URL(request.url);
-    //     const page = Number(url.searchParams.get("page")) || 1;
-    //     const limit = Number(url.searchParams.get("limit")) || 20;
-    //     const searchQuery = url.searchParams.get("search_query");
-
-    //     const response: VideosResponse = {
-    //         videos: [],
-    //         meta: mock.meta({ page, limit }),
-    //     };
-    //     if (searchQuery) {
-    //         response.videos = mock.getKeywordVideos({ searchQuery, page, limit });
-    //     } else {
-    //         response.videos = mock.getVideos({ page, limit });
-    //     }
-
-    //     await delay(500);
-
-    //     if (!page || !limit) return HttpResponse.json(null, { status: 400 });
-    //     return HttpResponse.json(response);
-    // }),
 ];

@@ -116,12 +116,6 @@ export class Mock {
             .slice((page - 1) * limit, (page - 1) * limit + limit);
     }
 
-    // getKeywordVideos({ searchQuery, page, limit }: KeywordVideoParams): Video[] {
-    //     return this.videos
-    //         .filter((video) => video.channelId === channelId)
-    //         .slice((page - 1) * limit, (page - 1) * limit + limit);
-    // }
-
     getVideos({ page, limit }: VideoParams) {
         return this.videos.slice((page - 1) * limit, (page - 1) * limit + limit);
     }
